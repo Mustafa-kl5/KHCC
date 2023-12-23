@@ -1,5 +1,6 @@
 import { Header } from 'components/Header/Header'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { nursingRoutes } from 'routes/routes'
 
 export const MainLayout = () => {
@@ -9,7 +10,7 @@ export const MainLayout = () => {
             <div className='bg-hussein-200 w-full justify-between rounded-xl h-full'>
                 <div className='w-1/5 rounded-xl rounded-e-none bg-hussein-300 h-full p-3 flex flex-col gap-2 '>
                     {nursingRoutes.map(item => {
-                        return <span className='underline cursor-pointer'>{item.pageName}</span>
+                        return <Link to={item.path} className='underline cursor-pointer'>{item.pageName}</Link>
                     })}
                 </div>
                 <div className='w-4/5'></div>
