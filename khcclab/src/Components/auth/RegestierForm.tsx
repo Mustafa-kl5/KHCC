@@ -1,16 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
+import { Button, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
+import { iSignUpForm } from "types/signup";
 import { registrationSchema } from "validation-schema/registrationSchema";
-
-type SignUpForm = {
-  EmployeeId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
 
 export const RegestierForm = () => {
   const {
@@ -30,154 +22,120 @@ export const RegestierForm = () => {
     mode: "onChange",
   });
 
-  const [confirmPass, setConfirmPass] = useState(false);
-
-  const onSubmit = async (data: any) => {
-    if (data.password === data.confirmPassword) {
-      setConfirmPass(false);
-      console.log(data);
-    } else {
-      setConfirmPass(true);
-    }
+  const onSubmit = async (data: iSignUpForm) => {
+    console.log(data);
   };
 
   return (
     <>
-      <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="auth-form">
         <h1 className="auth-heading">SignUp</h1>
-        <div>
-          <label htmlFor="Employee_id" className="label">
-            Employee Id
-          </label>
+
+        <Controller
+          name="EmployeeId"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.EmployeeId && true}
+              {...field}
+              autoFocus
+              type="text"
+              label="Employee Id"
+              className="input"
+              helperText={errors.EmployeeId ? errors.EmployeeId.message : ""}
+            />
+          )}
+        />
+
+        <div className="grid grid-col-1 gap-x-1 md:grid-cols-2">
+          <Controller
+            name="firstName"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                sx={{ my: 2 }}
+                error={errors.firstName && true}
+                {...field}
+                type="text"
+                label="First Name"
+                className="input"
+                helperText={errors.firstName ? errors.firstName.message : ""}
+              />
+            )}
+          />
 
           <Controller
-            name="EmployeeId"
+            name="lastName"
             control={control}
             render={({ field }) => (
-              <input
-                {...field}
-                autoFocus
-                type="text"
-                id="Employee_id"
-                className="input"
-                placeholder="Employee Id"
-              />
-            )}
-          />
-          {errors.EmployeeId && (
-            <p className="text-red-500">{errors.EmployeeId.message}</p>
-          )}
-        </div>
-        <div className="grid grid-col-1 gap-x-1 md:grid-cols-2">
-          <div>
-            <label htmlFor="first_name" className="label">
-              First Name
-            </label>
-            <Controller
-              name="firstName"
-              control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="text"
-                  id="first_name"
-                  className="input"
-                  placeholder="First Name"
-                />
-              )}
-            />
-            {errors.firstName && (
-              <p className="text-red-500">{errors.firstName.message}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="last_name" className="label">
-              Last Name
-            </label>
-            <Controller
-              name="lastName"
-              control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="text"
-                  id="last_name"
-                  className="input"
-                  placeholder="Last Name"
-                />
-              )}
-            />
-            {errors.lastName && (
-              <p className="text-red-500">{errors.lastName.message}</p>
-            )}
-          </div>
-        </div>
-        <div>
-          <label htmlFor="email" className="label">
-            Email
-          </label>
-          <Controller
-            name="email"
-            control={control}
-            render={({ field }) => (
-              <input
+              <TextField
+                sx={{ my: 2 }}
+                error={errors.lastName && true}
                 {...field}
                 type="text"
-                id="email"
+                label="Last Name"
                 className="input"
-                placeholder="Email"
+                helperText={errors.lastName ? errors.lastName.message : ""}
               />
             )}
           />
-          {errors.email && (
-            <p className="text-red-500">{errors.email.message}</p>
-          )}
         </div>
-        <div>
-          <label htmlFor="password" className="block text-2xl">
-            Password
-          </label>
-          <Controller
-            name="password"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                type="password"
-                id="password"
-                className="input"
-                placeholder="Password"
-              />
-            )}
-          />
-          {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
+
+        <Controller
+          name="email"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.email && true}
+              {...field}
+              type="text"
+              label="Email"
+              className="input"
+              helperText={errors.email ? errors.email.message : ""}
+            />
           )}
-        </div>
-        <div>
-          <label htmlFor="Confirm " className="block text-2xl">
-            Confirm Password
-          </label>
-          <Controller
-            name="confirmPassword"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                type="password"
-                id="Confirm "
-                className="input"
-                placeholder="Confirm Password"
-              />
-            )}
-          />
-          {confirmPass && (
-            <p className="text-red-500">Password does not match!</p>
+        />
+
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.password && true}
+              {...field}
+              type="password"
+              label="Password"
+              className="input"
+              helperText={errors.password ? errors.password.message : ""}
+            />
           )}
-        </div>
-        <button type="submit" className="submit-btn">
+        />
+
+        <Controller
+          name="confirmPassword"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.confirmPassword && true}
+              {...field}
+              type="password"
+              label="Confirm Password"
+              className="input"
+              helperText={
+                errors.confirmPassword ? errors.confirmPassword.message : ""
+              }
+            />
+          )}
+        />
+
+        <Button
+          size="large"
+          variant="contained"
+          onClick={handleSubmit(onSubmit)}
+          disabled={Object.entries(errors).length !== 0 && true}
+        >
           SignUp
-        </button>
+        </Button>
       </form>
     </>
   );
