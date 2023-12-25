@@ -8,11 +8,13 @@ export const RegestierForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(registrationSchema),
     defaultValues: {
-      EmployeeId: "",
+      employeeId: "",
+      position: "",
+      department: "",
       firstName: "",
       lastName: "",
       email: "",
@@ -32,17 +34,45 @@ export const RegestierForm = () => {
         <h1 className="auth-heading">SignUp</h1>
 
         <Controller
-          name="EmployeeId"
+          name="employeeId"
           control={control}
           render={({ field }) => (
             <TextField
-              error={errors.EmployeeId && true}
+              error={errors.employeeId && true}
               {...field}
               autoFocus
               type="text"
               label="Employee Id"
               className="input"
-              helperText={errors.EmployeeId ? errors.EmployeeId.message : ""}
+              helperText={errors.employeeId && errors.employeeId.message}
+            />
+          )}
+        />
+        <Controller
+          name="position"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.position && true}
+              {...field}
+              type="text"
+              label="Position"
+              className="input"
+              helperText={errors.position && errors.position.message}
+            />
+          )}
+        />
+        <Controller
+          name="department"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.department && true}
+              {...field}
+              type="text"
+              label="Department"
+              className="input"
+              helperText={errors.department && errors.department.message}
             />
           )}
         />
@@ -59,7 +89,7 @@ export const RegestierForm = () => {
                 type="text"
                 label="First Name"
                 className="input"
-                helperText={errors.firstName ? errors.firstName.message : ""}
+                helperText={errors.firstName && errors.firstName.message}
               />
             )}
           />
@@ -75,7 +105,7 @@ export const RegestierForm = () => {
                 type="text"
                 label="Last Name"
                 className="input"
-                helperText={errors.lastName ? errors.lastName.message : ""}
+                helperText={errors.lastName && errors.lastName.message}
               />
             )}
           />
@@ -91,7 +121,7 @@ export const RegestierForm = () => {
               type="text"
               label="Email"
               className="input"
-              helperText={errors.email ? errors.email.message : ""}
+              helperText={errors.email && errors.email.message}
             />
           )}
         />
@@ -106,7 +136,7 @@ export const RegestierForm = () => {
               type="password"
               label="Password"
               className="input"
-              helperText={errors.password ? errors.password.message : ""}
+              helperText={errors.password && errors.password.message}
             />
           )}
         />
@@ -122,7 +152,7 @@ export const RegestierForm = () => {
               label="Confirm Password"
               className="input"
               helperText={
-                errors.confirmPassword ? errors.confirmPassword.message : ""
+                errors.confirmPassword && errors.confirmPassword.message
               }
             />
           )}
@@ -132,7 +162,7 @@ export const RegestierForm = () => {
           size="large"
           variant="contained"
           onClick={handleSubmit(onSubmit)}
-          disabled={Object.entries(errors).length !== 0 && true}
+          disabled={!isValid}
         >
           SignUp
         </Button>

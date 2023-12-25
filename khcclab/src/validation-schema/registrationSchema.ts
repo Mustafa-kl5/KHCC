@@ -2,7 +2,9 @@ import { PASSWORD_PATTERN } from "utils/constant";
 import { object, string, ref } from "yup";
 
 export const registrationSchema = object({
-  EmployeeId: string().required("Employee Id is Required !"),
+  employeeId: string().required("Employee id is Required !"),
+  position: string().required("Position id is Required !"),
+  department: string().required("Department id is Required !"),
   firstName: string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")

@@ -13,9 +13,9 @@ import {
 } from "@mui/material";
 
 const studyArr = [
-  { id: 1, study: "logistics" },
-  { id: 2, study: "math" },
-  { id: 3, study: "sports" },
+  { id: 1, name: "logistics" },
+  { id: 2, name: "math" },
+  { id: 3, name: "sports" },
 ];
 
 export const LoginForm = () => {
@@ -30,7 +30,7 @@ export const LoginForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(loginSchema),
     defaultValues: {
@@ -70,11 +70,14 @@ export const LoginForm = () => {
                 labelId="demo-simple-select-label"
                 label="study"
                 value={value}
-                onChange={onChange}
+                onChange={(e) => {
+                  onChange(e.target.value);
+                  localStorage.setItem("study", e.target.value);
+                }}
               >
                 {studyArr.map((study) => (
-                  <MenuItem key={study.id} value={study.study}>
-                    {study.study}
+                  <MenuItem key={study.id} value={JSON.stringify(study)}>
+                    {study.name}
                   </MenuItem>
                 ))}
               </Select>
@@ -104,7 +107,7 @@ export const LoginForm = () => {
           size="large"
           variant="contained"
           onClick={handleSubmit(onSubmit)}
-          disabled={Object.entries(errors).length !== 0 && true}
+          disabled={!isValid}
         >
           Join
         </Button>
