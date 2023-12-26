@@ -1,8 +1,7 @@
-import React from "react";
-import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "validation-schema/loginSchema";
+import Snackbar from '@mui/material/Snackbar';
 import {
+  Alert,
   Button,
   FormControl,
   FormHelperText,
@@ -11,7 +10,13 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-
+import CircularProgress from "@mui/material/CircularProgress";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { login } from "services/authService";
+import { ACCESS_TOKEN, USER_ROLE } from "utils/constant";
+import { loginSchema } from "validation-schema/loginSchema";
+import { useNavigate } from "react-router-dom";
 const studyArr = [
   { id: 1, name: "logistics" },
   { id: 2, name: "math" },
@@ -19,12 +24,27 @@ const studyArr = [
 ];
 
 export const LoginForm = () => {
-  const onSubmit = async (data: {
-    email: string;
-    study: string;
-    password: string;
-  }) => {
-    console.log(data);
+  const navigate = useNavigate();
+
+  const [errorMassage, setErrorMassage] = useState<string>();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [openErrorMassage, setOpenErrorMassage] = useState<boolean>(false);
+  const onSubmit = async (data: { email: string; password: string }) => {
+    try {
+      setIsSubmitting(true);
+      const res = (await login(data.email, data.password)) as {
+        token: string;
+        role: string;
+      };
+      localStorage.setItem(ACCESS_TOKEN, res.token);
+      localStorage.setItem(USER_ROLE, res.role);
+      navigate("/")
+    } catch (err: any) {
+      setOpenErrorMassage(true);
+      setErrorMassage(err?.response.data?.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const {
@@ -44,7 +64,6 @@ export const LoginForm = () => {
     <>
       <form className="auth-form">
         <h1 className="auth-heading">Login</h1>
-
         <Controller
           name="email"
           control={control}
@@ -107,11 +126,23 @@ export const LoginForm = () => {
           size="large"
           variant="contained"
           onClick={handleSubmit(onSubmit)}
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
         >
-          Join
+          <div className="flex gap-2 items-center">
+            <span>Join</span>
+            {isSubmitting && <CircularProgress className="!w-[1rem] !h-[1rem]" />}
+          </div>
         </Button>
       </form>
+      <Snackbar open={openErrorMassage} autoHideDuration={3000} onClose={() => {
+        setOpenErrorMassage(false)
+      }} anchorOrigin={{ horizontal: "left", vertical: "bottom" }}>
+        <Alert severity="error" onClose={() => {
+          setOpenErrorMassage(false)
+        }}>
+          {errorMassage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

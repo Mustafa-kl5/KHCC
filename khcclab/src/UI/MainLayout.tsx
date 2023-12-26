@@ -2,7 +2,7 @@
 import { Header } from 'Components/Header/Header'
 import { nursingRoutes } from 'routes/routes'
 
-export const MainLayout = () => {
+export const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className='h-full flex flex-col w-full gap-3 bg-hussein-100 p-4' >
             <Header />
@@ -12,7 +12,7 @@ export const MainLayout = () => {
                         return <span className='underline cursor-pointer'>{item.pageName}</span>
                     })}
                 </div>
-                <div className='w-4/5'></div>
+                <div className='w-4/5'>{children}</div>
             </div>
         </div>
     )
