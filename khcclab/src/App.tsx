@@ -1,10 +1,10 @@
-import { getRoutes, publicRoutes } from "routes/routes";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import ApiService from "./services/api";
 import { useEffect, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
+import { getRoutes, publicRoutes } from "routes/routes";
 import { isLoggedIn } from "services/authService";
-import { USER_ROLE } from "utils/constant";
 import { iRoute } from "types/route";
+import { USER_ROLE } from "utils/constant";
+import ApiService from "./services/api";
 
 function App() {
   const location = useLocation()

@@ -12,7 +12,6 @@ export const Header = () => {
                 <BiotechSharpIcon />
                 <span className="text-xl font-bold">BioBank</span>
             </div>
-
             {isLoggedIn() ? (
                 <Button onClick={() => {
                     Logout(navigate)

@@ -9,6 +9,7 @@ import { iRoute } from "types/route";
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { Permission } from "pages/superAdmin/Permission";
 export const publicRoutes: iRoute[] = [
     {
         path: "/Login",
@@ -43,8 +44,8 @@ export const nursingRoutes: iRoute[] = [
 export const superAdminRoutes: iRoute[] = [
     {
         path: "/",
-        element: <Login />,
-        pageName: "add patient",
+        element: <Permission />,
+        pageName: "Permission",
         icon: <PersonAddAltIcon />
     },
     {

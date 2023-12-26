@@ -18,7 +18,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="h-full flex flex-col w-full gap-3 bg-hussein-100 p-4">
             <Header />
-            <div className="bg-hussein-200 w-full flex justify-between rounded-xl h-full">
+            <div className="bg-hussein-200 w-full flex justify-between rounded-xl h-[calc(100%-3.971rem)]">
                 <div className="w-1/5  rounded-xl rounded-e-none bg-hussein-300 h-full p-10 flex flex-col gap-2 item ">
                     {(privateRoutes as iRoute[]).map((item: iRoute) => {
                         if (!item.notShown) {
@@ -31,7 +31,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
                         }
                     })}
                 </div>
-                <div className="w-4/5 h-full">{children}</div>
+                <div className="w-4/5 h-full py-8 px-4">{children}</div>
             </div>
         </div>
     );
