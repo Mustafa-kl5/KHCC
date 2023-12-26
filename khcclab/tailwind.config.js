@@ -7,7 +7,7 @@ module.exports = {
         hussein: {
           100: "#EDECEC",
           200: "#FFFFFF",
-          300: "",
+          300: "gray",
           400: "",
           500: "",
         },

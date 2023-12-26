@@ -15,7 +15,7 @@ export const publicRoutes: iRoute[] = [
         element: <Login />,
     },
     {
-        path: "/signUp",
+        path: "/SignUp",
         element: <SignUp />,
     },
 ]
@@ -33,7 +33,7 @@ export const nursingRoutes: iRoute[] = [
         icon: <ListAltIcon />
     },
     {
-        path: "/add-samples/:userId",
+        path: "/add-samples/:patientId",
         element: <AddSamples />,
         pageName: "Add Samples",
         icon: <BorderColorIcon />,
@@ -42,43 +42,50 @@ export const nursingRoutes: iRoute[] = [
 ];
 export const superAdminRoutes: iRoute[] = [
     {
-        path: "/add-patient",
+        path: "/",
         element: <Login />,
-        pageName: "add patient"
+        pageName: "add patient",
+        icon: <PersonAddAltIcon />
     },
     {
         path: "/patient-list",
         element: <SignUp />,
-        pageName: "patient list"
+        pageName: "patient list",
+        icon: <PersonAddAltIcon />
     },
     {
         path: "/add-samples",
         element: <SignUp />,
-        pageName: "Add Samples"
+        pageName: "Add Samples",
+        icon: <PersonAddAltIcon />
     },
 ];
 export const technicianRoutes: iRoute[] = [
     {
         path: "/add-patient",
         element: <Login />,
-        pageName: "add patient"
+        pageName: "add patient",
+        icon: <PersonAddAltIcon />
     },
     {
         path: "/patient-list",
         element: <SignUp />,
-        pageName: "patient list"
+        pageName: "patient list",
+        icon: <PersonAddAltIcon />
     },
     {
         path: "/add-samples",
         element: <SignUp />,
-        pageName: "Add Samples"
+        pageName: "Add Samples",
+        icon: <PersonAddAltIcon />
     },
 ];
 export const pending: iRoute[] = [
     {
         path: "/",
         element: <NoPermission />,
-        pageName: "No permission"
+        pageName: "No permission",
+        icon: <PersonAddAltIcon />
     },
 ];
 export const getRoutes = (role: string) => {
@@ -91,5 +98,7 @@ export const getRoutes = (role: string) => {
             return technicianRoutes
         case "pending":
             return pending
+        default:
+            return []
     }
 }

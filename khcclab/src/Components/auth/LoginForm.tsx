@@ -11,9 +11,9 @@ import {
   TextField,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { login } from "services/authService";
+import { isLoggedIn, login } from "services/authService";
 import { ACCESS_TOKEN, USER_ROLE } from "utils/constant";
 import { loginSchema } from "validation-schema/loginSchema";
 import { useNavigate } from "react-router-dom";
@@ -46,7 +46,11 @@ export const LoginForm = () => {
       setIsSubmitting(false);
     }
   };
-
+  useEffect(() => {
+    if (isLoggedIn()) {
+      navigate("/")
+    }
+  }, [])
   const {
     control,
     handleSubmit,
