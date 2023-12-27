@@ -4,7 +4,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useForm, Controller } from 'react-hook-form';
 import { useState } from 'react';
 import { Permissions } from 'utils/constant';
-export const PermissionCard = ({ user }: { user: iUser }) => {
+import { givePermission } from 'services/superAdmin';
+export const PermissionCard = ({ user, reloadData }: { user: iUser, reloadData: () => void }) => {
 
 
     const {
@@ -18,21 +19,28 @@ export const PermissionCard = ({ user }: { user: iUser }) => {
         mode: "onChange",
     });
 
-    const [errorMassage, setErrorMassage] = useState<string>();
+    const [message, setMessage] = useState<string>();
+    const [massageType, setMessageType] = useState<string>("error");
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [openErrorMassage, setOpenErrorMassage] = useState<boolean>(false);
-    const onSubmit = async (data: any) => {
+    const [openMassage, setOpenMassage] = useState<boolean>(false);
+    const onSubmit = async (data: any, userId: string) => {
         try {
             setIsSubmitting(true);
-            console.log(data.value);
-
+            const res = (await givePermission(userId, data.value)) as {
+                message: string;
+            };
+            setMessageType("success")
+            setOpenMassage(true);
+            setMessage(res.message);
+            reloadData()
         } catch (err: any) {
-            setOpenErrorMassage(true);
-            setErrorMassage(err?.response.data?.message);
+            setOpenMassage(true);
+            setMessage(err?.response.data?.message);
         } finally {
             setIsSubmitting(false);
         }
     };
+
     return (
         <Accordion className='border border-solid border-slate-400'>
             <AccordionSummary
@@ -77,7 +85,9 @@ export const PermissionCard = ({ user }: { user: iUser }) => {
                         <Button
                             size="large"
                             variant="contained"
-                            onClick={handleSubmit(onSubmit)}
+                            onClick={
+                                handleSubmit((data) => onSubmit(data, user._id))
+                            }
                             disabled={!isValid || isSubmitting}
                             className='w-1/3'
                         >
@@ -86,13 +96,13 @@ export const PermissionCard = ({ user }: { user: iUser }) => {
                                 {isSubmitting && <CircularProgress className="!w-[1rem] !h-[1rem]" />}
                             </div>
                         </Button>
-                        <Snackbar open={openErrorMassage} autoHideDuration={3000} onClose={() => {
-                            setOpenErrorMassage(false)
+                        <Snackbar open={openMassage} autoHideDuration={3000} onClose={() => {
+                            setOpenMassage(false)
                         }} anchorOrigin={{ horizontal: "left", vertical: "bottom" }}>
-                            <Alert severity="error" onClose={() => {
-                                setOpenErrorMassage(false)
+                            <Alert severity={massageType as | "error" | "success"} onClose={() => {
+                                setOpenMassage(false)
                             }}>
-                                {errorMassage}
+                                {message}
                             </Alert>
                         </Snackbar>
                     </div>

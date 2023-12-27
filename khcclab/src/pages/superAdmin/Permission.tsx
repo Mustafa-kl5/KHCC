@@ -7,7 +7,7 @@ import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { usePendingUsers } from "hooks/usePendingUsers";
 export const Permission = () => {
-    const { errorMassage, users, isLoading, openErrorMassage } =
+    const { errorMassage, users, isLoading, openErrorMassage, fetchData } =
         usePendingUsers();
 
     return (
@@ -21,7 +21,7 @@ export const Permission = () => {
                 ) : (
                     <ScrollableContainer>
                         {users?.map((user) => {
-                            return <PermissionCard key={user._id} user={user} />;
+                            return <PermissionCard reloadData={fetchData} key={user._id} user={user} />;
                         })}
                     </ScrollableContainer>
                 )}

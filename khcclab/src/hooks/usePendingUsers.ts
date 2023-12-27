@@ -23,5 +23,5 @@ export const usePendingUsers = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  return { errorMassage, users, isLoading, openErrorMassage };
+  return { errorMassage, users, isLoading, openErrorMassage, fetchData };
 };
