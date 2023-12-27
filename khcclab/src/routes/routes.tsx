@@ -10,6 +10,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Permission } from "pages/superAdmin/Permission";
+import { AddStudy } from "pages/superAdmin/AddStudy";
 export const publicRoutes: iRoute[] = [
     {
         path: "/Login",
@@ -48,12 +49,12 @@ export const superAdminRoutes: iRoute[] = [
         pageName: "Permission",
         icon: <PersonAddAltIcon />
     },
-    // {
-    //     path: "/patient-list",
-    //     element: <SignUp />,
-    //     pageName: "patient list",
-    //     icon: <PersonAddAltIcon />
-    // },
+    {
+        path: "/add-study",
+        element: <AddStudy />,
+        pageName: "Add Study",
+        icon: <PersonAddAltIcon />
+    },
     // {
     //     path: "/add-samples",
     //     element: <SignUp />,
