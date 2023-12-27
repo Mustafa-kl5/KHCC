@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import Snackbar from '@mui/material/Snackbar';
+import Snackbar from "@mui/material/Snackbar";
 import {
   Alert,
   Button,
@@ -16,7 +16,7 @@ import { Controller, useForm } from "react-hook-form";
 import { isLoggedIn, login } from "services/authService";
 import { ACCESS_TOKEN, USER_ROLE } from "utils/constant";
 import { loginSchema } from "validation-schema/loginSchema";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const studyArr = [
   { id: 1, name: "logistics" },
   { id: 2, name: "math" },
@@ -38,7 +38,7 @@ export const LoginForm = () => {
       };
       localStorage.setItem(ACCESS_TOKEN, res.token);
       localStorage.setItem(USER_ROLE, res.role);
-      navigate("/")
+      navigate("/");
     } catch (err: any) {
       setOpenErrorMassage(true);
       setErrorMassage(err?.response.data?.message);
@@ -48,9 +48,9 @@ export const LoginForm = () => {
   };
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate("/")
+      navigate("/");
     }
-  }, [])
+  }, []);
   const {
     control,
     handleSubmit,
@@ -78,7 +78,7 @@ export const LoginForm = () => {
               autoFocus
               label="Email"
               className="input"
-              helperText={errors.email ? errors.email.message : ""}
+              helperText={errors.email && errors.email.message}
             />
           )}
         />
@@ -105,7 +105,7 @@ export const LoginForm = () => {
                 ))}
               </Select>
               <FormHelperText>
-                {errors.study ? errors.study.message : ""}
+                {errors.study && errors.study.message}
               </FormHelperText>
             </FormControl>
           )}
@@ -121,11 +121,16 @@ export const LoginForm = () => {
               type="password"
               label="Password"
               className="input"
-              helperText={errors.password ? errors.password.message : ""}
+              helperText={errors.password && errors.password.message}
             />
           )}
         />
-
+        <p>
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-button-100">
+            Register
+          </Link>
+        </p>
         <Button
           size="large"
           variant="contained"
@@ -134,16 +139,26 @@ export const LoginForm = () => {
         >
           <div className="flex gap-2 items-center">
             <span>Join</span>
-            {isSubmitting && <CircularProgress className="!w-[1rem] !h-[1rem]" />}
+            {isSubmitting && (
+              <CircularProgress className="!w-[1rem] !h-[1rem]" />
+            )}
           </div>
         </Button>
       </form>
-      <Snackbar open={openErrorMassage} autoHideDuration={3000} onClose={() => {
-        setOpenErrorMassage(false)
-      }} anchorOrigin={{ horizontal: "left", vertical: "bottom" }}>
-        <Alert severity="error" onClose={() => {
-          setOpenErrorMassage(false)
-        }}>
+      <Snackbar
+        open={openErrorMassage}
+        autoHideDuration={3000}
+        onClose={() => {
+          setOpenErrorMassage(false);
+        }}
+        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+      >
+        <Alert
+          severity="error"
+          onClose={() => {
+            setOpenErrorMassage(false);
+          }}
+        >
           {errorMassage}
         </Alert>
       </Snackbar>
