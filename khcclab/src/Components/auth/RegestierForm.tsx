@@ -60,13 +60,13 @@ export const RegestierForm = () => {
     try {
       setIsSubmitting(true);
       const res = (await registration(
+        email,
+        password,
         employeeId,
         position,
         department,
         firstName,
-        lastName,
-        email,
-        password
+        lastName
       )) as {
         token: string;
         role: string;
