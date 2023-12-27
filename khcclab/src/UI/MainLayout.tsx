@@ -1,6 +1,5 @@
 import {
   Box,
-  CssBaseline,
   Drawer,
   IconButton,
   List,
