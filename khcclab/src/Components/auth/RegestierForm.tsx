@@ -1,10 +1,32 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, TextField } from "@mui/material";
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  Snackbar,
+  TextField,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { isLoggedIn, registration } from "services/authService";
 import { iSignUpForm } from "types/signup";
+import { ACCESS_TOKEN, USER_ROLE } from "utils/constant";
 import { registrationSchema } from "validation-schema/registrationSchema";
 
 export const RegestierForm = () => {
+  const navigate = useNavigate();
+
+  const [errorMassage, setErrorMassage] = useState<string>();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [openErrorMassage, setOpenErrorMassage] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isLoggedIn()) {
+      navigate("/");
+    }
+  }, []);
+
   const {
     control,
     handleSubmit,
@@ -26,6 +48,38 @@ export const RegestierForm = () => {
 
   const onSubmit = async (data: iSignUpForm) => {
     console.log(data);
+    const {
+      employeeId,
+      position,
+      department,
+      firstName,
+      lastName,
+      email,
+      password,
+    } = data;
+    try {
+      setIsSubmitting(true);
+      const res = (await registration(
+        employeeId,
+        position,
+        department,
+        firstName,
+        lastName,
+        email,
+        password
+      )) as {
+        token: string;
+        role: string;
+      };
+      localStorage.setItem(ACCESS_TOKEN, res.token);
+      localStorage.setItem(USER_ROLE, res.role);
+      navigate("/");
+    } catch (err: any) {
+      setOpenErrorMassage(true);
+      setErrorMassage(err?.response.data?.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -158,15 +212,44 @@ export const RegestierForm = () => {
           )}
         />
 
+        <p>
+          Already have an account?{" "}
+          <Link to="/login" className="text-button-100">
+            Login
+          </Link>
+        </p>
+
         <Button
           size="large"
           variant="contained"
           onClick={handleSubmit(onSubmit)}
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
         >
-          SignUp
+          <div className="flex gap-2 items-center">
+            <span>Join</span>
+            {isSubmitting && (
+              <CircularProgress className="!w-[1rem] !h-[1rem]" />
+            )}
+          </div>
         </Button>
       </form>
+      <Snackbar
+        open={openErrorMassage}
+        autoHideDuration={3000}
+        onClose={() => {
+          setOpenErrorMassage(false);
+        }}
+        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+      >
+        <Alert
+          severity="error"
+          onClose={() => {
+            setOpenErrorMassage(false);
+          }}
+        >
+          {errorMassage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
