@@ -48,18 +48,18 @@ export const superAdminRoutes: iRoute[] = [
         pageName: "Permission",
         icon: <PersonAddAltIcon />
     },
-    {
-        path: "/patient-list",
-        element: <SignUp />,
-        pageName: "patient list",
-        icon: <PersonAddAltIcon />
-    },
-    {
-        path: "/add-samples",
-        element: <SignUp />,
-        pageName: "Add Samples",
-        icon: <PersonAddAltIcon />
-    },
+    // {
+    //     path: "/patient-list",
+    //     element: <SignUp />,
+    //     pageName: "patient list",
+    //     icon: <PersonAddAltIcon />
+    // },
+    // {
+    //     path: "/add-samples",
+    //     element: <SignUp />,
+    //     pageName: "Add Samples",
+    //     icon: <PersonAddAltIcon />
+    // },
 ];
 export const technicianRoutes: iRoute[] = [
     {
