@@ -21,6 +21,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useState } from "react";
 
 import { Controller, useForm } from "react-hook-form";
+import { iAddPatient } from "types/addPatient";
 
 import { addPatientSchema } from "validation-schema/addPatientSchema";
 
@@ -45,7 +46,11 @@ export const AddPatientForm = () => {
     setValue(newValue);
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: iAddPatient) => {
+    let o = Object.fromEntries(
+      Object.entries(data.patientIdentity).filter(([_, v]) => v !== "")
+    );
+    data.patientIdentity = o;
     console.log(data);
   };
 
@@ -60,8 +65,9 @@ export const AddPatientForm = () => {
       patientIdentity: { mrn: "", ssn: "" },
       dayCode: "",
       researchId: "",
-      admitionRecDate: "",
       birthDate: "",
+      admitionRecDate: "",
+      gender: "",
       sampleDrawing: "",
     },
     mode: "onChange",
@@ -85,14 +91,13 @@ export const AddPatientForm = () => {
               control={control}
               render={({ field }) => (
                 <TextField
-                  error={errors.patientIdentity?.mrn && true}
+                  error={errors.patientIdentity?.ssn && true}
                   {...field}
                   label={index === 0 ? "MRN" : "SSN"}
                   className="w-full"
                   helperText={
-                    (errors.patientIdentity?.mrn &&
-                      errors.patientIdentity?.mrn.message) ||
-                    " "
+                    errors.patientIdentity?.ssn &&
+                    errors.patientIdentity?.ssn.message
                   }
                 />
               )}
@@ -105,7 +110,7 @@ export const AddPatientForm = () => {
   return (
     <>
       <form>
-        <div className="flex items-center gap-5 px-5">
+        <div className="flex items-center flex-col-reverse lg:flex-row gap-5 px-5">
           <Controller
             name="patientName"
             control={control}
@@ -116,9 +121,7 @@ export const AddPatientForm = () => {
                 autoFocus
                 label="Patient Name"
                 className="w-full self-end"
-                helperText={
-                  (errors.patientName && errors.patientName.message) || " "
-                }
+                helperText={errors.patientName && errors.patientName.message}
               />
             )}
           />
@@ -126,7 +129,7 @@ export const AddPatientForm = () => {
             sx={{
               bgcolor: "background.paper",
               position: "relative",
-              minWidth: 350,
+              minWidth: 300,
               maxWidth: "100%",
             }}
           >
@@ -148,20 +151,18 @@ export const AddPatientForm = () => {
           </Box>
         </div>
 
-        <div className="flex gap-5 justify-between p-5">
+        <div className="flex gap-5 flex-col-reverse md:flex-row justify-between p-5">
           <div className="flex-1">
             <Controller
               name="dayCode"
               control={control}
               render={({ field }) => (
                 <TextField
-                  error={errors.patientName && true}
+                  error={errors.dayCode && true}
                   {...field}
                   label="Day Code"
                   className="w-full "
-                  helperText={
-                    (errors.patientName && errors.patientName.message) || " "
-                  }
+                  helperText={(errors.dayCode && errors.dayCode.message) || " "}
                 />
               )}
             />
@@ -170,52 +171,63 @@ export const AddPatientForm = () => {
               control={control}
               render={({ field }) => (
                 <TextField
-                  error={errors.patientName && true}
+                  error={errors.researchId && true}
                   {...field}
                   label="Research Id"
                   className="w-full "
                   helperText={
-                    (errors.patientName && errors.patientName.message) || " "
+                    (errors.researchId && errors.researchId.message) || " "
                   }
                 />
               )}
             />
-            <FormControl>
-              <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
-              <RadioGroup
-                sx={{ flexDirection: "row" }}
-                aria-labelledby="demo-radio-buttons-group-label"
-                defaultValue="female"
-                name="radio-buttons-group"
-              >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-              </RadioGroup>
-            </FormControl>
-          </div>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className=" flex flex-col gap-y-5 ">
-              <Controller
-                name="birthDate"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <DatePicker
-                    label="Birth Date"
-                    value={undefined}
-                    onChange={(newValue) => {
-                      onChange(newValue);
+            <Controller
+              name="gender"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FormControl>
+                  <FormLabel id="demo-controlled-radio-buttons-group">
+                    Gender
+                  </FormLabel>
+                  <RadioGroup
+                    sx={{ flexDirection: "row" }}
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={value}
+                    onChange={(e) => {
+                      onChange(e.target.value);
                     }}
-                  />
-                )}
-              />
+                  >
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio />}
+                      label="Female"
+                    />
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio />}
+                      label="Male"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              )}
+            />
+          </div>
+          <div className=" flex flex-col gap-y-5 ">
+            <Controller
+              name="birthDate"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <DatePicker
+                  label="Birth Date"
+                  value={undefined}
+                  onChange={(newValue) => {
+                    onChange(newValue);
+                  }}
+                />
+              )}
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
               <Controller
                 name="admitionRecDate"
                 control={control}
@@ -223,30 +235,29 @@ export const AddPatientForm = () => {
                   <DatePicker
                     label="Admition Received"
                     value={undefined}
-                    onChange={(newValue) => {
-                      onChange(newValue);
-                    }}
+                    onChange={onChange}
                   />
                 )}
               />
-              <Controller
-                name="sampleDrawing"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <DateTimePicker
-                    label="Sample Drawing"
-                    value={undefined}
-                    onChange={(newValue) => {
-                      onChange(newValue);
-                    }}
-                  />
-                )}
-              />
-            </div>
-          </LocalizationProvider>
+            </LocalizationProvider>
+            <Controller
+              name="sampleDrawing"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <DateTimePicker
+                  label="Sample Drawing"
+                  value={undefined}
+                  onChange={(newValue) => {
+                    onChange(newValue);
+                  }}
+                />
+              )}
+            />
+          </div>
         </div>
 
         <Button
+          className="w-full m-auto sm:w-auto"
           size="large"
           variant="contained"
           onClick={handleSubmit(onSubmit)}
