@@ -1,9 +1,7 @@
 export interface iAddPatient {
   patientName: string;
-  patientIdentity: {
-    mrn?: string | undefined;
-    ssn?: string | undefined;
-  };
+  ssn: string;
+  mrn: string;
   dayCode: string;
   researchId: string;
   gender: string;

@@ -1,56 +1,77 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
+  Alert,
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormLabel,
   Radio,
   RadioGroup,
+  Snackbar,
   Tab,
   Tabs,
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  DatePicker,
-  DateTimePicker,
-  LocalizationProvider,
-} from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
+
 import { useState } from "react";
 
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { addPatient } from "services/nursing";
 import { iAddPatient } from "types/addPatient";
 
 import { addPatientSchema } from "validation-schema/addPatientSchema";
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  dir?: string;
-  index: number;
-  value: number;
-}
-
-function a11yProps(index: any) {
-  return {
-    id: `action-tab-${index}`,
-    "aria-controls": `action-tabpanel-${index}`,
-  };
-}
-
 export const AddPatientForm = () => {
-  const [value, setValue] = useState(0);
+  const [index, setIndex] = useState<0 | 1>(0);
+  const navigate = useNavigate();
 
-  const handleChange = (event: unknown, newValue: number) => {
-    setValue(newValue);
+  const [errorMassage, setErrorMassage] = useState<string>();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [openErrorMassage, setOpenErrorMassage] = useState<boolean>(false);
+
+  const handleChange = (event: unknown, newValue: 0 | 1) => {
+    setValue("ssn", "");
+    setValue("mrn", "");
+    setIndex(newValue);
   };
 
-  const onSubmit = async (data: iAddPatient) => {
-    let o = Object.fromEntries(
-      Object.entries(data.patientIdentity).filter(([_, v]) => v !== "")
-    );
-    data.patientIdentity = o;
+  const onSubmit = async (data: iAddPatient | any) => {
+    const {
+      patientName,
+      ssn,
+      mrn,
+      dayCode,
+      researchId,
+      birthDate,
+      admitionRecDate,
+      gender,
+      sampleDrawing,
+    } = data;
+    try {
+      setIsSubmitting(true);
+      const res = (await addPatient(
+        patientName,
+        ssn,
+        mrn,
+        dayCode,
+        researchId,
+        birthDate,
+        admitionRecDate,
+        gender,
+        sampleDrawing
+      )) as { message: string };
+      navigate("/");
+    } catch (err: any) {
+      setOpenErrorMassage(true);
+      setErrorMassage(err?.response.data?.message);
+    } finally {
+      setIsSubmitting(false);
+    }
     console.log(data);
   };
 
@@ -58,11 +79,13 @@ export const AddPatientForm = () => {
     control,
     handleSubmit,
     formState: { errors, isValid },
+    setValue,
   } = useForm({
     resolver: yupResolver(addPatientSchema),
     defaultValues: {
       patientName: "",
-      patientIdentity: { mrn: "", ssn: "" },
+      mrn: "",
+      ssn: "",
       dayCode: "",
       researchId: "",
       birthDate: "",
@@ -72,7 +95,15 @@ export const AddPatientForm = () => {
     },
     mode: "onChange",
   });
-  function TabPanel(props: TabPanelProps) {
+
+  function a11yProps(index: any) {
+    return {
+      id: `action-tab-${index}`,
+      "aria-controls": `action-tabpanel-${index}`,
+    };
+  }
+
+  function TabPanel(props: any) {
     const { children, value, index, ...other } = props;
 
     return (
@@ -87,17 +118,18 @@ export const AddPatientForm = () => {
         {value === index && (
           <Box>
             <Controller
-              name={index === 0 ? "patientIdentity.mrn" : "patientIdentity.ssn"}
+              name={index === 0 ? "mrn" : "ssn"}
               control={control}
               render={({ field }) => (
                 <TextField
-                  error={errors.patientIdentity?.ssn && true}
+                  error={(errors.ssn && true) || (errors.mrn && true)}
                   {...field}
                   label={index === 0 ? "MRN" : "SSN"}
                   className="w-full"
                   helperText={
-                    errors.patientIdentity?.ssn &&
-                    errors.patientIdentity?.ssn.message
+                    (errors.ssn && errors.ssn.message) ||
+                    (errors.mrn && errors.mrn.message) ||
+                    " "
                   }
                 />
               )}
@@ -107,6 +139,7 @@ export const AddPatientForm = () => {
       </Typography>
     );
   }
+
   return (
     <>
       <form>
@@ -121,7 +154,9 @@ export const AddPatientForm = () => {
                 autoFocus
                 label="Patient Name"
                 className="w-full self-end"
-                helperText={errors.patientName && errors.patientName.message}
+                helperText={
+                  (errors.patientName && errors.patientName.message) || " "
+                }
               />
             )}
           />
@@ -135,7 +170,7 @@ export const AddPatientForm = () => {
           >
             <Tabs
               className="mb-3"
-              value={value}
+              value={index}
               onChange={handleChange}
               indicatorColor="primary"
               textColor="primary"
@@ -146,8 +181,8 @@ export const AddPatientForm = () => {
               <Tab label="SSN" {...a11yProps(1)} />
             </Tabs>
 
-            <TabPanel value={value} index={0}></TabPanel>
-            <TabPanel value={value} index={1}></TabPanel>
+            <TabPanel value={index} index={0}></TabPanel>
+            <TabPanel value={index} index={1}></TabPanel>
           </Box>
         </div>
 
@@ -227,19 +262,19 @@ export const AddPatientForm = () => {
                 />
               )}
             />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Controller
-                name="admitionRecDate"
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <DatePicker
-                    label="Admition Received"
-                    value={undefined}
-                    onChange={onChange}
-                  />
-                )}
-              />
-            </LocalizationProvider>
+
+            <Controller
+              name="admitionRecDate"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <DatePicker
+                  label="Admition Received"
+                  value={undefined}
+                  onChange={onChange}
+                />
+              )}
+            />
+
             <Controller
               name="sampleDrawing"
               control={control}
@@ -261,13 +296,33 @@ export const AddPatientForm = () => {
           size="large"
           variant="contained"
           onClick={handleSubmit(onSubmit)}
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
         >
           <div className="flex gap-2 items-center">
             <span>Add Patient</span>
+            {isSubmitting && (
+              <CircularProgress className="!w-[1rem] !h-[1rem]" />
+            )}
           </div>
         </Button>
       </form>
+      <Snackbar
+        open={openErrorMassage}
+        autoHideDuration={3000}
+        onClose={() => {
+          setOpenErrorMassage(false);
+        }}
+        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+      >
+        <Alert
+          severity="error"
+          onClose={() => {
+            setOpenErrorMassage(false);
+          }}
+        >
+          {errorMassage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
