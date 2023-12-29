@@ -29,3 +29,18 @@ export const addPatient = (
     },
   });
 };
+
+export const getPatientsList = () => {
+  return ApiService.baseApi.get(`${baseURL}/nursing/patientList`);
+};
+
+export const giveDeletePaitentReason = (patientId: string, reason: string) => {
+  return ApiService.fetchData({
+    url: `${baseURL}/nursing/giveDeletePaitentReason`,
+    method: "PUT",
+    data: {
+      patientId,
+      reason,
+    },
+  });
+};

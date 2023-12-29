@@ -1,4 +1,5 @@
-export interface iAddPatient {
+export interface iPatient {
+  _id: string;
   patientName: string;
   ssn: string;
   mrn: string;
@@ -8,4 +9,6 @@ export interface iAddPatient {
   admitionRecDate: string;
   birthDate: string;
   sampleDrawing: string;
+  isDeleted: boolean;
+  deleteReason: string;
 }

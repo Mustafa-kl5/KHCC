@@ -22,7 +22,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { addPatient } from "services/nursing";
-import { iAddPatient } from "types/addPatient";
+import { iPatient } from "types/Patient";
 
 import { addPatientSchema } from "validation-schema/addPatientSchema";
 
@@ -30,9 +30,12 @@ export const AddPatientForm = () => {
   const [index, setIndex] = useState<0 | 1>(0);
   const navigate = useNavigate();
 
-  const [errorMassage, setErrorMassage] = useState<string>();
+  const [massageDetails, setMassageDetails] = useState<{
+    err: Boolean;
+    open: Boolean;
+    massage: string;
+  }>({ err: false, open: false, massage: "" });
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [openErrorMassage, setOpenErrorMassage] = useState<boolean>(false);
 
   const handleChange = (event: unknown, newValue: 0 | 1) => {
     setValue("ssn", "");
@@ -40,7 +43,7 @@ export const AddPatientForm = () => {
     setIndex(newValue);
   };
 
-  const onSubmit = async (data: iAddPatient | any) => {
+  const onSubmit = async (data: iPatient | any) => {
     const {
       patientName,
       ssn,
@@ -65,14 +68,17 @@ export const AddPatientForm = () => {
         gender,
         sampleDrawing
       )) as { message: string };
+      setMassageDetails({ err: false, open: true, massage: res.message });
       navigate("/");
     } catch (err: any) {
-      setOpenErrorMassage(true);
-      setErrorMassage(err?.response.data?.message);
+      setMassageDetails({
+        err: true,
+        open: true,
+        massage: err?.response.data?.message,
+      });
     } finally {
       setIsSubmitting(false);
     }
-    console.log(data);
   };
 
   const {
@@ -307,20 +313,20 @@ export const AddPatientForm = () => {
         </Button>
       </form>
       <Snackbar
-        open={openErrorMassage}
+        open={massageDetails.open && true}
         autoHideDuration={3000}
         onClose={() => {
-          setOpenErrorMassage(false);
+          setMassageDetails({ err: false, open: false, massage: "" });
         }}
         anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
       >
         <Alert
-          severity="error"
+          severity={massageDetails.err ? "error" : "success"}
           onClose={() => {
-            setOpenErrorMassage(false);
+            setMassageDetails({ err: false, open: false, massage: "" });
           }}
         >
-          {errorMassage}
+          {massageDetails.massage}
         </Alert>
       </Snackbar>
     </>
