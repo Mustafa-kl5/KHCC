@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useGetUsersList = (Api: any, list: string) => {
+export const useGetUsersList = (Api: any, query?: any) => {
   const [data, setData] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorMassage, setErrorMassage] = useState<string>();
@@ -8,8 +8,8 @@ export const useGetUsersList = (Api: any, list: string) => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const res = await Api();
-      setData(res.data[list]);
+      const res = await Api(query);
+      setData(res.data);
     } catch (err: any) {
       setOpenErrorMassage(true);
       setErrorMassage(err?.response.data?.message);
@@ -19,6 +19,6 @@ export const useGetUsersList = (Api: any, list: string) => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [query]);
   return { errorMassage, data, isLoading, openErrorMassage, fetchData };
 };

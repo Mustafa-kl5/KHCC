@@ -7,7 +7,7 @@ import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useGetUsersList } from "hooks/useGetUsersList";
 import { getPendingUsers } from "services/superAdmin";
-import { iUser } from "types/user";
+import { iUserList } from "types/user";
 export const Permission = () => {
   const {
     errorMassage,
@@ -17,11 +17,11 @@ export const Permission = () => {
     fetchData,
   }: {
     errorMassage: any;
-    data: iUser[];
+    data: iUserList;
     isLoading: any;
     openErrorMassage: any;
     fetchData: any;
-  } = useGetUsersList(getPendingUsers, "users");
+  } = useGetUsersList(getPendingUsers);
 
   return (
     <MainLayout>
@@ -29,11 +29,11 @@ export const Permission = () => {
         <span className="text-2xl font-bold">Users Permission :</span>
         {isLoading ? (
           <Loading />
-        ) : data?.length === 0 ? (
+        ) : data.users?.length === 0 ? (
           <NoDataFound />
         ) : (
           <ScrollableContainer>
-            {data?.map((user: any) => {
+            {data.users?.map((user: any) => {
               return (
                 <PermissionCard
                   reloadData={fetchData}

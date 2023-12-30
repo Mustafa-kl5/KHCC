@@ -30,8 +30,13 @@ export const addPatient = (
   });
 };
 
-export const getPatientsList = () => {
-  return ApiService.baseApi.get(`${baseURL}/nursing/patientList`);
+export const getPatientsList = (filter?: {
+  isDeleted: string;
+  patientName: string;
+}) => {
+  return ApiService.baseApi.get(`${baseURL}/nursing/patientList`, {
+    params: filter,
+  });
 };
 
 export const giveDeletePaitentReason = (patientId: string, reason: string) => {

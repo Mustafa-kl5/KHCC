@@ -10,6 +10,7 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Permission } from "pages/superAdmin/Permission";
 import { AddStudy } from "pages/superAdmin/AddStudy";
+
 export const publicRoutes: iRoute[] = [
   {
     path: "/Login",

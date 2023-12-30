@@ -12,3 +12,7 @@ export interface iPatient {
   isDeleted: boolean;
   deleteReason: string;
 }
+
+export interface iPatientList {
+  patients: iPatient[];
+}
