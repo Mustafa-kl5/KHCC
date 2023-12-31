@@ -1,22 +1,17 @@
 import styled from "@emotion/styled";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-    ClosedCaption,
     CloudUpload,
-    DeleteForever,
-    RemoveCircleOutline,
+    DeleteForever
 } from "@mui/icons-material";
 import { Alert, Button, CircularProgress, Snackbar, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Blob } from "buffer";
-import { log } from "console";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { addStudy } from "services/superAdmin";
 import { iFile } from "types/file";
-import { studySchema } from "validation-schema/studySchema";
-import { parseISO, isEqual } from 'date-fns';
 import { allowedTypes } from "utils/constant";
+import { studySchema } from "validation-schema/studySchema";
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
