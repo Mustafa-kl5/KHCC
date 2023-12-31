@@ -17,6 +17,8 @@ import { isLoggedIn, login } from "services/authService";
 import { ACCESS_TOKEN, USER_ROLE } from "utils/constant";
 import { loginSchema } from "validation-schema/loginSchema";
 import { Link, useNavigate } from "react-router-dom";
+import { iStudyOption } from "types/study";
+import { getStudiesOptions } from "services/publicService";
 const studyArr = [
   { id: 1, name: "logistics" },
   { id: 2, name: "math" },
@@ -64,6 +66,27 @@ export const LoginForm = () => {
     },
     mode: "onChange",
   });
+
+
+
+  const [options, setOptions] = useState<iStudyOption[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getStudiesOptions();
+      setOptions(res.data.options);
+    } catch (err: any) {
+      setOpenErrorMassage(true);
+      setErrorMassage(err?.response.data?.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <>
       <form className="auth-form">
@@ -97,10 +120,16 @@ export const LoginForm = () => {
                   onChange(e.target.value);
                   localStorage.setItem("study", e.target.value);
                 }}
+                disabled={isLoading}
               >
-                {studyArr.map((study) => (
-                  <MenuItem key={study.id} value={JSON.stringify(study)}>
-                    {study.name}
+                {isLoading ? <MenuItem disabled value={""}>
+                  <strong>Loading...</strong>
+                </MenuItem> : options?.map((study) => (
+                  <MenuItem key={study._id} value={study._id}>
+                    <div className="flex  gap-2">
+                      <strong>{study.studyName} / </strong>
+                      <strong>{study.studyNumber}</strong>
+                    </div>
                   </MenuItem>
                 ))}
               </Select>
@@ -126,7 +155,7 @@ export const LoginForm = () => {
           )}
         />
         <p>
-          Don't have an account?{" "}
+          Don't have an account?
           <Link to="/signup" className="text-button-100">
             Register
           </Link>
