@@ -1,18 +1,15 @@
-import { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { getPendingUsers } from "services/superAdmin";
-import { iUser } from "types/user";
 
-export const usePendingUsers = () => {
-  const [users, setUsers] = useState<iUser[]>();
+export const useGetUsersList = (Api: any, query?: any) => {
+  const [data, setData] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorMassage, setErrorMassage] = useState<string>();
   const [openErrorMassage, setOpenErrorMassage] = useState<boolean>(false);
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const res = await getPendingUsers();
-      setUsers(res.data.users);
+      const res = await Api(query);
+      setData(res.data);
     } catch (err: any) {
       setOpenErrorMassage(true);
       setErrorMassage(err?.response.data?.message);
@@ -22,6 +19,6 @@ export const usePendingUsers = () => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
-  return { errorMassage, users, isLoading, openErrorMassage, fetchData };
+  }, [query]);
+  return { errorMassage, data, isLoading, openErrorMassage, fetchData };
 };

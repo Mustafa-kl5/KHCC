@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import Snackbar from "@mui/material/Snackbar";
 import {
   Alert,
   Button,
@@ -11,19 +10,16 @@ import {
   TextField,
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
+import Snackbar from "@mui/material/Snackbar";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { isLoggedIn, login } from "services/authService";
 import { ACCESS_TOKEN, USER_ROLE } from "utils/constant";
 import { loginSchema } from "validation-schema/loginSchema";
-import { Link, useNavigate } from "react-router-dom";
 import { iStudyOption } from "types/study";
 import { getStudiesOptions } from "services/publicService";
-const studyArr = [
-  { id: 1, name: "logistics" },
-  { id: 2, name: "math" },
-  { id: 3, name: "sports" },
-];
+
 
 export const LoginForm = () => {
   const navigate = useNavigate();

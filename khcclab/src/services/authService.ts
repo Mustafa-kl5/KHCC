@@ -13,13 +13,13 @@ export const login = (email: string, password: string) => {
   });
 };
 export const registration = (
-  email: string,
-  password: string,
   employeeId: string,
   position: string,
   department: string,
   firstName: string,
-  lastName: string
+  lastName: string,
+  email: string,
+  password: string
 ) => {
   return ApiService.fetchData({
     url: `${baseURL}/auth/registration/`,

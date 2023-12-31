@@ -5,10 +5,10 @@ import { isLoggedIn } from "services/authService";
 import { iRoute } from "types/route";
 import { USER_ROLE } from "utils/constant";
 import ApiService from "./services/api";
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 function App() {
-  const location = useLocation()
+  const location = useLocation();
   const [privateRoutes, setPrivateRoutes] = useState<
     iRoute[] | string | undefined
   >([]);
@@ -19,7 +19,7 @@ function App() {
     if (isLoggedIn()) {
       setPrivateRoutes(getRoutes(localStorage.getItem(USER_ROLE) || "pending"));
     }
-  }, [location.pathname])
+  }, [location.pathname]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -36,7 +36,6 @@ function App() {
         })}
       </Routes>
     </LocalizationProvider>
-
   );
 }
 

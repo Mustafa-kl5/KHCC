@@ -1,4 +1,3 @@
-
 import { NoPermission } from "pages/NoPermission";
 import { Login } from "pages/auth/Login";
 import { SignUp } from "pages/auth/SignUp";
@@ -6,9 +5,9 @@ import { AddPatient } from "pages/nursing/AddPatient";
 import { AddSamples } from "pages/nursing/AddSamples";
 import { PatientList } from "pages/nursing/PatientList";
 import { iRoute } from "types/route";
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Permission } from "pages/superAdmin/Permission";
 import { AddStudy } from "pages/superAdmin/AddStudy";
 import { Studies } from "pages/superAdmin/Studies";
@@ -21,26 +20,26 @@ export const publicRoutes: iRoute[] = [
         path: "/SignUp",
         element: <SignUp />,
     },
-]
+];
 export const nursingRoutes: iRoute[] = [
     {
-        path: "/add-patient",
+        path: "/",
         element: <AddPatient />,
         pageName: "Add Patient",
-        icon: <PersonAddAltIcon />
+        icon: <PersonAddAltIcon />,
     },
     {
         path: "/patient-list",
         element: <PatientList />,
         pageName: "Patient List",
-        icon: <ListAltIcon />
+        icon: <ListAltIcon />,
     },
     {
         path: "/add-samples/:patientId",
         element: <AddSamples />,
         pageName: "Add Samples",
         icon: <BorderColorIcon />,
-        notShown: true
+        notShown: true,
     },
 ];
 export const superAdminRoutes: iRoute[] = [
@@ -68,19 +67,19 @@ export const technicianRoutes: iRoute[] = [
         path: "/add-patient",
         element: <Login />,
         pageName: "add patient",
-        icon: <PersonAddAltIcon />
+        icon: <PersonAddAltIcon />,
     },
     {
         path: "/patient-list",
         element: <SignUp />,
         pageName: "patient list",
-        icon: <PersonAddAltIcon />
+        icon: <PersonAddAltIcon />,
     },
     {
         path: "/add-samples",
         element: <SignUp />,
         pageName: "Add Samples",
-        icon: <PersonAddAltIcon />
+        icon: <PersonAddAltIcon />,
     },
 ];
 export const pending: iRoute[] = [
@@ -88,20 +87,20 @@ export const pending: iRoute[] = [
         path: "/",
         element: <NoPermission />,
         pageName: "No permission",
-        icon: <PersonAddAltIcon />
+        icon: <PersonAddAltIcon />,
     },
 ];
 export const getRoutes = (role: string) => {
     switch (role) {
         case "nursing":
-            return nursingRoutes
+            return nursingRoutes;
         case "superAdmin":
-            return superAdminRoutes
+            return superAdminRoutes;
         case "technician":
-            return technicianRoutes
+            return technicianRoutes;
         case "pending":
-            return pending
+            return pending;
         default:
-            return []
+            return [];
     }
-}
+};

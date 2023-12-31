@@ -8,3 +8,6 @@ export interface iUser {
   createAt: string;
   _id: string;
 }
+export interface iUserList {
+  users: iUser[];
+}
