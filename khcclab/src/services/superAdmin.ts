@@ -36,3 +36,7 @@ export const addStudy = (
     },
   });
 };
+
+export const getStudies = () => {
+  return ApiService.baseApi.get(`${baseURL}/superAdmin/getStudies`);
+};

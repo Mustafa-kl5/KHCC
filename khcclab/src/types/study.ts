@@ -15,3 +15,6 @@ export interface iStudy {
   isClosed: boolean;
   createAt: string;
 }
+export interface iStudyList {
+  studies: iStudy[];
+}

@@ -1,8 +1,28 @@
 import { Accordion, AccordionSummary, AccordionDetails, Button } from "@mui/material"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { iStudy } from "types/study";
-
+import JSZip from 'jszip';
 export const StudyCard = ({ study }: { study: iStudy }) => {
+    const downloadFilesAsZip = async () => {
+        try {
+            const blobs = await Promise.all(study.files.map(async (url) => {
+                const response = await fetch(url);
+                return await response.blob();
+            }));
+            const zip = new JSZip();
+            blobs.forEach((blob, index) => {
+                const fileName = study.files[index].substring(study.files[index].lastIndexOf('/') + 1);
+                zip.file(fileName, blob);
+            });
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(zipBlob);
+            link.download = `${study.studyName}.zip`;
+            link.click();
+        } catch (error) {
+            console.error('Error downloading files:', error);
+        }
+    };
 
     return (
         <Accordion className={`border border-solid border-slate-400 ${study.isClosed ? "bg-red-300" : undefined}`}
@@ -34,7 +54,7 @@ export const StudyCard = ({ study }: { study: iStudy }) => {
                     {study.closeData === "" && <span className="text-base">
                         <strong>Closed Date:</strong>{study.closeData}
                     </span>}
-                    <Button variant="contained">Download study file</Button>
+                    <Button variant="contained" onClick={downloadFilesAsZip}>Download study file</Button>
                 </div>
             </AccordionDetails>
         </Accordion>
