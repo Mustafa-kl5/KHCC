@@ -16,6 +16,7 @@ import { addStudy } from "services/superAdmin";
 import { iFile } from "types/file";
 import { studySchema } from "validation-schema/studySchema";
 import { parseISO, isEqual } from 'date-fns';
+import { allowedTypes } from "utils/constant";
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -26,6 +27,7 @@ const VisuallyHiddenInput = styled("input")({
     left: 0,
     whiteSpace: "nowrap",
     width: 1,
+
 });
 
 export const AddStudyForm = () => {
@@ -98,7 +100,20 @@ export const AddStudyForm = () => {
 
     }, [file]);
 
-
+    const handleFileChange = (event: any) => {
+        const file = event.target.files[0];
+        if (file) {
+            if (!allowedTypes.includes(file.type)) {
+                setMessageType("error");
+                setOpenMassage(true);
+                setMessage(`Error : Only .docx, .xlsx, .jpg, .png and .gif files are allowed.`);
+                event.target.value = null;
+                return false
+            } else {
+                return true
+            }
+        }
+    };
 
 
 
@@ -181,6 +196,9 @@ export const AddStudyForm = () => {
                             startIcon={<CloudUpload />}
                             disabled={file?.summary && true}
                             onChange={(e: any) => {
+                                if (!handleFileChange(e)) {
+                                    return
+                                }
                                 const selectedFile = e.target.files?.[0];
                                 if (selectedFile) {
                                     setFile({
@@ -195,7 +213,9 @@ export const AddStudyForm = () => {
                         >
                             Upload file
                             <VisuallyHiddenInput type="file" />
+
                         </Button>
+                        <span className="text-gray-400 text-xs">Only .docx, .xlsx, .jpg, .png and .gif files are allowed.</span>
                         {file?.summary && (
                             <div className="flex gap-3 bg-slate-300 py-1 px-2 rounded-lg w-fit">
                                 <span >{file.summary.fileName}</span>
@@ -220,6 +240,9 @@ export const AddStudyForm = () => {
                             startIcon={<CloudUpload />}
                             disabled={file?.protocol && true}
                             onChange={(e: any) => {
+                                if (!handleFileChange(e)) {
+                                    return
+                                }
                                 const selectedFile = e.target.files?.[0];
                                 if (selectedFile) {
                                     setFile({
@@ -234,7 +257,7 @@ export const AddStudyForm = () => {
                         >
                             Upload file
                             <VisuallyHiddenInput type="file" />
-                        </Button>
+                        </Button> <span className="text-gray-400 text-xs">Only .docx, .xlsx, .jpg, .png and .gif files are allowed.</span>
                         {file?.protocol && (
                             <div className="flex gap-3 bg-slate-300 py-1 px-2 rounded-lg w-fit">
                                 <span >{file.protocol.fileName}</span>
@@ -259,6 +282,9 @@ export const AddStudyForm = () => {
                             startIcon={<CloudUpload />}
                             disabled={file?.IRB && true}
                             onChange={(e: any) => {
+                                if (!handleFileChange(e)) {
+                                    return
+                                }
                                 const selectedFile = e.target.files?.[0];
                                 if (selectedFile) {
                                     setFile({
@@ -273,7 +299,7 @@ export const AddStudyForm = () => {
                         >
                             Upload file
                             <VisuallyHiddenInput type="file" />
-                        </Button>
+                        </Button> <span className="text-gray-400 text-xs">Only .docx, .xlsx, .jpg, .png and .gif files are allowed.</span>
                         {file?.IRB && (
                             <div className="flex gap-3 bg-slate-300 py-1 px-2 rounded-lg w-fit">
                                 <span >{file.IRB.fileName}</span>
@@ -298,11 +324,14 @@ export const AddStudyForm = () => {
                             startIcon={<CloudUpload />}
                             onChange={(e: any) => {
                                 const selectedFiles = e.target.files;
+                                const filesArray = Array.from(selectedFiles);
+                                const acceptFiles = filesArray.filter((item: any) => {
+                                    return allowedTypes.includes(item.type)
+                                })
                                 if (selectedFiles && selectedFiles.length > 0) {
-                                    const filesArray = Array.from(selectedFiles);
                                     setFile({
                                         ...file,
-                                        optional: filesArray.map((item: any) => {
+                                        optional: acceptFiles.map((item: any) => {
                                             return {
                                                 fileName: item.name,
                                                 filePath: item
@@ -314,7 +343,7 @@ export const AddStudyForm = () => {
                         >
                             Upload file
                             <VisuallyHiddenInput type="file" multiple />
-                        </Button>
+                        </Button> <span className="text-gray-400 text-xs">Only .docx, .xlsx, .jpg, .png and .gif files are allowed.</span>
                         <div className="flex flex-wrap gap-2 overflow-y-scroll h-24">
                             {file?.optional && (file?.optional.map((item, index) => {
                                 return <div className="flex gap-3 bg-slate-300 py-1 px-2 rounded-lg w-fit h-fit" key={index}>

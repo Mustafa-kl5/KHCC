@@ -17,6 +17,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { giveDeletePaitentReason } from "services/nursing";
 import { iPatient } from "types/Patient";
+import { dateFormate } from "utils/dateFormate";
 
 const style = {
   position: "absolute" as "absolute",
@@ -48,15 +49,7 @@ export const PatientCard = ({
   }>({ err: false, open: false, massage: "" });
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const dateFormater = (fullDate: string) => {
-    const date = new Date(fullDate);
-    const year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    month = +(month < 10 ? "0" : "") + month;
-    day = +(day < 10 ? "0" : "") + day;
-    return year + "/" + month + "/" + day;
-  };
+
 
   const onSubmit = async (data: any) => {
     try {
@@ -93,9 +86,8 @@ export const PatientCard = ({
   return (
     <>
       <Accordion
-        className={`border border-solid border-slate-400 ${
-          user.isDeleted && "!bg-[#ffebee]"
-        }`}
+        className={`border border-solid border-slate-400 ${user.isDeleted && "!bg-[#ffebee]"
+          }`}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -117,11 +109,11 @@ export const PatientCard = ({
               <strong>research ID:</strong> {user.researchId}
             </span>
             <span className="text-base">
-              <strong>Birth Date:</strong> {dateFormater(user.birthDate)}
+              <strong>Birth Date:</strong> {dateFormate(user.birthDate)}
             </span>
             <span className="text-base">
               <strong>Admition Recovery Date:</strong>{" "}
-              {dateFormater(user.admitionRecDate)}
+              {dateFormate(user.admitionRecDate)}
             </span>
             <span className="text-base">
               <strong>Gender:</strong> {user.gender}

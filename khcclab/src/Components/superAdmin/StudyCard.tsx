@@ -2,6 +2,7 @@ import { Accordion, AccordionSummary, AccordionDetails, Button } from "@mui/mate
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { iStudy } from "types/study";
 import JSZip from 'jszip';
+import { dateFormate } from "utils/dateFormate";
 export const StudyCard = ({ study }: { study: iStudy }) => {
     const downloadFilesAsZip = async () => {
         try {
@@ -43,16 +44,16 @@ export const StudyCard = ({ study }: { study: iStudy }) => {
                         <strong>Study Number:</strong> {study.studyNumber}
                     </span>
                     <span className="text-base">
-                        <strong>Initiated Data:</strong> {study.studyInitDate}
+                        <strong>Initiated Data:</strong> {dateFormate(study.studyInitDate)}
                     </span>
                     <span className="text-base">
                         <strong>Study Keywords:</strong> {study.studyKeywords}
                     </span>
                     <span className="text-base">
-                        <strong>Add At:</strong> {study.createAt}
+                        <strong>Add At:</strong> {dateFormate(study.createAt)}
                     </span>
                     {study.closeData === "" && <span className="text-base">
-                        <strong>Closed Date:</strong>{study.closeData}
+                        <strong>Closed Date:</strong>{dateFormate(study.closeData)}
                     </span>}
                     <Button variant="contained" onClick={downloadFilesAsZip}>Download study file</Button>
                 </div>
