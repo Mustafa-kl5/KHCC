@@ -1,4 +1,3 @@
-import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import {
   Alert,
@@ -14,9 +13,8 @@ import { Loading } from "Components/Shared/Loading";
 import { NoDataFound } from "Components/Shared/NoDataFound";
 import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
-import { set } from "date-fns";
+import { useData } from "hooks/useData";
 import { useDebounce } from "hooks/useDebounce";
-import { useGetUsersList } from "hooks/useGetUsersList";
 import { useState } from "react";
 import { getPatientsList } from "services/nursing";
 import { iPatient, iPatientList } from "types/Patient";
@@ -47,7 +45,7 @@ export const PatientList = () => {
     isLoading: any;
     openErrorMassage: any;
     fetchData: any;
-  } = useGetUsersList(getPatientsList, query);
+  } = useData(getPatientsList, query);
 
   return (
     <MainLayout>

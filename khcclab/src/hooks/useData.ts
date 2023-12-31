@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useGetUsersList = (Api: any, query?: any) => {
+export const useData = (Api: any, query?: any) => {
   const [data, setData] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorMassage, setErrorMassage] = useState<string>();
