@@ -47,7 +47,6 @@ export const RegestierForm = () => {
   });
 
   const onSubmit = async (data: iSignUpForm) => {
-    console.log(data);
     const {
       employeeId,
       position,

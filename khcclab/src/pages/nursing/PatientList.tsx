@@ -95,12 +95,12 @@ export const PatientList = () => {
           <NoDataFound />
         ) : (
           <ScrollableContainer>
-            {data.patients?.map((user: iPatient) => {
+            {data.patients?.map((item) => {
               return (
                 <PatientCard
                   reloadData={fetchData}
-                  key={user._id}
-                  user={user}
+                  key={item._id}
+                  patient={item}
                 />
               );
             })}

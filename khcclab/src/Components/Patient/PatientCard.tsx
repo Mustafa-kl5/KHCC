@@ -1,3 +1,4 @@
+import { AddBox } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
@@ -13,8 +14,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { giveDeletePaitentReason } from "services/nursing";
 import { iPatient } from "types/Patient";
 import { dateFormate } from "utils/dateFormate";
@@ -32,12 +34,14 @@ const style = {
 };
 
 export const PatientCard = ({
-  user,
+  patient,
   reloadData,
 }: {
-  user: iPatient;
+  patient: iPatient;
   reloadData: () => void;
 }) => {
+  const navigate = useNavigate();
+
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const modalHandler = () => {
     setModalOpen(!modalOpen);
@@ -49,13 +53,11 @@ export const PatientCard = ({
   }>({ err: false, open: false, massage: "" });
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-
-
   const onSubmit = async (data: any) => {
     try {
       setIsSubmitting(true);
       const res = (await giveDeletePaitentReason(
-        user._id,
+        patient._id,
         data.deleteReason
       )) as {
         message: string;
@@ -86,7 +88,7 @@ export const PatientCard = ({
   return (
     <>
       <Accordion
-        className={`border border-solid border-slate-400 ${user.isDeleted && "!bg-[#ffebee]"
+        className={`border border-solid border-slate-400 ${patient.isDeleted && "!bg-[#ffebee]"
           }`}
       >
         <AccordionSummary
@@ -94,109 +96,121 @@ export const PatientCard = ({
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <span className="text-lg">{user.patientName}</span>
+          <span className="text-lg">{patient.patientName}</span>
         </AccordionSummary>
         <AccordionDetails>
           <div className="flex flex-col gap-2">
             <span className="text-base">
-              <strong>{user.ssn ? "SSN:" : "MRN:"}</strong>{" "}
-              {user.ssn ? user.ssn : user.mrn}
+              <strong>{patient.ssn ? "SSN:" : "MRN:"}</strong>{" "}
+              {patient.ssn ? patient.ssn : patient.mrn}
             </span>
             <span className="text-base">
-              <strong>Day Code:</strong> {user.dayCode}
+              <strong>Day Code:</strong> {patient.dayCode}
             </span>
             <span className="text-base">
-              <strong>research ID:</strong> {user.researchId}
+              <strong>research ID:</strong> {patient.researchId}
             </span>
             <span className="text-base">
-              <strong>Birth Date:</strong> {dateFormate(user.birthDate)}
+              <strong>Birth Date:</strong> {dateFormate(patient.birthDate)}
             </span>
             <span className="text-base">
               <strong>Admition Recovery Date:</strong>{" "}
-              {dateFormate(user.admitionRecDate)}
+              {dateFormate(patient.admitionRecDate)}
             </span>
             <span className="text-base">
-              <strong>Gender:</strong> {user.gender}
+              <strong>Gender:</strong> {patient.gender}
             </span>
             <span className="text-base">
               <strong>Sample Drawing:</strong>{" "}
-              {new Date(user.sampleDrawing).toLocaleString()}
+              {new Date(patient.sampleDrawing).toLocaleString()}
             </span>
-            {user.isDeleted && (
+            {patient.isDeleted && (
               <span className="text-base">
-                <strong>Delete Reason:</strong> {user.deleteReason}
+                <strong>Delete Reason:</strong> {patient.deleteReason}
               </span>
             )}
           </div>
-          {!user.isDeleted && (
-            <div className="flex justify-end">
-              <Button
-                onClick={modalHandler}
-                variant="outlined"
-                size="large"
-                startIcon={<DeleteIcon />}
-              >
-                Delete
-              </Button>
-              <Modal
-                open={modalOpen}
-                onClose={modalHandler}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
-                  >
-                    Delete Patient
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ my: 2 }}>
-                    To delete the patient, type the reason to confirm.
-                  </Typography>
-                  <Controller
-                    name="deleteReason"
-                    control={control}
-                    rules={{ required: true, minLength: 5 }}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        id="filled-multiline-static"
-                        label="Delete Reason "
-                        multiline
-                        fullWidth
-                        rows={4}
-                        variant="filled"
-                      />
-                    )}
-                  />
-
-                  <div className="flex justify-end gap-2 mt-3">
-                    <Button
-                      onClick={modalHandler}
-                      variant="outlined"
-                      size="medium"
+          <div className="flex justify-end gap-3">
+            <Button
+              onClick={() => {
+                navigate(`/add-samples/:${patient._id}`)
+              }}
+              variant="outlined"
+              size="large"
+              startIcon={<AddBox />}
+            >
+              add samples
+            </Button>
+            {!patient.isDeleted && (
+              <Fragment>
+                <Button
+                  onClick={modalHandler}
+                  variant="outlined"
+                  size="large"
+                  startIcon={<DeleteIcon />}
+                >
+                  Delete
+                </Button>
+                <Modal
+                  open={modalOpen}
+                  onClose={modalHandler}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
                     >
-                      Cancel
-                    </Button>
-                    <Button
-                      disabled={!isValid}
-                      onClick={handleSubmit(onSubmit)}
-                      color="error"
-                      variant="outlined"
-                      size="medium"
-                    >
-                      <span>Delete </span>
-                      {isSubmitting && (
-                        <CircularProgress className="!w-[1rem] !h-[1rem]" />
+                      Delete Patient
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ my: 2 }}>
+                      To delete the patient, type the reason to confirm.
+                    </Typography>
+                    <Controller
+                      name="deleteReason"
+                      control={control}
+                      rules={{ required: true, minLength: 5 }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          id="filled-multiline-static"
+                          label="Delete Reason "
+                          multiline
+                          fullWidth
+                          rows={4}
+                          variant="filled"
+                        />
                       )}
-                    </Button>
-                  </div>
-                </Box>
-              </Modal>
-            </div>
-          )}
+                    />
+
+                    <div className="flex justify-end gap-2 mt-3">
+                      <Button
+                        onClick={modalHandler}
+                        variant="outlined"
+                        size="medium"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        disabled={!isValid}
+                        onClick={handleSubmit(onSubmit)}
+                        color="error"
+                        variant="outlined"
+                        size="medium"
+                      >
+                        <span>Delete </span>
+                        {isSubmitting && (
+                          <CircularProgress className="!w-[1rem] !h-[1rem]" />
+                        )}
+                      </Button>
+                    </div>
+                  </Box>
+                </Modal>
+              </Fragment>
+            )}
+          </div>
         </AccordionDetails>
       </Accordion>
       <Snackbar

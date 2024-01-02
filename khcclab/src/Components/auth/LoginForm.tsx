@@ -113,15 +113,16 @@ export const LoginForm = () => {
                 label="study"
                 value={value}
                 onChange={(e) => {
+                  console.log(e.target.value);
                   onChange(e.target.value);
-                  localStorage.setItem("study", e.target.value);
+                  localStorage.setItem("study", e.target.value as string);
                 }}
                 disabled={isLoading}
               >
                 {isLoading ? <MenuItem disabled value={""}>
                   <strong>Loading...</strong>
                 </MenuItem> : options?.map((study) => (
-                  <MenuItem key={study._id} value={study._id}>
+                  <MenuItem key={study._id} value={JSON.stringify(study)}>
                     <div className="flex  gap-2">
                       <strong>{study.studyName} / </strong>
                       <strong>{study.studyNumber}</strong>

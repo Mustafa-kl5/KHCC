@@ -49,3 +49,24 @@ export const giveDeletePaitentReason = (patientId: string, reason: string) => {
     },
   });
 };
+export const addSamples = (
+  studyNumber: string,
+  patientId: string,
+  samples: {
+    sampleType: string;
+    containerType: string;
+    numberOfSamples: string;
+    drawnAt: string;
+    sampleSerial: string;
+  }[]
+) => {
+  return ApiService.fetchData({
+    url: `${baseURL}/nursing/addSample`,
+    method: "POST",
+    data: {
+      studyNumber,
+      patientId,
+      samples,
+    },
+  });
+};
