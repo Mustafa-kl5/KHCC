@@ -40,3 +40,39 @@ export const addStudy = (
 export const getStudies = () => {
   return ApiService.baseApi.get(`${baseURL}/superAdmin/getStudies`);
 };
+
+export const addFreezer = (
+  freezerName: string,
+  freezerModel: string,
+  freezerLocation: string,
+  freezerType: string,
+  NumberOfShelves: number,
+  BoxesPerShelf: number
+) => {
+  return ApiService.fetchData({
+    url: `${baseURL}/superAdmin/addFreezer`,
+    method: "POST",
+    data: {
+      freezerName,
+      freezerModel,
+      freezerLocation,
+      freezerType,
+      NumberOfShelves,
+      BoxesPerShelf,
+    },
+  });
+};
+
+export const getFreezers = () => {
+  return ApiService.baseApi.get(`${baseURL}/superAdmin/getFreezers`);
+};
+
+export const DeleteFreezer = (Id: string) => {
+  return ApiService.fetchData({
+    url: `${baseURL}/superAdmin/giveDeleteFreezerReason`,
+    method: "DELETE",
+    data: {
+      Id,
+    },
+  });
+};

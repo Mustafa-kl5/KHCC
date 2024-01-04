@@ -96,7 +96,14 @@ export const PatientCard = ({
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <span className="text-lg">{patient.patientName}</span>
+          <div className="w-full flex justify-between pe-2 items-center">
+            <span className="text-lg">{patient.patientName}</span>
+            {patient.seen && (
+              <span className="text-white text-xs bg-[#00c851] h-fit px-2 py-0 rounded-lg">
+                seen
+              </span>
+            )}
+          </div>
         </AccordionSummary>
         <AccordionDetails>
           <div className="flex flex-col gap-2">
@@ -129,6 +136,9 @@ export const PatientCard = ({
                 <strong>Delete Reason:</strong> {patient.deleteReason}
               </span>
             )}
+            <span className="text-base">
+              <strong>Seen by:</strong> {patient.seenBy}
+            </span>
           </div>
           <div className="flex justify-end gap-3">
             <Button

@@ -39,12 +39,12 @@ export const getPatientsList = (filter?: {
   });
 };
 
-export const giveDeletePaitentReason = (patientId: string, reason: string) => {
+export const giveDeletePaitentReason = (Id: string, reason: string) => {
   return ApiService.fetchData({
     url: `${baseURL}/nursing/giveDeletePaitentReason`,
     method: "PUT",
     data: {
-      patientId,
+      Id,
       reason,
     },
   });

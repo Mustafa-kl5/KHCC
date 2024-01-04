@@ -20,7 +20,6 @@ import { loginSchema } from "validation-schema/loginSchema";
 import { iStudyOption } from "types/study";
 import { getStudiesOptions } from "services/publicService";
 
-
 export const LoginForm = () => {
   const navigate = useNavigate();
 
@@ -62,8 +61,6 @@ export const LoginForm = () => {
     },
     mode: "onChange",
   });
-
-
 
   const [options, setOptions] = useState<iStudyOption[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -119,17 +116,22 @@ export const LoginForm = () => {
                 }}
                 disabled={isLoading}
               >
-                {isLoading ? <MenuItem disabled value={""}>
-                  <strong>Loading...</strong>
-                </MenuItem> : options?.map((study) => (
-                  <MenuItem key={study._id} value={JSON.stringify(study)}>
-                    <div className="flex  gap-2">
-                      <strong>{study.studyName} / </strong>
-                      <strong>{study.studyNumber}</strong>
-                    </div>
+                {isLoading ? (
+                  <MenuItem disabled value={""}>
+                    <strong>Loading...</strong>
                   </MenuItem>
-                ))}
+                ) : (
+                  options?.map((study) => (
+                    <MenuItem key={study._id} value={JSON.stringify(study)}>
+                      <div className="flex  gap-2">
+                        <strong>{study.studyName} / </strong>
+                        <strong>{study.studyNumber}</strong>
+                      </div>
+                    </MenuItem>
+                  ))
+                )}
               </Select>
+
               <FormHelperText>
                 {errors.study && errors.study.message}
               </FormHelperText>
