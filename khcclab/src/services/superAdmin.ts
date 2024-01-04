@@ -76,3 +76,6 @@ export const DeleteFreezer = (Id: string) => {
     },
   });
 };
+export const getLogs = () => {
+  return ApiService.baseApi.get(`${baseURL}/superAdmin/getLogs`);
+};

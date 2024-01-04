@@ -1,27 +1,26 @@
+import { Loading } from 'Components/Shared/Loading';
+import { NoDataFound } from 'Components/Shared/NoDataFound';
+import { MainLayout } from 'UI/MainLayout';
+import { ScrollableContainer } from 'UI/ScrollableContainer';
+import { useData } from 'hooks/useData';
+import { getLogs } from 'services/superAdmin';
+import { iLogsList } from 'types/logs';
 import { Alert } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
-import { Loading } from "Components/Shared/Loading";
-import { NoDataFound } from "Components/Shared/NoDataFound";
-import { PermissionCard } from "Components/superAdmin/PermissionCard";
-import { MainLayout } from "UI/MainLayout";
-import { ScrollableContainer } from "UI/ScrollableContainer";
-import { useData } from "hooks/useData";
-import { getPendingUsers } from "services/superAdmin";
-import { iUserList } from "types/user";
-export const Permission = () => {
+import { LogsCard } from 'Components/superAdmin/LogsCard';
+export const Logs = () => {
     const {
         errorMassage,
         data,
         isLoading,
         openErrorMassage,
-        fetchData,
     }: {
         errorMassage: any;
-        data: iUserList;
+        data: iLogsList;
         isLoading: any;
         openErrorMassage: any;
         fetchData: any;
-    } = useData(getPendingUsers);
+    } = useData(getLogs);
 
     return (
         <MainLayout>
@@ -29,17 +28,13 @@ export const Permission = () => {
                 <span className="text-2xl font-bold">Users Permission :</span>
                 {isLoading ? (
                     <Loading />
-                ) : (data?.users?.length ?? 0) === 0 ? (
+                ) : (data?.logs?.length ?? 0) === 0 ? (
                     <NoDataFound />
                 ) : (
                     <ScrollableContainer>
-                        {data.users?.map((user: any) => {
+                        {data.logs?.map((log: any) => {
                             return (
-                                <PermissionCard
-                                    reloadData={fetchData}
-                                    key={user._id}
-                                    user={user}
-                                />
+                                <LogsCard log={log} key={log._id} />
                             );
                         })}
                     </ScrollableContainer>
@@ -52,6 +47,5 @@ export const Permission = () => {
             >
                 <Alert severity="error">{errorMassage}</Alert>
             </Snackbar>
-        </MainLayout>
-    );
-};
+        </MainLayout>)
+}

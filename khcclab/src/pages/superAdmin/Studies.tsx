@@ -40,7 +40,7 @@ export const Studies = () => {
                 <span className="text-2xl font-bold">Studies :</span>
                 {isLoading ? (
                     <Loading />
-                ) : data?.studies.length === 0 ? (
+                ) : (data?.studies.length ?? 0) === 0 ? (
                     <NoDataFound />
                 ) : (
                     <ScrollableContainer>

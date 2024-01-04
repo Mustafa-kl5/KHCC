@@ -91,7 +91,7 @@ export const PatientList = () => {
         </div>
         {isLoading ? (
           <Loading />
-        ) : data.patients?.length === 0 ? (
+        ) : (data.patients?.length ?? 0) === 0 ? (
           <NoDataFound />
         ) : (
           <ScrollableContainer>

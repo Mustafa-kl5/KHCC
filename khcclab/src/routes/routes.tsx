@@ -15,6 +15,7 @@ import { Studies } from "pages/superAdmin/Studies";
 import { AddFreezer } from "pages/superAdmin/AddFreezer";
 import { Freezers } from "pages/superAdmin/Freezers";
 import { Patients } from "pages/technician/Patients";
+import { Logs } from "pages/superAdmin/Logs";
 export const publicRoutes: iRoute[] = [
   {
     path: "/Login",
@@ -75,6 +76,12 @@ export const superAdminRoutes: iRoute[] = [
     path: "/freezers-list",
     element: <Freezers />,
     pageName: "Freezers",
+    icon: <ListAltIcon />,
+  },
+  {
+    path: "/users-logs",
+    element: <Logs />,
+    pageName: "Users Logs",
     icon: <ListAltIcon />,
   },
 ];

@@ -28,7 +28,7 @@ export const Freezers = () => {
         <span className="text-2xl font-bold">Freezers :</span>
         {isLoading ? (
           <Loading />
-        ) : data?.freezers.length === 0 ? (
+        ) : (data?.freezers.length ?? 0) === 0 ? (
           <NoDataFound />
         ) : (
           <ScrollableContainer>
