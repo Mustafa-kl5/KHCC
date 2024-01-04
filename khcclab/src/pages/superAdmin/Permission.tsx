@@ -29,7 +29,7 @@ export const Permission = () => {
                 <span className="text-2xl font-bold">Users Permission :</span>
                 {isLoading ? (
                     <Loading />
-                ) : data.users?.length === 0 ? (
+                ) : data?.users?.length ?? 0 === 0 ? (
                     <NoDataFound />
                 ) : (
                     <ScrollableContainer>
