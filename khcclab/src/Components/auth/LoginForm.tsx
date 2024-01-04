@@ -110,7 +110,6 @@ export const LoginForm = () => {
                 label="study"
                 value={value}
                 onChange={(e) => {
-                  console.log(e.target.value);
                   onChange(e.target.value);
                   localStorage.setItem("study", e.target.value as string);
                 }}

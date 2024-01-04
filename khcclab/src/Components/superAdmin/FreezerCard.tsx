@@ -12,10 +12,11 @@ import {
   Snackbar,
   Typography,
 } from "@mui/material";
+import { format } from "date-fns";
 import { useState } from "react";
 import { DeleteFreezer } from "services/superAdmin";
 import { iFreezer } from "types/freezer";
-import { dateFormate } from "utils/dateFormate";
+
 
 const style = {
   position: "absolute" as "absolute",
@@ -98,7 +99,7 @@ export const FreezerCard = ({
               <strong>Capacity: {freezer.capacity}</strong>
             </span>
             <span className="text-base">
-              <strong>Register At: {dateFormate(freezer.createAt)}</strong>
+              <strong>Register At:  {format(new Date(freezer.createAt), "yyyy/M/d hh:mm:ss a")}</strong>
             </span>
           </div>
 

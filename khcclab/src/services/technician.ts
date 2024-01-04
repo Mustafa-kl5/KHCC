@@ -20,3 +20,6 @@ export const seen = (patientId: string) => {
     },
   });
 };
+export const getSamples = () => {
+  return ApiService.baseApi.get(`${baseURL}/technician/getSamples`);
+};

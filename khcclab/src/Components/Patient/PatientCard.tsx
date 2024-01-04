@@ -14,12 +14,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { format } from "date-fns";
 import { Fragment, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { giveDeletePaitentReason } from "services/nursing";
 import { iPatient } from "types/Patient";
-import { dateFormate } from "utils/dateFormate";
+
 
 const style = {
   position: "absolute" as "absolute",
@@ -108,7 +109,7 @@ export const PatientCard = ({
         <AccordionDetails>
           <div className="flex flex-col gap-2">
             <span className="text-base">
-              <strong>{patient.ssn ? "SSN:" : "MRN:"}</strong>{" "}
+              <strong>{patient.ssn ? "SSN:" : "MRN:"}</strong>
               {patient.ssn ? patient.ssn : patient.mrn}
             </span>
             <span className="text-base">
@@ -118,17 +119,17 @@ export const PatientCard = ({
               <strong>research ID:</strong> {patient.researchId}
             </span>
             <span className="text-base">
-              <strong>Birth Date:</strong> {dateFormate(patient.birthDate)}
+              <strong>Birth Date:</strong> {format(new Date(patient.birthDate), "yyyy/M/d")}
             </span>
             <span className="text-base">
-              <strong>Admition Recovery Date:</strong>{" "}
-              {dateFormate(patient.admitionRecDate)}
+              <strong>Admition Recovery Date:</strong>
+              {format(new Date(patient.admitionRecDate), "yyyy/M/d hh:mm:ss a")}
             </span>
             <span className="text-base">
               <strong>Gender:</strong> {patient.gender}
             </span>
             <span className="text-base">
-              <strong>Sample Drawing:</strong>{" "}
+              <strong>Sample Drawing:</strong>
               {new Date(patient.sampleDrawing).toLocaleString()}
             </span>
             {patient.isDeleted && (

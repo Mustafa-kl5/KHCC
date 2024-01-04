@@ -10,8 +10,9 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { iPatient } from "types/Patient";
-import { dateFormate } from "utils/dateFormate";
+
 import { seen } from "services/technician";
+import { format } from "date-fns";
 
 export const PatientCards = ({
   paitent,
@@ -49,9 +50,8 @@ export const PatientCards = ({
   return (
     <>
       <Accordion
-        className={`border border-solid border-slate-400 ${
-          paitent.isDeleted && "!bg-[#ffebee]"
-        }`}
+        className={`border border-solid border-slate-400 ${paitent.isDeleted && "!bg-[#ffebee]"
+          }`}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -61,8 +61,8 @@ export const PatientCards = ({
           <div className="w-full flex justify-between pe-2 items-center">
             <span className="text-lg">{paitent.patientName}</span>
             {paitent.seen && (
-              <span className="text-white text-xs bg-[#00c851] h-fit px-2 py-0 rounded-lg">
-                seen
+              <span className="text-white font-bold text-sm bg-[#00c851] h-fit px-3 text-center rounded-lg">
+                Seen
               </span>
             )}
           </div>
@@ -70,7 +70,7 @@ export const PatientCards = ({
         <AccordionDetails>
           <div className="flex flex-col gap-2">
             <span className="text-base">
-              <strong>{paitent.ssn ? "SSN:" : "MRN:"}</strong>{" "}
+              <strong>{paitent.ssn ? "SSN:" : "MRN:"}</strong>
               {paitent.ssn ? paitent.ssn : paitent.mrn}
             </span>
             <span className="text-base">
@@ -80,18 +80,19 @@ export const PatientCards = ({
               <strong>research ID:</strong> {paitent.researchId}
             </span>
             <span className="text-base">
-              <strong>Birth Date:</strong> {dateFormate(paitent.birthDate)}
+              <strong>Birth Date:</strong>
+              {format(new Date(paitent.birthDate), "yyyy/M/d")}
             </span>
             <span className="text-base">
-              <strong>Admition Recovery Date:</strong>{" "}
-              {dateFormate(paitent.admitionRecDate)}
+              <strong>Admition Recovery Date:</strong>
+              {format(new Date(paitent.admitionRecDate), "yyyy/M/d hh:mm:ss a")}
             </span>
             <span className="text-base">
               <strong>Gender:</strong> {paitent.gender}
             </span>
             <span className="text-base">
-              <strong>Sample Drawing:</strong>{" "}
-              {new Date(paitent.sampleDrawing).toLocaleString()}
+              <strong>Sample Drawing:</strong>
+              {format(new Date(paitent.sampleDrawing), "yyyy/M/d hh:mm:ss a")}
             </span>
             {paitent.isDeleted && (
               <span className="text-base">

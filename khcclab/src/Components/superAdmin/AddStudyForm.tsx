@@ -266,7 +266,7 @@ export const AddStudyForm = () => {
             >
               Upload file
               <VisuallyHiddenInput type="file" />
-            </Button>{" "}
+            </Button>
             <span className="text-gray-400 text-xs">
               Only .docx, .xlsx, .jpg, .png and .gif files are allowed.
             </span>
@@ -312,7 +312,7 @@ export const AddStudyForm = () => {
             >
               Upload file
               <VisuallyHiddenInput type="file" />
-            </Button>{" "}
+            </Button>
             <span className="text-gray-400 text-xs">
               Only .docx, .xlsx, .jpg, .png and .gif files are allowed.
             </span>
@@ -367,7 +367,7 @@ export const AddStudyForm = () => {
             >
               Upload file
               <VisuallyHiddenInput type="file" multiple />
-            </Button>{" "}
+            </Button>
             <span className="text-gray-400 text-xs">
               Only .docx, .xlsx, .jpg, .png and .gif files are allowed.
             </span>

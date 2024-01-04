@@ -1,7 +1,7 @@
 import { iLog } from 'types/logs'
 import { Accordion, AccordionSummary, AccordionDetails, Button } from "@mui/material"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { dateFormate } from 'utils/dateFormate';
+import { format } from 'date-fns';
 
 export const LogsCard = ({ log }: { log: iLog }) => {
     return (
@@ -20,7 +20,7 @@ export const LogsCard = ({ log }: { log: iLog }) => {
                         <strong>Description:</strong> {log.description}
                     </span>
                     <span className="text-base">
-                        <strong>Action Time:</strong> {dateFormate(log.createAt)}
+                        <strong>Action Time:</strong>  {format(new Date(log.createAt), "yyyy/M/d hh:mm:ss a")}
                     </span>
                 </div>
             </AccordionDetails>

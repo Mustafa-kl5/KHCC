@@ -212,7 +212,7 @@ export const RegestierForm = () => {
         />
 
         <p>
-          Already have an account?{" "}
+          Already have an account?
           <Link to="/login" className="text-button-100">
             Login
           </Link>

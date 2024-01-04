@@ -19,7 +19,8 @@ import { useForm, Controller } from "react-hook-form";
 import { useState } from "react";
 import { Permissions } from "utils/constant";
 import { givePermission } from "services/superAdmin";
-import { dateFormate } from "utils/dateFormate";
+
+import { format } from "date-fns";
 export const PermissionCard = ({
   user,
   reloadData,
@@ -84,7 +85,7 @@ export const PermissionCard = ({
             <strong>Department:</strong> {user.department}
           </span>
           <span className="text-base">
-            <strong>Register At:</strong> {dateFormate(user.createAt)}
+            <strong>Register At:</strong>  {format(new Date(user.createAt), "yyyy/M/d hh:mm:ss a")}
           </span>
           <span className="text-base">
             <strong>Chose Permission:</strong>
