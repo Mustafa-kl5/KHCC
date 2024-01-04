@@ -24,6 +24,7 @@ export const AddSamples = () => {
             numberOfSamples: "",
             sampleSerial: "",
             sampleType: "",
+            storageType: ""
         },
     ]);
 
@@ -48,6 +49,7 @@ export const AddSamples = () => {
             numberOfSamples: "",
             sampleSerial: "",
             sampleType: "",
+            storageType: ""
         };
         setFormsData([...formsData, newFormData]);
         const currentDefaultValues = getValues();
@@ -58,6 +60,7 @@ export const AddSamples = () => {
                 numberOfSamples: string;
                 drawnAt: string;
                 sampleSerial: string;
+                storageType: string
             }[]
             | undefined;
         setValue("samples", [...(currentSamples || []), newFormData]);
@@ -81,6 +84,7 @@ export const AddSamples = () => {
                     numberOfSamples: "",
                     sampleSerial: "",
                     sampleType: "",
+                    storageType: ""
                 },
             ])
             reset({ samples: [...formsData] })

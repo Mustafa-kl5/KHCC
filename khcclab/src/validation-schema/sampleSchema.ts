@@ -8,6 +8,7 @@ export const sampleSchema = object().shape({
       numberOfSamples: string().required("Number of samples is required"),
       drawnAt: string().required("Drawn time is required"),
       sampleSerial: string().required("sample Serial is required"),
+      storageType: string().required("sample Serial is required"),
     })
   ),
 });

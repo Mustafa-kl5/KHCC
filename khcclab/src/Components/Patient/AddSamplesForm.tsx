@@ -1,6 +1,4 @@
-import {
-    Add
-} from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
     Button,
@@ -9,10 +7,11 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    TextField
+    TextField,
 } from "@mui/material";
-import { Control, Controller, FieldErrors } from "react-hook-form";
 import { DateTimePicker } from "@mui/x-date-pickers";
+import { Control, Controller, FieldErrors } from "react-hook-form";
+import { containerTypes, sampleTypes, storageTypes } from "utils/constant";
 import { getStudyId } from "utils/getStudyId";
 
 export const AddSamplesForm = ({
@@ -21,14 +20,23 @@ export const AddSamplesForm = ({
     index,
     onClick,
     remove,
-    formLength
+    formLength,
 }: {
     index: number;
     control: Control;
-    errors: FieldErrors;
-    onClick: () => void
+    errors: FieldErrors<{
+        samples?: {
+            containerType: string;
+            numberOfSamples: string;
+            sampleSerial: string;
+            sampleType: string;
+            storageType: string;
+            drawnAt: string;
+        }[] | undefined;
+    }>
+    onClick: () => void;
     remove: (index: number) => void;
-    formLength: number
+    formLength: number;
 }) => {
 
     return (
@@ -41,7 +49,7 @@ export const AddSamplesForm = ({
                     name={`samples[${index}].containerType`}
                     control={control}
                     render={({ field }) => (
-                        <FormControl error={errors.study && true} >
+                        <FormControl error={errors.samples?.[index]?.containerType !== undefined}>
                             <InputLabel id="Container-Type">Container Type</InputLabel>
                             <Select
                                 labelId="Container-Type"
@@ -49,12 +57,19 @@ export const AddSamplesForm = ({
                                 value={field.value}
                                 label="Container Type"
                             >
-                                <MenuItem value={"asd"}>
-                                    asd
-                                </MenuItem>
+                                {containerTypes.map((item) => {
+                                    return (
+                                        <MenuItem
+                                            value={item.containerType}
+                                            key={item.containerType}
+                                        >
+                                            {item.containerType}
+                                        </MenuItem>
+                                    );
+                                })}
                             </Select>
                             <FormHelperText>
-                                {/* {errors.study && errors.study.message} */}
+                                {errors.samples?.[index]?.containerType !== undefined && errors.samples?.[index]?.containerType?.message}
                             </FormHelperText>
                         </FormControl>
                     )}
@@ -63,7 +78,7 @@ export const AddSamplesForm = ({
                     name={`samples[${index}].sampleType`}
                     control={control}
                     render={({ field }) => (
-                        <FormControl error={errors.study && true} fullWidth>
+                        <FormControl error={errors.samples?.[index]?.sampleType !== undefined} fullWidth>
                             <InputLabel id="sampleType">Sample Type</InputLabel>
                             <Select
                                 labelId="sampleType"
@@ -71,12 +86,44 @@ export const AddSamplesForm = ({
                                 label="Sample Type"
                                 value={field.value}
                             >
-                                <MenuItem value={"csdds"}>
-                                    csdds
-                                </MenuItem>
+                                {sampleTypes.map((item) => {
+                                    return (
+                                        <MenuItem value={item.sampleType} key={item.id}>
+                                            {item.sampleType}
+                                        </MenuItem>
+                                    );
+                                })}
                             </Select>
                             <FormHelperText>
-                                {/* {errors.study && errors.study.message} */}
+                                {errors.samples?.[index]?.sampleType !== undefined && errors.samples?.[index]?.sampleType?.message}
+
+                            </FormHelperText>
+                        </FormControl>
+                    )}
+                />
+                <Controller
+                    name={`samples[${index}].storageType`}
+                    control={control}
+                    render={({ field }) => (
+                        <FormControl error={errors.samples?.[index]?.storageType !== undefined} fullWidth>
+                            <InputLabel id="storageType">Storage Type</InputLabel>
+                            <Select
+                                labelId="sampleType"
+                                onChange={field.onChange}
+                                label="Storage Type"
+                                value={field.value}
+                            >
+                                {storageTypes.map((item) => {
+                                    return (
+                                        <MenuItem key={item.id} value={item.storageType}>
+                                            {item.storageType}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                            <FormHelperText>
+                                {errors.samples?.[index]?.storageType !== undefined && errors.samples?.[index]?.storageType?.message}
+
                             </FormHelperText>
                         </FormControl>
                     )}
@@ -85,12 +132,15 @@ export const AddSamplesForm = ({
                     name={`samples[${index}].drawnAt`}
                     control={control}
                     render={({ field }) => (
-                        <FormControl error={errors.study && true} >
+                        <FormControl error={errors.samples?.[index]?.drawnAt !== undefined}>
                             <DateTimePicker
                                 label="Drawn At"
                                 value={field.value || null}
                                 onChange={field.onChange}
                             />
+                            <FormHelperText>
+                                {errors.samples?.[index]?.drawnAt !== undefined && errors.samples?.[index]?.drawnAt?.message}
+                            </FormHelperText>
                         </FormControl>
                     )}
                 />
@@ -100,12 +150,12 @@ export const AddSamplesForm = ({
                     control={control}
                     render={({ field }) => (
                         <TextField
-                            error={errors.studyName && true}
+                            error={errors.samples?.[index]?.numberOfSamples !== undefined}
                             label="Number Of Samples"
                             className="input"
                             value={field.value}
                             onChange={field.onChange}
-                        // helperText={errors.studyName && errors.studyName.message}
+                            helperText={errors.samples?.[index]?.numberOfSamples !== undefined && errors.samples?.[index]?.numberOfSamples?.message}
                         />
                     )}
                 />
@@ -119,34 +169,36 @@ export const AddSamplesForm = ({
                     control={control}
                     render={({ field }) => (
                         <TextField
-                            error={errors.studyName && true}
+                            error={errors.samples?.[index]?.sampleSerial !== undefined}
                             {...field}
                             label="Sample Serial"
                             className="input"
-                        // helperText={errors.studyName && errors.studyName.message}
+                            helperText={errors.samples?.[index]?.sampleSerial !== undefined && errors.samples?.[index]?.sampleSerial?.message}
                         />
                     )}
                 />
-
             </div>
             <div className="w-full flex justify-end gap-2">
-                {formLength === index + 1 && <Button
-                    size="large"
-                    variant="contained"
-                    onClick={onClick}
-                    startIcon={<Add />}
-                >
-                    add
-                </Button>}
-                {index !== 0 && <Button
-                    size="large"
-                    variant="contained"
-                    onClick={() => remove(index)}
-                    startIcon={<DeleteIcon />}
-                >
-                    Delete
-                </Button>}
-
+                {formLength === index + 1 && (
+                    <Button
+                        size="large"
+                        variant="contained"
+                        onClick={onClick}
+                        startIcon={<Add />}
+                    >
+                        add
+                    </Button>
+                )}
+                {index !== 0 && (
+                    <Button
+                        size="large"
+                        variant="contained"
+                        onClick={() => remove(index)}
+                        startIcon={<DeleteIcon />}
+                    >
+                        Delete
+                    </Button>
+                )}
             </div>
         </div>
     );

@@ -58,6 +58,7 @@ export const addSamples = (
     numberOfSamples: string;
     drawnAt: string;
     sampleSerial: string;
+    storageType: string;
   }[]
 ) => {
   return ApiService.fetchData({
