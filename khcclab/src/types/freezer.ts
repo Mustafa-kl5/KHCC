@@ -6,6 +6,7 @@ export interface iFreezer {
   freezerType: string;
   NumberOfShelves: number;
   BoxesPerShelf: number;
+  capacity: number;
   createAt: string;
 }
 export interface iFreezerlist {

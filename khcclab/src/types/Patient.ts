@@ -11,6 +11,8 @@ export interface iPatient {
   sampleDrawing: string;
   isDeleted: boolean;
   deleteReason: string;
+  seen: boolean;
+  seenBy: string;
 }
 
 export interface iPatientList {

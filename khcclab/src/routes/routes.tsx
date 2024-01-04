@@ -8,11 +8,13 @@ import { iRoute } from "types/route";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+
 import { Permission } from "pages/superAdmin/Permission";
 import { AddStudy } from "pages/superAdmin/AddStudy";
 import { Studies } from "pages/superAdmin/Studies";
 import { AddFreezer } from "pages/superAdmin/AddFreezer";
 import { Freezers } from "pages/superAdmin/Freezers";
+import { Patients } from "pages/technician/Patients";
 export const publicRoutes: iRoute[] = [
   {
     path: "/Login",
@@ -61,7 +63,7 @@ export const superAdminRoutes: iRoute[] = [
     path: "/studies-list",
     element: <Studies />,
     pageName: "Studies",
-    icon: <PersonAddAltIcon />,
+    icon: <ListAltIcon />,
   },
   {
     path: "/add-freezer",
@@ -73,28 +75,28 @@ export const superAdminRoutes: iRoute[] = [
     path: "/freezers-list",
     element: <Freezers />,
     pageName: "Freezers",
-    icon: <PersonAddAltIcon />,
+    icon: <ListAltIcon />,
   },
 ];
 export const technicianRoutes: iRoute[] = [
   {
-    path: "/add-patient",
-    element: <Login />,
-    pageName: "add patient",
-    icon: <PersonAddAltIcon />,
+    path: "/",
+    element: <Patients />,
+    pageName: "Patient List",
+    icon: <ListAltIcon />,
   },
-  {
-    path: "/patient-list",
-    element: <SignUp />,
-    pageName: "patient list",
-    icon: <PersonAddAltIcon />,
-  },
-  {
-    path: "/add-samples",
-    element: <SignUp />,
-    pageName: "Add Samples",
-    icon: <PersonAddAltIcon />,
-  },
+  // {
+  //   path: "/patient-list",
+  //   element: <SignUp />,
+  //   pageName: "patient list",
+  //   icon: <PersonAddAltIcon />,
+  // },
+  // {
+  //   path: "/add-samples",
+  //   element: <SignUp />,
+  //   pageName: "Add Samples",
+  //   icon: <PersonAddAltIcon />,
+  // },
 ];
 export const pending: iRoute[] = [
   {

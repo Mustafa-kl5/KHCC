@@ -49,8 +49,6 @@ export const PatientCard = ({
   }>({ err: false, open: false, massage: "" });
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-
-
   const onSubmit = async (data: any) => {
     try {
       setIsSubmitting(true);
@@ -86,15 +84,23 @@ export const PatientCard = ({
   return (
     <>
       <Accordion
-        className={`border border-solid border-slate-400 ${user.isDeleted && "!bg-[#ffebee]"
-          }`}
+        className={`border border-solid border-slate-400 ${
+          user.isDeleted && "!bg-[#ffebee]"
+        }`}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <span className="text-lg">{user.patientName}</span>
+          <div className="w-full flex justify-between pe-2 items-center">
+            <span className="text-lg">{user.patientName}</span>
+            {user.seen && (
+              <span className="text-white text-xs bg-[#00c851] h-fit px-2 py-0 rounded-lg">
+                seen
+              </span>
+            )}
+          </div>
         </AccordionSummary>
         <AccordionDetails>
           <div className="flex flex-col gap-2">
@@ -127,6 +133,9 @@ export const PatientCard = ({
                 <strong>Delete Reason:</strong> {user.deleteReason}
               </span>
             )}
+            <span className="text-base">
+              <strong>Seen by:</strong> {user.seenBy}
+            </span>
           </div>
           {!user.isDeleted && (
             <div className="flex justify-end">

@@ -95,6 +95,9 @@ export const FreezerCard = ({
               <strong>Boxes Per Shelf: {freezer.BoxesPerShelf}</strong>
             </span>
             <span className="text-base">
+              <strong>Capacity: {freezer.capacity}</strong>
+            </span>
+            <span className="text-base">
               <strong>Register At: {dateFormate(freezer.createAt)}</strong>
             </span>
           </div>
