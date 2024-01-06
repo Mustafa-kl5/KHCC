@@ -12,6 +12,10 @@ export interface iSample {
   createAt: string;
   studyNumber: iStudy;
   patient: iPatient;
+  rejectReason: string;
+  isRejected: boolean;
+  isApproved: boolean;
+  khccBioSampleCode: string;
 }
 
 export interface iSampleList {

@@ -32,7 +32,7 @@ export const SamplesList = () => {
                 ) : (
                     <ScrollableContainer>
                         {data.samples.map(item => {
-                            return <SampleCard key={item._id} sample={item} />
+                            return <SampleCard reloadData={fetchData} key={item._id} sample={item} />
                         })}
                     </ScrollableContainer>
                 )}
