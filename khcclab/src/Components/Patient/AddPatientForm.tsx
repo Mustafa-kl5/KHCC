@@ -23,6 +23,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { addPatient } from "services/nursing";
 import { iPatient } from "types/Patient";
+import { getStudyId } from "utils/getStudyId";
 
 import { addPatientSchema } from "validation-schema/addPatientSchema";
 
@@ -57,7 +58,9 @@ export const AddPatientForm = () => {
     } = data;
     try {
       setIsSubmitting(true);
+      const studyId = getStudyId()._id
       const res = (await addPatient(
+        studyId,
         patientName,
         ssn,
         mrn,

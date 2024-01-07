@@ -1,3 +1,4 @@
+import { getStudyId } from "utils/getStudyId";
 import ApiService from "./api";
 
 const baseURL = "api/v1";
@@ -6,8 +7,9 @@ export const getPatients = (filter?: {
   isDeleted: string;
   patientName: string;
 }) => {
+  const study = getStudyId()._id;
   return ApiService.baseApi.get(`${baseURL}/technician/patients`, {
-    params: filter,
+    params: { ...filter, studyId: study },
   });
 };
 

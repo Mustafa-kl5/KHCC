@@ -17,6 +17,7 @@ import { Freezers } from "pages/superAdmin/Freezers";
 import { Patients } from "pages/technician/Patients";
 import { Logs } from "pages/superAdmin/Logs";
 import { SamplesList } from "pages/technician/SamplesList";
+import { Storage } from "pages/technician/Storage";
 export const publicRoutes: iRoute[] = [
   {
     path: "/Login",
@@ -99,12 +100,12 @@ export const technicianRoutes: iRoute[] = [
     pageName: "Samples",
     icon: <PersonAddAltIcon />,
   },
-  // {
-  //   path: "/add-samples",
-  //   element: <SignUp />,
-  //   pageName: "Add Samples",
-  //   icon: <PersonAddAltIcon />,
-  // },
+  {
+    path: "/storage",
+    element: <Storage />,
+    pageName: "Storage",
+    icon: <PersonAddAltIcon />,
+  },
 ];
 export const pending: iRoute[] = [
   {
