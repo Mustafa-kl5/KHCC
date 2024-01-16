@@ -13,6 +13,7 @@ import { approveSample } from "services/technician";
 import { iSample } from "types/sample";
 import { RejectSample } from "./RejectSample";
 import { ApproveSample } from "./ApproveSample";
+import { StoragePicker } from "./storage/StoragePicker";
 const style = {
     position: "absolute" as "absolute",
     top: "0",
@@ -26,32 +27,16 @@ const style = {
 };
 export const SampleCard = ({
     sample,
+    isStorage,
     reloadData,
 }: {
     sample: iSample;
+    isStorage: boolean;
     reloadData: () => void;
 }) => {
     const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
     const [approveModalOpen, setApproveModalOpen] = useState<boolean>(false);
-    // const approveHandler = async () => {
-    //     try {
-    //         setIsSubmitting(true);
-    //         const res = (await approveSample(sample._id)) as {
-    //             message: string;
-    //         };
-    //         setMassageDetails({ err: false, open: true, massage: res.message });
-    //         reloadData();
-    //     } catch (err: any) {
-    //         setMassageDetails({
-    //             err: true,
-    //             open: true,
-    //             massage: err?.response.data?.message,
-    //         });
-    //     } finally {
-    //         setIsSubmitting(false);
-    //     }
-    // };
-
+    const [chooseCell, setChooseCell] = useState<boolean>(false);
     return (
         <>
             <Accordion className={`border border-solid border-slate-400`}>
@@ -126,37 +111,52 @@ export const SampleCard = ({
                                 {sample.rejectReason}
                             </span>
                         )}
-                        <div className="flex gap-3 w-full">
-                            <Button
-                                className="w-1/2"
-                                variant={
-                                    sample.isRejected || sample.isApproved
-                                        ? "outlined"
-                                        : "contained"
-                                }
-                                disabled={sample.isRejected || sample.isApproved}
-                                onClick={() => {
-                                    setApproveModalOpen(!approveModalOpen)
-                                }}
-                            >
-                                APPROVE
-                            </Button>
-                            <Button
-                                className="w-1/2"
-                                onClick={() => {
-                                    setRejectModalOpen(!rejectModalOpen);
-                                }}
-                                variant={
-                                    sample.isRejected || sample.isApproved
-                                        ? "outlined"
-                                        : "contained"
-                                }
-                                disabled={sample.isRejected || sample.isApproved}
-                                color="error"
-                            >
-                                REJECT
-                            </Button>
-                        </div>
+                        {!isStorage && (
+                            <div className="flex gap-3 w-full">
+                                <Button
+                                    className="w-1/2"
+                                    variant={
+                                        sample.isRejected || sample.isApproved
+                                            ? "outlined"
+                                            : "contained"
+                                    }
+                                    disabled={sample.isRejected || sample.isApproved}
+                                    onClick={() => {
+                                        setApproveModalOpen(!approveModalOpen);
+                                    }}
+                                >
+                                    APPROVE
+                                </Button>
+                                <Button
+                                    className="w-1/2"
+                                    onClick={() => {
+                                        setRejectModalOpen(!rejectModalOpen);
+                                    }}
+                                    variant={
+                                        sample.isRejected || sample.isApproved
+                                            ? "outlined"
+                                            : "contained"
+                                    }
+                                    disabled={sample.isRejected || sample.isApproved}
+                                    color="error"
+                                >
+                                    REJECT
+                                </Button>
+                            </div>
+                        )}
+                        {isStorage && (
+                            <div className="w-full">
+                                <Button
+                                    className="w-full"
+                                    onClick={() => {
+                                        setChooseCell(!chooseCell);
+                                    }}
+                                    variant="contained"
+                                >
+                                    Add Sample to freezer
+                                </Button>
+                            </div>
+                        )}
                     </div>
                 </AccordionDetails>
             </Accordion>
@@ -175,6 +175,13 @@ export const SampleCard = ({
                 }}
                 reloadData={reloadData}
                 rejectModalOpen={approveModalOpen}
+            />
+            <StoragePicker
+                sample={sample}
+                chooseCell={chooseCell}
+                closeModel={() => {
+                    setChooseCell(!chooseCell);
+                }}
             />
         </>
     );

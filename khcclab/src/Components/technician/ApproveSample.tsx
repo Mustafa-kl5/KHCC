@@ -1,18 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
+    Alert,
     Button,
     CircularProgress,
     Modal,
-    TextField,
-    Alert,
     Snackbar,
+    TextField,
 } from "@mui/material";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { approveSample, rejectSample } from "services/technician";
+import { approveSample } from "services/technician";
 import { iSample } from "types/sample";
 import { approveSampleSchema } from "validation-schema/approveSample";
-import { rejectionSchema } from "validation-schema/rejectionSchema";
 export const ApproveSample = ({
     sample,
     reloadData,

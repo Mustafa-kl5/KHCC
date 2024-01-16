@@ -25,6 +25,9 @@ export const seen = (patientId: string) => {
 export const getSamples = () => {
   return ApiService.baseApi.get(`${baseURL}/technician/getSamples`);
 };
+export const getApprovalSamples = () => {
+  return ApiService.baseApi.get(`${baseURL}/technician/getApprovalSamples`);
+};
 export const rejectSample = (sampleId: string, rejectionReason: string) => {
   return ApiService.fetchData({
     url: `${baseURL}/technician/rejectSample`,
