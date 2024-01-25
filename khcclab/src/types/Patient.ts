@@ -13,6 +13,7 @@ export interface iPatient {
   deleteReason: string;
   seen: boolean;
   seenBy: string;
+  StudyId: string;
 }
 
 export interface iPatientList {

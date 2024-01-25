@@ -21,7 +21,6 @@ import { useNavigate } from "react-router-dom";
 import { giveDeletePaitentReason } from "services/nursing";
 import { iPatient } from "types/Patient";
 
-
 const style = {
   position: "absolute" as "absolute",
   top: "0",
@@ -89,8 +88,9 @@ export const PatientCard = ({
   return (
     <>
       <Accordion
-        className={`border border-solid border-slate-400 ${patient.isDeleted && "!bg-[#ffebee]"
-          }`}
+        className={`border border-solid border-slate-400 ${
+          patient.isDeleted && "!bg-[#ffebee]"
+        }`}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -119,7 +119,8 @@ export const PatientCard = ({
               <strong>research ID:</strong> {patient.researchId}
             </span>
             <span className="text-base">
-              <strong>Birth Date:</strong> {format(new Date(patient.birthDate), "yyyy/M/d")}
+              <strong>Birth Date:</strong>{" "}
+              {format(new Date(patient.birthDate), "yyyy/M/d")}
             </span>
             <span className="text-base">
               <strong>Admition Recovery Date:</strong>
@@ -144,7 +145,7 @@ export const PatientCard = ({
           <div className="flex justify-end gap-3">
             <Button
               onClick={() => {
-                navigate(`/add-samples/:${patient._id}`)
+                navigate(`/add-samples/:${patient._id}`);
               }}
               variant="outlined"
               size="large"

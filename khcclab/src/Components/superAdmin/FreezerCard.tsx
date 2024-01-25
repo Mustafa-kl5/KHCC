@@ -17,7 +17,6 @@ import { useState } from "react";
 import { DeleteFreezer } from "services/superAdmin";
 import { iFreezer } from "types/freezer";
 
-
 const style = {
   position: "absolute" as "absolute",
   top: "0",
@@ -99,7 +98,10 @@ export const FreezerCard = ({
               <strong>Capacity: {freezer.capacity}</strong>
             </span>
             <span className="text-base">
-              <strong>Register At:  {format(new Date(freezer.createAt), "yyyy/M/d hh:mm:ss a")}</strong>
+              <strong>
+                Register At:{" "}
+                {format(new Date(freezer.createdAt), "yyyy/M/d hh:mm:ss a")}
+              </strong>
             </span>
           </div>
 

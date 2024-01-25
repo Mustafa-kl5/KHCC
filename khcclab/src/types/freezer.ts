@@ -7,7 +7,8 @@ export interface iFreezer {
   NumberOfShelves: number;
   BoxesPerShelf: number;
   capacity: number;
-  createAt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 export interface iFreezerlist {
   freezers: iFreezer[];

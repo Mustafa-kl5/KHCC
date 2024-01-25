@@ -85,7 +85,8 @@ export const PermissionCard = ({
             <strong>Department:</strong> {user.department}
           </span>
           <span className="text-base">
-            <strong>Register At:</strong>  {format(new Date(user.createAt), "yyyy/M/d hh:mm:ss a")}
+            <strong>Register At:</strong>{" "}
+            {format(new Date(user.createdAt), "yyyy/M/d hh:mm:ss a")}
           </span>
           <span className="text-base">
             <strong>Chose Permission:</strong>

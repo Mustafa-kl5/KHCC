@@ -5,7 +5,7 @@ export interface iUser {
   firstName: string;
   lastName: string;
   role: string;
-  createAt: string;
+  createdAt: string;
   _id: string;
 }
 export interface iUserList {

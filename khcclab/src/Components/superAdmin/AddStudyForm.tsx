@@ -29,7 +29,6 @@ const VisuallyHiddenInput = styled("input")({
 
 export const AddStudyForm = () => {
   const [filesBase64, setFilesBase64] = useState<any[]>([]);
-  console.log(filesBase64);
   const [message, setMessage] = useState<string>();
   const [massageType, setMessageType] = useState<string>("error");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);

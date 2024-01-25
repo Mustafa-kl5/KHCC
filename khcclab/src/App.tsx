@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { getRoutes, publicRoutes } from "routes/routes";
 import { isLoggedIn } from "services/authService";
 import { iRoute } from "types/route";
@@ -7,12 +7,18 @@ import { USER_ROLE } from "utils/constant";
 import ApiService from "./services/api";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [privateRoutes, setPrivateRoutes] = useState<
     iRoute[] | string | undefined
   >([]);
   useEffect(() => {
+    if (!isLoggedIn()) {
+      navigate("Login");
+    }
     ApiService.init();
   }, []);
   useEffect(() => {

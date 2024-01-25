@@ -10,10 +10,17 @@ export interface iStudy {
   studyNumber: string;
   studyKeywords: string;
   studyInitDate: string;
-  files: string[];
+  files: {
+    StudyId: string;
+    createdAt: string;
+    filename: string;
+    id: number;
+    updatedAt: string;
+  }[];
   closeData: string;
   isClosed: boolean;
-  createAt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 export interface iStudyList {
   studies: iStudy[];
