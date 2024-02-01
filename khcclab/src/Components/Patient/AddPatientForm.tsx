@@ -58,7 +58,7 @@ export const AddPatientForm = () => {
     } = data;
     try {
       setIsSubmitting(true);
-      const studyId = getStudyId()._id
+      const studyId = getStudyId()._id;
       const res = (await addPatient(
         studyId,
         patientName,
@@ -71,6 +71,7 @@ export const AddPatientForm = () => {
         gender,
         sampleDrawing
       )) as { message: string };
+      reset();
       setMassageDetails({ err: false, open: true, massage: res.message });
       navigate("/");
     } catch (err: any) {
@@ -89,6 +90,7 @@ export const AddPatientForm = () => {
     handleSubmit,
     formState: { errors, isValid },
     setValue,
+    reset,
   } = useForm({
     resolver: yupResolver(addPatientSchema),
     defaultValues: {
@@ -151,169 +153,160 @@ export const AddPatientForm = () => {
 
   return (
     <>
-      <form>
-        <div className="flex items-center flex-col-reverse lg:flex-row gap-5 px-5">
+      <form className="flex flex-col">
+        <Box
+          sx={{
+            bgcolor: "background.paper",
+            position: "relative",
+            maxWidth: "100%",
+          }}
+        >
+          <Tabs
+            className="mb-3"
+            value={index}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="action tabs example"
+          >
+            <Tab label="MRN" {...a11yProps(0)} />
+            <Tab label="SSN" {...a11yProps(1)} />
+          </Tabs>
+
+          <TabPanel value={index} index={0}></TabPanel>
+          <TabPanel value={index} index={1}></TabPanel>
+        </Box>
+
+        <Controller
+          name="patientName"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.patientName && true}
+              {...field}
+              autoFocus
+              label="Patient Name"
+              className="w-full self-end"
+              helperText={
+                (errors.patientName && errors.patientName.message) || " "
+              }
+            />
+          )}
+        />
+
+        <Controller
+          name="dayCode"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.dayCode && true}
+              {...field}
+              label="Day Code"
+              className="w-full "
+              helperText={(errors.dayCode && errors.dayCode.message) || " "}
+            />
+          )}
+        />
+        <Controller
+          name="researchId"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.researchId && true}
+              {...field}
+              label="Research Id"
+              className="w-full "
+              helperText={
+                (errors.researchId && errors.researchId.message) || " "
+              }
+            />
+          )}
+        />
+
+        <div className="flex flex-col gap-5">
           <Controller
-            name="patientName"
+            name="birthDate"
             control={control}
-            render={({ field }) => (
-              <TextField
-                error={errors.patientName && true}
-                {...field}
-                autoFocus
-                label="Patient Name"
-                className="w-full self-end"
-                helperText={
-                  (errors.patientName && errors.patientName.message) || " "
-                }
+            render={({ field: { onChange, value } }) => (
+              <DatePicker
+                label="Birth Date"
+                value={value || null}
+                onChange={onChange}
               />
             )}
           />
-          <Box
-            sx={{
-              bgcolor: "background.paper",
-              position: "relative",
-              minWidth: 300,
-              maxWidth: "100%",
-            }}
-          >
-            <Tabs
-              className="mb-3"
-              value={index}
-              onChange={handleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="fullWidth"
-              aria-label="action tabs example"
-            >
-              <Tab label="MRN" {...a11yProps(0)} />
-              <Tab label="SSN" {...a11yProps(1)} />
-            </Tabs>
 
-            <TabPanel value={index} index={0}></TabPanel>
-            <TabPanel value={index} index={1}></TabPanel>
-          </Box>
-        </div>
-
-        <div className="flex gap-5 flex-col-reverse md:flex-row justify-between p-5">
-          <div className="flex-1">
-            <Controller
-              name="dayCode"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  error={errors.dayCode && true}
-                  {...field}
-                  label="Day Code"
-                  className="w-full "
-                  helperText={(errors.dayCode && errors.dayCode.message) || " "}
-                />
-              )}
-            />
-            <Controller
-              name="researchId"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  error={errors.researchId && true}
-                  {...field}
-                  label="Research Id"
-                  className="w-full "
-                  helperText={
-                    (errors.researchId && errors.researchId.message) || " "
-                  }
-                />
-              )}
-            />
-            <Controller
-              name="gender"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <FormControl>
-                  <FormLabel id="demo-controlled-radio-buttons-group">
-                    Gender
-                  </FormLabel>
-                  <RadioGroup
-                    sx={{ flexDirection: "row" }}
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="controlled-radio-buttons-group"
-                    value={value}
-                    onChange={(e) => {
-                      onChange(e.target.value);
-                    }}
-                  >
-                    <FormControlLabel
-                      value="female"
-                      control={<Radio />}
-                      label="Female"
-                    />
-                    <FormControlLabel
-                      value="male"
-                      control={<Radio />}
-                      label="Male"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              )}
-            />
-          </div>
-          <div className=" flex flex-col gap-y-5 ">
-            <Controller
-              name="birthDate"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <DatePicker
-                  label="Birth Date"
-                  value={undefined}
-                  onChange={(newValue) => {
-                    onChange(newValue);
-                  }}
-                />
-              )}
-            />
-
-            <Controller
-              name="admitionRecDate"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <DatePicker
-                  label="Admition Received"
-                  value={undefined}
-                  onChange={onChange}
-                />
-              )}
-            />
-
-            <Controller
-              name="sampleDrawing"
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <DateTimePicker
-                  label="Sample Drawing"
-                  value={undefined}
-                  onChange={(newValue) => {
-                    onChange(newValue);
-                  }}
-                />
-              )}
-            />
-          </div>
-        </div>
-
-        <Button
-          className="w-full m-auto sm:w-auto"
-          size="large"
-          variant="contained"
-          onClick={handleSubmit(onSubmit)}
-          disabled={!isValid || isSubmitting}
-        >
-          <div className="flex gap-2 items-center">
-            <span>Add Patient</span>
-            {isSubmitting && (
-              <CircularProgress className="!w-[1rem] !h-[1rem]" />
+          <Controller
+            name="admitionRecDate"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <DatePicker
+                label="Admition Received"
+                value={value || null}
+                onChange={onChange}
+              />
             )}
-          </div>
-        </Button>
+          />
+
+          <Controller
+            name="sampleDrawing"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <DateTimePicker
+                label="Sample Drawing"
+                value={value || null}
+                onChange={onChange}
+              />
+            )}
+          />
+
+          <Controller
+            name="gender"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FormControl>
+                <FormLabel id="demo-controlled-radio-buttons-group">
+                  Gender
+                </FormLabel>
+                <RadioGroup
+                  sx={{ flexDirection: "row" }}
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="controlled-radio-buttons-group"
+                  value={value}
+                  onChange={(e) => {
+                    onChange(e.target.value);
+                  }}
+                >
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Female"
+                  />
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Male"
+                  />
+                </RadioGroup>
+              </FormControl>
+            )}
+          />
+          <Button
+            className="w-full m-auto sm:w-auto"
+            size="large"
+            variant="contained"
+            onClick={handleSubmit(onSubmit)}
+            disabled={!isValid || isSubmitting}
+          >
+            <div className="flex gap-2 items-center">
+              <span>Add Patient</span>
+              {isSubmitting && (
+                <CircularProgress className="!w-[1rem] !h-[1rem]" />
+              )}
+            </div>
+          </Button>
+        </div>
       </form>
       <Snackbar
         open={massageDetails.open && true}
