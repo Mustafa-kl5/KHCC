@@ -23,6 +23,7 @@ export const PatientList = () => {
   const [query, setQuery] = useState<any>({
     isDeleted: undefined,
     patientName: undefined,
+    seen: undefined,
   });
   const searchDebounce = useDebounce(searchData, 1500);
 
@@ -50,9 +51,12 @@ export const PatientList = () => {
   return (
     <MainLayout>
       <div className="w-full h-full flex flex-col gap-3">
-        <div className="flex justify-between items-center">
-          <span className="text-2xl font-bold">Patient List :</span>
+        <span className="text-2xl font-bold">Patient List :</span>
+        <div className="flex flex-col-reverse justify-between items-center md:flex-row">
           <TextField
+            className="flex-1"
+            sx={{ m: 1 }}
+            placeholder=" Search by Patient Name, MRN, SSN"
             size="small"
             variant="outlined"
             onChange={(e: any) => {
@@ -60,25 +64,36 @@ export const PatientList = () => {
             }}
             InputProps={{
               startAdornment: (
-                <InputAdornment
-                  position="start"
-                  onClick={(e) => {
-                    console.log(e);
-                  }}
-                >
+                <InputAdornment position="start">
                   <SearchIcon />
                 </InputAdornment>
               ),
             }}
           />
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
             <Select
-              value={query.isDeleted || ""}
+              sx={{}}
+              value={query.isDeleted || query.seen}
               defaultValue={""}
               onChange={(e: any) => {
-                if (e.target.value === "")
-                  return setQuery({ ...query, isDeleted: undefined });
-                setQuery({ ...query, isDeleted: e.target.value });
+                if (e.target.value === "") {
+                  return setQuery({
+                    ...query,
+                    isDeleted: undefined,
+                    seen: undefined,
+                  });
+                } else if (e.target.value === "seen") {
+                  return setQuery({
+                    ...query,
+                    isDeleted: undefined,
+                    seen: "true",
+                  });
+                }
+                setQuery({
+                  ...query,
+                  isDeleted: e.target.value,
+                  seen: undefined,
+                });
               }}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
@@ -86,6 +101,7 @@ export const PatientList = () => {
               <MenuItem value={""}>All</MenuItem>
               <MenuItem value={"true"}>Deleted</MenuItem>
               <MenuItem value={"false"}>Available</MenuItem>
+              <MenuItem value={"seen"}>Seen</MenuItem>
             </Select>
           </FormControl>
         </div>

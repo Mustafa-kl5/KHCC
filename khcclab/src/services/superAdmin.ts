@@ -1,8 +1,10 @@
 import ApiService from "./api";
 const baseURL = "api/v1";
 
-export const getPendingUsers = () => {
-  return ApiService.baseApi.get(`${baseURL}/superAdmin/userPermission`);
+export const getPendingUsers = (filter?: { employeeId: string }) => {
+  return ApiService.baseApi.get(`${baseURL}/superAdmin/userPermission`, {
+    params: { ...filter },
+  });
 };
 
 export const givePermission = (userId: string, permission: string) => {
@@ -37,8 +39,10 @@ export const addStudy = (
   });
 };
 
-export const getStudies = () => {
-  return ApiService.baseApi.get(`${baseURL}/superAdmin/getStudies`);
+export const getStudies = (filter?: { study: string }) => {
+  return ApiService.baseApi.get(`${baseURL}/superAdmin/getStudies`, {
+    params: { ...filter },
+  });
 };
 
 export const addFreezer = (
@@ -76,6 +80,8 @@ export const DeleteFreezer = (Id: string) => {
     },
   });
 };
-export const getLogs = () => {
-  return ApiService.baseApi.get(`${baseURL}/superAdmin/getLogs`);
+export const getLogs = (filter?: { name: string }) => {
+  return ApiService.baseApi.get(`${baseURL}/superAdmin/getLogs`, {
+    params: { ...filter },
+  });
 };

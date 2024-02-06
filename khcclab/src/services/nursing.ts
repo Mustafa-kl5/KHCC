@@ -36,6 +36,7 @@ export const addPatient = (
 export const getPatientsList = (filter?: {
   isDeleted: string;
   patientName: string;
+  seen: string;
 }) => {
   const study = getStudyId()._id;
   return ApiService.baseApi.get(`${baseURL}/nursing/patientList`, {
