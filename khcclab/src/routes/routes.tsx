@@ -18,6 +18,7 @@ import { Patients } from "pages/technician/Patients";
 import { Logs } from "pages/superAdmin/Logs";
 import { SamplesList } from "pages/technician/SamplesList";
 import { Storage } from "pages/technician/Storage";
+import ExportSamples from "pages/technician/ExportSamples";
 export const publicRoutes: iRoute[] = [
   {
     path: "/Login",
@@ -104,6 +105,12 @@ export const technicianRoutes: iRoute[] = [
     path: "/storage",
     element: <Storage />,
     pageName: "Storage",
+    icon: <PersonAddAltIcon />,
+  },
+  {
+    path: "/exportSamples",
+    element: <ExportSamples />,
+    pageName: "Export Samples",
     icon: <PersonAddAltIcon />,
   },
 ];

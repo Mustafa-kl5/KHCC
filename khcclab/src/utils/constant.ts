@@ -135,3 +135,28 @@ export const storageTypes = [
     storageType: "Incubator +37.0°C",
   },
 ];
+export const mainBoxsType = [
+  {
+    id: 1,
+    boxType: "Small Iron Container",
+  },
+  {
+    id: 2,
+    boxType: "Large Iron Container",
+  },
+  {
+    id: 3,
+    boxType: "Plastic Container",
+  },
+];
+export const subBoxsType = [
+  {
+    id: 1,
+    boxType: "Small Box",
+  },
+
+  {
+    id: 2,
+    boxType: "Large Box",
+  },
+];

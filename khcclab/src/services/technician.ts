@@ -48,3 +48,71 @@ export const approveSample = (sampleId: string, khccBioSampleCode: string) => {
     },
   });
 };
+export const saveSample = (
+  sampleId: string,
+  sampleType: string,
+  freezerId: string,
+  mainBoxType: string,
+  subBoxType: string,
+  mainBoxId: string,
+  subBoxId: string,
+  chosenCell: string,
+  storageType: string,
+  containerType: string,
+  drawnAt: string,
+  numberOfSamples: string,
+  studyNumber: string,
+  patientName: string,
+  mrn: string,
+  ssn: string,
+  birthDate: string,
+  gender: string,
+  sampleDrawing: string,
+  sampleSerial: string,
+  khccBioSampleCode: string
+) => {
+  return ApiService.fetchData({
+    url: `${baseURL}/technician/saveSample`,
+    method: "POST",
+    data: {
+      sampleId,
+      sampleType,
+      freezerId,
+      mainBoxType,
+      subBoxType,
+      mainBoxId,
+      subBoxId,
+      chosenCell,
+      storageType,
+      containerType,
+      drawnAt,
+      numberOfSamples,
+      studyNumber,
+      patientName,
+      mrn,
+      ssn,
+      birthDate,
+      gender,
+      sampleDrawing,
+      sampleSerial,
+      khccBioSampleCode,
+    },
+  });
+};
+export const getEmptyCells = (query: {
+  freezerId: string;
+  mainBoxType: string;
+  subBoxType: string;
+  mainBoxId: string;
+  subBoxId: string;
+}) => {
+  return ApiService.baseApi.get(`${baseURL}/technician/getEmptyCells`, {
+    params: {
+      ...query,
+    },
+  });
+};
+
+export const sampleToExport = () => {
+  return ApiService.baseApi.get(`${baseURL}/technician/sampleToExport`);
+};
