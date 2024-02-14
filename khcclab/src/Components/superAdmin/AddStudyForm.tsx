@@ -1,19 +1,14 @@
 import styled from "@emotion/styled";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CloudUpload, DeleteForever } from "@mui/icons-material";
-import {
-  Alert,
-  Button,
-  CircularProgress,
-  Snackbar,
-  TextField,
-} from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { addStudy } from "services/superAdmin";
 import { iFile } from "types/file";
-import { allowedTypes } from "utils/constant";
+import { SHOW_TOAST_MESSAGE, allowedTypes } from "utils/constant";
 import { studySchema } from "validation-schema/studySchema";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -28,11 +23,9 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export const AddStudyForm = () => {
+  const dispatch = useDispatch();
   const [filesBase64, setFilesBase64] = useState<any[]>([]);
-  const [message, setMessage] = useState<string>();
-  const [massageType, setMessageType] = useState<string>("error");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [openMassage, setOpenMassage] = useState<boolean>(false);
   const [file, setFile] = useState<iFile>();
   const {
     control,
@@ -69,14 +62,25 @@ export const AddStudyForm = () => {
       )) as {
         message: string;
       };
-      setMessageType("success");
-      setOpenMassage(true);
-      setMessage(res.message);
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: res.message,
+          isOpen: true,
+          severity: "success",
+        },
+      });
       reset();
       setFile(undefined);
     } catch (err: any) {
-      setOpenMassage(true);
-      setMessage(err?.response.data?.message);
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: err?.response.data?.message,
+          isOpen: true,
+          severity: "error",
+        },
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -110,11 +114,14 @@ export const AddStudyForm = () => {
     const file = event.target.files[0];
     if (file) {
       if (!allowedTypes.includes(file.type)) {
-        setMessageType("error");
-        setOpenMassage(true);
-        setMessage(
-          `Error : Only .docx, .xlsx, .jpg, .png and .gif files are allowed.`
-        );
+        dispatch({
+          type: SHOW_TOAST_MESSAGE,
+          message: {
+            message: `Error : Only .docx, .xlsx, .jpg, .png and .gif files are allowed.`,
+            isOpen: true,
+            severity: "error",
+          },
+        });
         event.target.value = null;
         return false;
       } else {
@@ -343,11 +350,14 @@ export const AddStudyForm = () => {
                 const filesArray = Array.from(selectedFiles);
                 const acceptFiles = filesArray.filter((item: any) => {
                   if (!allowedTypes.includes(item.type)) {
-                    setMessageType("error");
-                    setOpenMassage(true);
-                    setMessage(
-                      `Error : Only .docx, .xlsx, .jpg, .png and .gif files are allowed.`
-                    );
+                    dispatch({
+                      type: SHOW_TOAST_MESSAGE,
+                      message: {
+                        message: `Error : Only .docx, .xlsx, .jpg, .png and .gif files are allowed.`,
+                        isOpen: true,
+                        severity: "error",
+                      },
+                    });
                   }
                   return allowedTypes.includes(item.type);
                 });
@@ -406,7 +416,6 @@ export const AddStudyForm = () => {
           </div>
         </div>
       </div>
-
       <Button
         size="large"
         variant="contained"
@@ -423,23 +432,6 @@ export const AddStudyForm = () => {
           {isSubmitting && <CircularProgress className="!w-[1rem] !h-[1rem]" />}
         </div>
       </Button>
-      <Snackbar
-        open={openMassage}
-        autoHideDuration={3000}
-        onClose={() => {
-          setOpenMassage(false);
-        }}
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      >
-        <Alert
-          severity={massageType as "error" | "success"}
-          onClose={() => {
-            setOpenMassage(false);
-          }}
-        >
-          {message}
-        </Alert>
-      </Snackbar>
     </div>
   );
 };

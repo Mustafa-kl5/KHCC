@@ -1,11 +1,9 @@
 import SearchIcon from "@mui/icons-material/Search";
 import {
-  Alert,
   FormControl,
   InputAdornment,
   MenuItem,
   Select,
-  Snackbar,
   TextField,
 } from "@mui/material";
 import { PatientCard } from "Components/Patient/PatientCard";
@@ -17,7 +15,7 @@ import { useData } from "hooks/useData";
 import { useDebounce } from "hooks/useDebounce";
 import { useState } from "react";
 import { getPatientsList } from "services/nursing";
-import { iPatient, iPatientList } from "types/Patient";
+import { iPatientList } from "types/Patient";
 
 export const PatientList = () => {
   const [query, setQuery] = useState<any>({
@@ -35,16 +33,12 @@ export const PatientList = () => {
   }
 
   const {
-    errorMassage,
     data,
     isLoading,
-    openErrorMassage,
     fetchData,
   }: {
-    errorMassage: any;
     data: iPatientList;
     isLoading: any;
-    openErrorMassage: any;
     fetchData: any;
   } = useData(getPatientsList, query);
 
@@ -123,13 +117,6 @@ export const PatientList = () => {
           </ScrollableContainer>
         )}
       </div>
-      <Snackbar
-        open={openErrorMassage}
-        autoHideDuration={3000}
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      >
-        <Alert severity="error">{errorMassage}</Alert>
-      </Snackbar>
     </MainLayout>
   );
 };

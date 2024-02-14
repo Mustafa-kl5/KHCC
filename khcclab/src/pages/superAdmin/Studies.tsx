@@ -1,16 +1,15 @@
+import SearchIcon from "@mui/icons-material/Search";
+import { InputAdornment, TextField } from "@mui/material";
+import { Loading } from "Components/Shared/Loading";
+import { NoDataFound } from "Components/Shared/NoDataFound";
 import { StudyCard } from "Components/superAdmin/StudyCard";
 import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
+import { useDebounce } from "hooks/useDebounce";
+import { useState } from "react";
 import { getStudies } from "services/superAdmin";
 import { iStudyList } from "types/study";
-import { Alert, InputAdornment, TextField } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
-import { Loading } from "Components/Shared/Loading";
-import { NoDataFound } from "Components/Shared/NoDataFound";
-import { useState } from "react";
-import { useDebounce } from "hooks/useDebounce";
-import SearchIcon from "@mui/icons-material/Search";
 export const Studies = () => {
   const [query, setQuery] = useState<any>({
     study: undefined,
@@ -35,16 +34,11 @@ export const Studies = () => {
     createAt: "any",
   };
   const {
-    errorMassage,
     data,
     isLoading,
-    openErrorMassage,
   }: {
-    errorMassage: any;
     data: iStudyList;
     isLoading: any;
-    openErrorMassage: any;
-    fetchData: any;
   } = useData(getStudies, query);
 
   return (
@@ -79,13 +73,6 @@ export const Studies = () => {
           </ScrollableContainer>
         )}
       </div>
-      <Snackbar
-        open={openErrorMassage}
-        autoHideDuration={3000}
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      >
-        <Alert severity="error">{errorMassage}</Alert>
-      </Snackbar>
     </MainLayout>
   );
 };

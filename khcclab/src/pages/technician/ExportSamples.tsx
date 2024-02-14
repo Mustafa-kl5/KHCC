@@ -1,36 +1,22 @@
 import { Loading } from "Components/Shared/Loading";
 import { NoDataFound } from "Components/Shared/NoDataFound";
-import { PatientCards } from "Components/technician/PatientCards";
+import ExportSamplesHandler from "Components/technician/ExportSamplesHandler";
 import { SampleExportCard } from "Components/technician/SampleExportCard";
 import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { sampleToExport } from "services/technician";
-import { iPatient } from "types/Patient";
 import { iFreezerExportList, iSampleToExport } from "types/sample";
-import {
-  Alert,
-  Button,
-  CircularProgress,
-  Modal,
-  Snackbar,
-  TextField,
-} from "@mui/material";
-import ExportSamplesHandler from "Components/technician/ExportSamplesHandler";
 const ExportSamples = () => {
   const [samplesToExport, setSampleToExport] = useState<iSampleToExport[]>([]);
   const {
-    errorMassage,
     data,
     isLoading,
-    openErrorMassage,
     fetchData,
   }: {
-    errorMassage: any;
     data: iFreezerExportList;
     isLoading: any;
-    openErrorMassage: any;
     fetchData: any;
   } = useData(sampleToExport);
   const handleExportSample = (sample: iSampleToExport) => {
@@ -45,9 +31,7 @@ const ExportSamples = () => {
       });
     }
   };
-  // useEffect(() => {
-  //   console.log(samplesToExport);
-  // }, [samplesToExport]);
+
   return (
     <MainLayout>
       <div className="w-full h-full flex flex-col gap-3">
@@ -76,19 +60,7 @@ const ExportSamples = () => {
           </ScrollableContainer>
         )}
         {samplesToExport.length !== 0 && (
-          <div className="flex gap-2 w-full">
-            <ExportSamplesHandler samplesToExport={samplesToExport} />
-            {/* <Button
-              className="w-1/3"
-              onClick={() => {
-                setSampleToExport([]);
-              }}
-              variant="outlined"
-              color="error"
-            >
-              Clear
-            </Button> */}
-          </div>
+          <ExportSamplesHandler samplesToExport={samplesToExport} />
         )}
       </div>
     </MainLayout>

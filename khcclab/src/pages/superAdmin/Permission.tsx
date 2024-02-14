@@ -1,16 +1,15 @@
-import { Alert, InputAdornment, TextField } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
+import SearchIcon from "@mui/icons-material/Search";
+import { InputAdornment, TextField } from "@mui/material";
 import { Loading } from "Components/Shared/Loading";
 import { NoDataFound } from "Components/Shared/NoDataFound";
 import { PermissionCard } from "Components/superAdmin/PermissionCard";
 import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
-import { getPendingUsers } from "services/superAdmin";
-import { iUserList } from "types/user";
-import SearchIcon from "@mui/icons-material/Search";
 import { useDebounce } from "hooks/useDebounce";
 import { useState } from "react";
+import { getPendingUsers } from "services/superAdmin";
+import { iUserList } from "types/user";
 export const Permission = () => {
   const [query, setQuery] = useState<any>({
     employeeId: undefined,
@@ -24,16 +23,12 @@ export const Permission = () => {
   }
 
   const {
-    errorMassage,
     data,
     isLoading,
-    openErrorMassage,
     fetchData,
   }: {
-    errorMassage: any;
     data: iUserList;
     isLoading: any;
-    openErrorMassage: any;
     fetchData: any;
   } = useData(getPendingUsers, query);
 
@@ -75,13 +70,6 @@ export const Permission = () => {
           </ScrollableContainer>
         )}
       </div>
-      <Snackbar
-        open={openErrorMassage}
-        autoHideDuration={3000}
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      >
-        <Alert severity="error">{errorMassage}</Alert>
-      </Snackbar>
     </MainLayout>
   );
 };

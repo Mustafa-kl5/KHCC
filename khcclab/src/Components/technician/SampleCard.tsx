@@ -4,15 +4,12 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
-  Alert,
-  Snackbar,
 } from "@mui/material";
 import { format } from "date-fns";
 import { useState } from "react";
-import { approveSample } from "services/technician";
 import { iSample } from "types/sample";
-import { RejectSample } from "./RejectSample";
 import { ApproveSample } from "./ApproveSample";
+import { RejectSample } from "./RejectSample";
 import { StoragePicker } from "./storage/StoragePicker";
 const style = {
   position: "absolute" as "absolute",

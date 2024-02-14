@@ -1,4 +1,3 @@
-import { Alert, Snackbar } from "@mui/material";
 import { Loading } from "Components/Shared/Loading";
 import { NoDataFound } from "Components/Shared/NoDataFound";
 import { FreezerCard } from "Components/superAdmin/FreezerCard";
@@ -10,16 +9,12 @@ import { iFreezerlist } from "types/freezer";
 
 export const Freezers = () => {
   const {
-    errorMassage,
     data,
     isLoading,
-    openErrorMassage,
     fetchData,
   }: {
-    errorMassage: any;
     data: iFreezerlist;
     isLoading: any;
-    openErrorMassage: any;
     fetchData: any;
   } = useData(getFreezers);
   return (
@@ -44,13 +39,6 @@ export const Freezers = () => {
           </ScrollableContainer>
         )}
       </div>
-      <Snackbar
-        open={openErrorMassage}
-        autoHideDuration={3000}
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      >
-        <Alert severity="error">{errorMassage}</Alert>
-      </Snackbar>
     </MainLayout>
   );
 };

@@ -1,31 +1,26 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  Alert,
   Button,
   CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  Snackbar,
   TextField,
 } from "@mui/material";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { addFreezer } from "services/superAdmin";
+import { SHOW_TOAST_MESSAGE } from "utils/constant";
 import { freezerSchema } from "validation-schema/freezerSchema";
 
 const dummyMenu = [{ id: 1, name: "test" }];
 
 export const AddFreezerForm = () => {
-  const [massageDetails, setMassageDetails] = useState<{
-    err: Boolean;
-    open: Boolean;
-    massage: string;
-  }>({ err: false, open: false, massage: "" });
+  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
   const onSubmit = async (data: {
     freezerName: string;
     freezerModel: string;
@@ -51,12 +46,22 @@ export const AddFreezerForm = () => {
         NumberOfShelves,
         BoxesPerShelf
       )) as { message: string };
-      setMassageDetails({ err: false, open: true, massage: res.message });
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: res.message,
+          isOpen: true,
+          severity: "success",
+        },
+      });
     } catch (err: any) {
-      setMassageDetails({
-        err: true,
-        open: true,
-        massage: err?.response.data?.message,
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: err?.response.data?.message,
+          isOpen: true,
+          severity: "error",
+        },
       });
     } finally {
       setIsSubmitting(false);
@@ -196,23 +201,6 @@ export const AddFreezerForm = () => {
           {isSubmitting && <CircularProgress className="!w-[1rem] !h-[1rem]" />}
         </div>
       </Button>
-      <Snackbar
-        open={massageDetails.open && true}
-        autoHideDuration={3000}
-        onClose={() => {
-          setMassageDetails({ err: false, open: false, massage: "" });
-        }}
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      >
-        <Alert
-          severity={massageDetails.err ? "error" : "success"}
-          onClose={() => {
-            setMassageDetails({ err: false, open: false, massage: "" });
-          }}
-        >
-          {massageDetails.massage}
-        </Alert>
-      </Snackbar>
     </>
   );
 };

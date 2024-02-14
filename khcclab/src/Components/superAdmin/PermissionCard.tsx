@@ -1,26 +1,23 @@
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Alert,
   Button,
   CircularProgress,
   FormControl,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
-  Snackbar,
-  Typography,
 } from "@mui/material";
-import { iUser } from "types/user";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useForm, Controller } from "react-hook-form";
 import { useState } from "react";
-import { Permissions } from "utils/constant";
+import { Controller, useForm } from "react-hook-form";
 import { givePermission } from "services/superAdmin";
+import { iUser } from "types/user";
+import { Permissions, SHOW_TOAST_MESSAGE } from "utils/constant";
 
 import { format } from "date-fns";
+import { useDispatch } from "react-redux";
 export const PermissionCard = ({
   user,
   reloadData,
@@ -28,6 +25,8 @@ export const PermissionCard = ({
   user: iUser;
   reloadData: () => void;
 }) => {
+  const dispatch = useDispatch();
+
   const {
     control,
     handleSubmit,
@@ -39,23 +38,31 @@ export const PermissionCard = ({
     mode: "onChange",
   });
 
-  const [message, setMessage] = useState<string>();
-  const [massageType, setMessageType] = useState<string>("error");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [openMassage, setOpenMassage] = useState<boolean>(false);
   const onSubmit = async (data: any, userId: string) => {
     try {
       setIsSubmitting(true);
       const res = (await givePermission(userId, data.value)) as {
         message: string;
       };
-      setMessageType("success");
-      setOpenMassage(true);
-      setMessage(res.message);
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: res.message,
+          isOpen: true,
+          severity: "success",
+        },
+      });
       reloadData();
     } catch (err: any) {
-      setOpenMassage(true);
-      setMessage(err?.response.data?.message);
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: err?.response.data?.message,
+          isOpen: true,
+          severity: "error",
+        },
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -131,23 +138,6 @@ export const PermissionCard = ({
                 )}
               </div>
             </Button>
-            <Snackbar
-              open={openMassage}
-              autoHideDuration={3000}
-              onClose={() => {
-                setOpenMassage(false);
-              }}
-              anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-            >
-              <Alert
-                severity={massageType as "error" | "success"}
-                onClose={() => {
-                  setOpenMassage(false);
-                }}
-              >
-                {message}
-              </Alert>
-            </Snackbar>
           </div>
         </div>
       </AccordionDetails>

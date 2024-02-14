@@ -1,16 +1,15 @@
+import SearchIcon from "@mui/icons-material/Search";
+import { InputAdornment, TextField } from "@mui/material";
 import { Loading } from "Components/Shared/Loading";
 import { NoDataFound } from "Components/Shared/NoDataFound";
+import { LogsCard } from "Components/superAdmin/LogsCard";
 import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
+import { useDebounce } from "hooks/useDebounce";
+import { useState } from "react";
 import { getLogs } from "services/superAdmin";
 import { iLogsList } from "types/logs";
-import { Alert, InputAdornment, TextField } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
-import { LogsCard } from "Components/superAdmin/LogsCard";
-import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
-import { useDebounce } from "hooks/useDebounce";
 export const Logs = () => {
   const [query, setQuery] = useState<any>({
     name: undefined,
@@ -23,15 +22,11 @@ export const Logs = () => {
     });
   }
   const {
-    errorMassage,
     data,
     isLoading,
-    openErrorMassage,
   }: {
-    errorMassage: any;
     data: iLogsList;
     isLoading: any;
-    openErrorMassage: any;
     fetchData: any;
   } = useData(getLogs, query);
 
@@ -67,13 +62,6 @@ export const Logs = () => {
           </ScrollableContainer>
         )}
       </div>
-      <Snackbar
-        open={openErrorMassage}
-        autoHideDuration={3000}
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      >
-        <Alert severity="error">{errorMassage}</Alert>
-      </Snackbar>
     </MainLayout>
   );
 };

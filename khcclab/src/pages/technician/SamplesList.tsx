@@ -8,35 +8,38 @@ import { getSamples } from "services/technician";
 import { iSampleList } from "types/sample";
 
 export const SamplesList = () => {
-    const {
-        errorMassage,
-        data,
-        isLoading,
-        openErrorMassage,
-        fetchData,
-    }: {
-        errorMassage: any;
-        data: iSampleList;
-        isLoading: any;
-        openErrorMassage: any;
-        fetchData: any;
-    } = useData(getSamples);
-    return (
-        <MainLayout>
-            <div className="w-full h-full flex flex-col gap-3">
-                <span className="text-2xl font-bold">Samples :</span>
-                {isLoading ? (
-                    <Loading />
-                ) : (data.samples?.length ?? 0) === 0 ? (
-                    <NoDataFound />
-                ) : (
-                    <ScrollableContainer>
-                        {data.samples.map(item => {
-                            return <SampleCard isStorage={false} reloadData={fetchData} key={item._id} sample={item} />
-                        })}
-                    </ScrollableContainer>
-                )}
-            </div>
-        </MainLayout>
-    );
+  const {
+    data,
+    isLoading,
+    fetchData,
+  }: {
+    data: iSampleList;
+    isLoading: any;
+    fetchData: any;
+  } = useData(getSamples);
+  return (
+    <MainLayout>
+      <div className="w-full h-full flex flex-col gap-3">
+        <span className="text-2xl font-bold">Samples :</span>
+        {isLoading ? (
+          <Loading />
+        ) : (data.samples?.length ?? 0) === 0 ? (
+          <NoDataFound />
+        ) : (
+          <ScrollableContainer>
+            {data.samples.map((item) => {
+              return (
+                <SampleCard
+                  isStorage={false}
+                  reloadData={fetchData}
+                  key={item._id}
+                  sample={item}
+                />
+              );
+            })}
+          </ScrollableContainer>
+        )}
+      </div>
+    </MainLayout>
+  );
 };

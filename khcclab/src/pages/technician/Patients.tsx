@@ -1,11 +1,9 @@
 import SearchIcon from "@mui/icons-material/Search";
 import {
-  Alert,
   FormControl,
   InputAdornment,
   MenuItem,
   Select,
-  Snackbar,
   TextField,
 } from "@mui/material";
 import { Loading } from "Components/Shared/Loading";
@@ -35,16 +33,12 @@ export const Patients = () => {
   }
 
   const {
-    errorMassage,
     data,
     isLoading,
-    openErrorMassage,
     fetchData,
   }: {
-    errorMassage: any;
     data: iPatientList;
     isLoading: any;
-    openErrorMassage: any;
     fetchData: any;
   } = useData(getPatients, query);
 
@@ -121,13 +115,6 @@ export const Patients = () => {
           </ScrollableContainer>
         )}
       </div>
-      <Snackbar
-        open={openErrorMassage}
-        autoHideDuration={3000}
-        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-      >
-        <Alert severity="error">{errorMassage}</Alert>
-      </Snackbar>
     </MainLayout>
   );
 };

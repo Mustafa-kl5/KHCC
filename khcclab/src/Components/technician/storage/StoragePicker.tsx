@@ -1,27 +1,26 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
-  Modal,
-  MenuItem,
-  Select,
+  Button,
   FormControl,
   FormHelperText,
   InputLabel,
+  MenuItem,
+  Modal,
+  Select,
   TextField,
-  Button,
-  Alert,
 } from "@mui/material";
-import { Cell } from "./Cell";
-import { iSample } from "types/sample";
-import { Controller, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
-import { iFreezerlist } from "types/freezer";
-import { useData } from "hooks/useData";
-import { getFreezers } from "services/superAdmin";
-import { mainBoxsType, subBoxsType } from "utils/constant";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { saveSampleSchema } from "validation-schema/saveSample";
-import { getEmptyCells, saveSample } from "services/technician";
-import Snackbar from "@mui/material/Snackbar";
 import { Loading } from "Components/Shared/Loading";
+import { useData } from "hooks/useData";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { getFreezers } from "services/superAdmin";
+import { getEmptyCells, saveSample } from "services/technician";
+import { iFreezerlist } from "types/freezer";
+import { iSample } from "types/sample";
+import { SHOW_TOAST_MESSAGE, mainBoxsType, subBoxsType } from "utils/constant";
+import { saveSampleSchema } from "validation-schema/saveSample";
+import { Cell } from "./Cell";
+import { useDispatch } from "react-redux";
 export const StoragePicker = ({
   chooseCell,
   closeModel,
@@ -31,13 +30,13 @@ export const StoragePicker = ({
   chooseCell: boolean;
   closeModel: () => void;
 }) => {
+  const dispatch = useDispatch();
+
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isCellLoading, setIsCellLoading] = useState<boolean>(false);
   const [unavailableCells, setUnavailableCells] = useState<string[]>([]);
   const [chosenCells, setChosenCells] = useState<string[]>([]);
-  const [submitErrorMassage, setSubmitErrorMassage] = useState<string>();
-  const [openSubmitErrorMassage, setSubmitOpenErrorMassage] =
-    useState<boolean>(false);
+
   function generateLargeMatrix() {
     const rows = 10;
     const cols = 9;
@@ -124,16 +123,12 @@ export const StoragePicker = ({
     setValue("cells", chosenCells.filter((item) => item !== value).join(","));
   };
   const {
-    errorMassage,
     data,
     isLoading,
-    openErrorMassage,
     fetchData,
   }: {
-    errorMassage: any;
     data: iFreezerlist;
     isLoading: any;
-    openErrorMassage: any;
     fetchData: any;
   } = useData(getFreezers);
 
@@ -149,8 +144,14 @@ export const StoragePicker = ({
       });
       setUnavailableCells(res.data.cells);
     } catch (err: any) {
-      setSubmitOpenErrorMassage(true);
-      setSubmitErrorMassage(err?.response.data?.message);
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: err?.response.data?.message,
+          isOpen: true,
+          severity: "error",
+        },
+      });
     } finally {
       setIsCellLoading(false);
     }
@@ -158,7 +159,7 @@ export const StoragePicker = ({
   const onSubmit = async (data: any) => {
     try {
       setIsSubmitting(true);
-      const res = await saveSample(
+      const res = (await saveSample(
         sample._id,
         sample.sampleType,
         data.freezerId,
@@ -180,10 +181,24 @@ export const StoragePicker = ({
         sample.patient.sampleDrawing,
         sample.sampleSerial,
         sample.khccBioSampleCode
-      );
+      )) as { message: string };
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: res.message,
+          isOpen: true,
+          severity: "success",
+        },
+      });
     } catch (err: any) {
-      setSubmitOpenErrorMassage(true);
-      setSubmitErrorMassage(err?.response.data?.message);
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: err?.response.data?.message,
+          isOpen: true,
+          severity: "error",
+        },
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -485,24 +500,6 @@ export const StoragePicker = ({
             </Button>
           </div>
         </div>
-        <Snackbar
-          open={openErrorMassage || openSubmitErrorMassage}
-          autoHideDuration={3000}
-          onClose={() => {
-            setSubmitOpenErrorMassage(false);
-          }}
-          anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
-        >
-          <Alert
-            severity="error"
-            onClose={() => {
-              setSubmitOpenErrorMassage(false);
-            }}
-          >
-            {errorMassage}
-            {submitErrorMassage}
-          </Alert>
-        </Snackbar>
       </div>
     </Modal>
   );
