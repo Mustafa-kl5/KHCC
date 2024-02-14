@@ -13,12 +13,27 @@ import {
   Alert,
   Button,
   CircularProgress,
+  InputAdornment,
   Modal,
   Snackbar,
   TextField,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import ExportSamplesHandler from "Components/technician/ExportSamplesHandler";
+import { useDebounce } from "hooks/useDebounce";
+
 const ExportSamples = () => {
+  const [query, setQuery] = useState<any>({
+    searchData: undefined,
+  });
+  const searchDebounce = useDebounce(searchData, 1500);
+
+  function searchData(e: any) {
+    setQuery({
+      ...query,
+      searchData: e.target.value === "" ? undefined : e.target.value,
+    });
+  }
   const [samplesToExport, setSampleToExport] = useState<iSampleToExport[]>([]);
   const {
     errorMassage,
@@ -32,7 +47,7 @@ const ExportSamples = () => {
     isLoading: any;
     openErrorMassage: any;
     fetchData: any;
-  } = useData(sampleToExport);
+  } = useData(sampleToExport, query);
   const handleExportSample = (sample: iSampleToExport) => {
     const index = samplesToExport.findIndex((item) => item._id === sample._id);
     if (index === -1) {
@@ -54,6 +69,22 @@ const ExportSamples = () => {
         <div className="flex justify-between items-center">
           <span className="text-2xl font-bold">Export Samples :</span>
         </div>
+        <TextField
+          className="flex-1"
+          placeholder=" Search by Patient Name, KHCC Code, SSN, MRN, Sample Serial"
+          size="small"
+          variant="outlined"
+          onChange={(e: any) => {
+            searchDebounce(e);
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
         {isLoading ? (
           <Loading />
         ) : (data.freezers?.length ?? 0) === 0 ? (
