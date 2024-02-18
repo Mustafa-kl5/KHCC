@@ -19,6 +19,9 @@ import { Logs } from "pages/superAdmin/Logs";
 import { SamplesList } from "pages/technician/SamplesList";
 import { Storage } from "pages/technician/Storage";
 import ExportSamples from "pages/technician/ExportSamples";
+import { ApproveStudies } from "pages/superAdmin/ApproveStudies";
+import { Dashboard } from "pages/superAdmin/Dashboard";
+import { DashboardCustomize } from "@mui/icons-material";
 export const publicRoutes: iRoute[] = [
   {
     path: "/Login",
@@ -48,6 +51,12 @@ export const nursingRoutes: iRoute[] = [
     pageName: "Add Samples",
     icon: <BorderColorIcon />,
     notShown: true,
+  },
+  {
+    path: "/add-study",
+    element: <AddStudy />,
+    pageName: "Add Study",
+    icon: <PersonAddAltIcon />,
   },
 ];
 export const superAdminRoutes: iRoute[] = [
@@ -87,6 +96,18 @@ export const superAdminRoutes: iRoute[] = [
     pageName: "Users Logs",
     icon: <ListAltIcon />,
   },
+  {
+    path: "/approve-studies",
+    element: <ApproveStudies />,
+    pageName: "Approve Studies",
+    icon: <ListAltIcon />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    pageName: "Dashboard",
+    icon: <DashboardCustomize />,
+  },
 ];
 export const technicianRoutes: iRoute[] = [
   {
@@ -111,6 +132,12 @@ export const technicianRoutes: iRoute[] = [
     path: "/exportSamples",
     element: <ExportSamples />,
     pageName: "Export Samples",
+    icon: <PersonAddAltIcon />,
+  },
+  {
+    path: "/add-study",
+    element: <AddStudy />,
+    pageName: "Add Study",
     icon: <PersonAddAltIcon />,
   },
 ];

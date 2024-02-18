@@ -17,6 +17,7 @@ export const SamplesList = () => {
     isLoading: any;
     fetchData: any;
   } = useData(getSamples);
+
   return (
     <MainLayout>
       <div className="w-full h-full flex flex-col gap-3">

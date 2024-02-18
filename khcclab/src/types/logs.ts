@@ -1,5 +1,5 @@
 export interface iLog {
-  _id: string;
+  id: string;
   title: String;
   description: string;
   createAt: string;

@@ -54,6 +54,7 @@ export const AddFreezerForm = () => {
           severity: "success",
         },
       });
+      reset();
     } catch (err: any) {
       dispatch({
         type: SHOW_TOAST_MESSAGE,
@@ -72,6 +73,7 @@ export const AddFreezerForm = () => {
     control,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = useForm({
     resolver: yupResolver(freezerSchema),
     defaultValues: {

@@ -5,7 +5,9 @@ import { StoragePicker } from "Components/technician/storage/StoragePicker";
 import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
+import { getFreezers } from "services/superAdmin";
 import { getApprovalSamples } from "services/technician";
+import { iFreezerlist } from "types/freezer";
 import { iSampleList } from "types/sample";
 
 export const Storage = () => {
@@ -18,13 +20,21 @@ export const Storage = () => {
     isLoading: any;
     fetchData: any;
   } = useData(getApprovalSamples);
+  const {
+    data: freezerData,
+    isLoading: isFreezerLoading,
+  }: {
+    data: iFreezerlist;
+    isLoading: any;
+    fetchData: any;
+  } = useData(getFreezers);
   return (
     <MainLayout>
       <div className="w-full h-full flex flex-col gap-3">
         <span className="text-2xl font-bold">Storage :</span>
         <ScrollableContainer>
           <div className="w-full h-full flex flex-col gap-3">
-            {isLoading ? (
+            {isLoading || isFreezerLoading ? (
               <Loading />
             ) : (data.samples?.length ?? 0) === 0 ? (
               <NoDataFound />
@@ -32,6 +42,7 @@ export const Storage = () => {
               data.samples.map((item) => {
                 return (
                   <SampleCard
+                    freezers={freezerData}
                     isStorage={true}
                     reloadData={fetchData}
                     key={item._id}

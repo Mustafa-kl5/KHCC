@@ -7,6 +7,7 @@ import { USER_ROLE } from "utils/constant";
 import ApiService from "./services/api";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import ToastMassage from "Components/Shared/ToastMassage";
 
 function App() {
   const location = useLocation();
@@ -41,6 +42,7 @@ function App() {
           );
         })}
       </Routes>
+      <ToastMassage />
     </LocalizationProvider>
   );
 }

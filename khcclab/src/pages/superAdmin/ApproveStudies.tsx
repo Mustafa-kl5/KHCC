@@ -8,9 +8,9 @@ import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
 import { useDebounce } from "hooks/useDebounce";
 import { useState } from "react";
-import { getStudies } from "services/superAdmin";
+import { getPendingStudies, getStudies } from "services/superAdmin";
 import { iStudyList } from "types/study";
-export const Studies = () => {
+export const ApproveStudies = () => {
   const [query, setQuery] = useState<any>({
     study: undefined,
   });
@@ -25,10 +25,12 @@ export const Studies = () => {
   const {
     data,
     isLoading,
+    fetchData,
   }: {
     data: iStudyList;
     isLoading: any;
-  } = useData(getStudies, query);
+    fetchData: any;
+  } = useData(getPendingStudies, query);
 
   return (
     <MainLayout>
@@ -59,10 +61,10 @@ export const Studies = () => {
             {data.studies.map((study) => {
               return (
                 <StudyCard
-                  isApproved={false}
+                  isApproved={true}
                   key={study._id}
                   study={study}
-                  reloadData={() => {}}
+                  reloadData={fetchData}
                 />
               );
             })}

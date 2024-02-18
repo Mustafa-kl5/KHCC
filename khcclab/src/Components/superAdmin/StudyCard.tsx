@@ -3,13 +3,28 @@ import {
   AccordionSummary,
   AccordionDetails,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { iStudy } from "types/study";
 import JSZip from "jszip";
 
 import { format } from "date-fns";
-export const StudyCard = ({ study }: { study: iStudy }) => {
+import { useDispatch } from "react-redux";
+import { SHOW_TOAST_MESSAGE } from "utils/constant";
+import { useState } from "react";
+import { approveStudy } from "services/superAdmin";
+export const StudyCard = ({
+  study,
+  isApproved,
+  reloadData,
+}: {
+  study: iStudy;
+  isApproved: boolean;
+  reloadData: () => void;
+}) => {
+  const dispatch = useDispatch();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const downloadFilesAsZip = async () => {
     try {
       const blobs = await Promise.all(
@@ -31,10 +46,44 @@ export const StudyCard = ({ study }: { study: iStudy }) => {
       link.download = `${study.studyName}.zip`;
       link.click();
     } catch (error) {
-      console.error("Error downloading files:", error);
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: "Error while download",
+          isOpen: true,
+          severity: "error",
+        },
+      });
     }
   };
-
+  const onSubmit = async (studyId: string) => {
+    try {
+      setIsSubmitting(true);
+      const res = (await approveStudy(studyId)) as {
+        message: string;
+      };
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: res.message,
+          isOpen: true,
+          severity: "success",
+        },
+      });
+      reloadData();
+    } catch (err: any) {
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: err?.response.data?.message,
+          isOpen: true,
+          severity: "error",
+        },
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <Accordion
       className={`border border-solid border-slate-400 ${
@@ -67,15 +116,38 @@ export const StudyCard = ({ study }: { study: iStudy }) => {
             <strong>Added Date:</strong>
             {format(new Date(study.createdAt), "yyyy/M/d")}
           </span>
-          {study.closeData === "" && (
+          {study.closeData && (
             <span className="text-base">
               <strong>Closed Date:</strong>
               {study.closeData && format(new Date(study.closeData), "yyyy/M/d")}
             </span>
           )}
-          <Button variant="contained" onClick={downloadFilesAsZip}>
-            Download study file
-          </Button>
+          <div className="flex gap-2 w-full">
+            <Button
+              variant="contained"
+              onClick={downloadFilesAsZip}
+              className="w-full"
+            >
+              Download study file
+            </Button>
+            {isApproved && (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  onSubmit(study._id);
+                }}
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                <div className="flex gap-2 items-center">
+                  <span>Approve Study</span>
+                  {isSubmitting && (
+                    <CircularProgress className="!w-[1rem] !h-[1rem]" />
+                  )}
+                </div>
+              </Button>
+            )}
+          </div>
         </div>
       </AccordionDetails>
     </Accordion>

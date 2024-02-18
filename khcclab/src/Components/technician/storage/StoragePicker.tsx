@@ -10,25 +10,28 @@ import {
   TextField,
 } from "@mui/material";
 import { Loading } from "Components/Shared/Loading";
-import { useData } from "hooks/useData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { getFreezers } from "services/superAdmin";
+import { useDispatch } from "react-redux";
 import { getEmptyCells, saveSample } from "services/technician";
 import { iFreezerlist } from "types/freezer";
 import { iSample } from "types/sample";
 import { SHOW_TOAST_MESSAGE, mainBoxsType, subBoxsType } from "utils/constant";
 import { saveSampleSchema } from "validation-schema/saveSample";
 import { Cell } from "./Cell";
-import { useDispatch } from "react-redux";
+import { getStudyId } from "utils/getStudyId";
 export const StoragePicker = ({
   chooseCell,
   closeModel,
   sample,
+  freezers,
+  reloadData,
 }: {
   sample: iSample;
   chooseCell: boolean;
   closeModel: () => void;
+  freezers: iFreezerlist;
+  reloadData: () => void;
 }) => {
   const dispatch = useDispatch();
 
@@ -97,11 +100,11 @@ export const StoragePicker = ({
       cells: "",
       numberOfSamples: "",
       mainBoxType: "",
-      subBoxType: "Small Box",
+      subBoxType: "",
       subBoxId: "",
       mainBoxId: "",
     },
-    mode: "onChange",
+    mode: "all",
   });
   const subBoxType = watch("subBoxType");
   const mainBoxType = watch("mainBoxType");
@@ -122,15 +125,6 @@ export const StoragePicker = ({
     );
     setValue("cells", chosenCells.filter((item) => item !== value).join(","));
   };
-  const {
-    data,
-    isLoading,
-    fetchData,
-  }: {
-    data: iFreezerlist;
-    isLoading: any;
-    fetchData: any;
-  } = useData(getFreezers);
 
   const getUnavailableCells = async () => {
     try {
@@ -172,7 +166,7 @@ export const StoragePicker = ({
         sample.containerType,
         sample.drawnAt,
         sample.numberOfSamples,
-        sample.Study.studyName,
+        getStudyId()._id,
         sample.patient.patientName,
         sample.patient.mrn,
         sample.patient.ssn,
@@ -190,6 +184,8 @@ export const StoragePicker = ({
           severity: "success",
         },
       });
+      reloadData();
+      closeModel();
     } catch (err: any) {
       dispatch({
         type: SHOW_TOAST_MESSAGE,
@@ -232,20 +228,15 @@ export const StoragePicker = ({
                     onChange={(e) => {
                       field.onChange(e.target.value);
                     }}
-                    disabled={isLoading}
                   >
-                    {isLoading ? (
-                      <MenuItem>Loading...</MenuItem>
-                    ) : (
-                      data.freezers?.map((freezer) => (
-                        <MenuItem key={freezer._id} value={freezer._id}>
-                          <div className="flex  gap-2">
-                            <strong>{freezer.freezerName} / </strong>
-                            <strong>{freezer.freezerLocation}</strong>
-                          </div>
-                        </MenuItem>
-                      ))
-                    )}
+                    {freezers.freezers?.map((freezer) => (
+                      <MenuItem key={freezer._id} value={freezer._id}>
+                        <div className="flex  gap-2">
+                          <strong>{freezer.freezerName} / </strong>
+                          <strong>{freezer.freezerLocation}</strong>
+                        </div>
+                      </MenuItem>
+                    ))}
                   </Select>
                   <FormHelperText>
                     {errors.freezerId && errors.freezerId.message}
@@ -268,7 +259,6 @@ export const StoragePicker = ({
                     onChange={(e) => {
                       field.onChange(e.target.value);
                     }}
-                    disabled={isLoading}
                   >
                     {mainBoxsType.map((item) => (
                       <MenuItem key={item.id} value={item.boxType}>
@@ -297,7 +287,6 @@ export const StoragePicker = ({
                     onChange={(e) => {
                       field.onChange(e.target.value);
                     }}
-                    disabled={isLoading}
                   >
                     {subBoxsType.map((item) => (
                       <MenuItem key={item.id} value={item.boxType}>
@@ -364,8 +353,10 @@ export const StoragePicker = ({
                 />
               )}
             />
+          </div>
+          <div className="w-full mb-2">
             <Button
-              className="w-full"
+              className="w-full mb-2"
               onClick={() => {
                 setChosenCells([]);
                 setValue("cells", "");
@@ -386,6 +377,7 @@ export const StoragePicker = ({
               Check Available Cells
             </Button>
           </div>
+
           {isCellLoading ? (
             <Loading />
           ) : (
@@ -442,7 +434,10 @@ export const StoragePicker = ({
               </div>
             ))
           )}
-          <div className="py-2">
+          <FormHelperText className="text-red-500">
+            {errors.subBoxType && errors.cells?.message}
+          </FormHelperText>
+          {/* <div className="py-2">
             <Controller
               name="cells"
               control={control}
@@ -462,41 +457,27 @@ export const StoragePicker = ({
                 </div>
               )}
             />
-          </div>
+          </div> */}
           <div className="flex flex-col gap-2 w-full">
-            <div className="flex gap-2">
-              <Button
-                className="w-1/2"
-                onClick={() => {
-                  setChosenCells([]);
-                  setUnavailableCells([]);
-                  reset();
-                }}
-                variant="outlined"
-                color="secondary"
-              >
-                Clear
-              </Button>
-              <Button
-                className="w-1/2"
-                onClick={() => {
-                  setChosenCells([]);
-                  reset();
-                  closeModel();
-                }}
-                variant="outlined"
-                color="error"
-              >
-                Cancel
-              </Button>
-            </div>
             <Button
               className="w-full"
               variant="outlined"
-              // disabled={!isValid}
+              disabled={!isValid}
               onClick={handleSubmit(onSubmit)}
             >
               Save
+            </Button>
+            <Button
+              className="w-full"
+              onClick={() => {
+                setChosenCells([]);
+                reset();
+                closeModel();
+              }}
+              variant="outlined"
+              color="error"
+            >
+              Cancel
             </Button>
           </div>
         </div>

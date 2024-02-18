@@ -9,7 +9,7 @@ import { useData } from "hooks/useData";
 import { useDebounce } from "hooks/useDebounce";
 import { useState } from "react";
 import { getLogs } from "services/superAdmin";
-import { iLogsList } from "types/logs";
+import { iLog, iLogsList } from "types/logs";
 export const Logs = () => {
   const [query, setQuery] = useState<any>({
     name: undefined,
@@ -56,8 +56,8 @@ export const Logs = () => {
           <NoDataFound />
         ) : (
           <ScrollableContainer>
-            {data.logs?.map((log: any) => {
-              return <LogsCard log={log} key={log._id} />;
+            {data.logs?.map((log: iLog) => {
+              return <LogsCard log={log} key={log.id} />;
             })}
           </ScrollableContainer>
         )}

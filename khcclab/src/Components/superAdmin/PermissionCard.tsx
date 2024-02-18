@@ -26,7 +26,7 @@ export const PermissionCard = ({
   reloadData: () => void;
 }) => {
   const dispatch = useDispatch();
-
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const {
     control,
     handleSubmit,
@@ -38,7 +38,6 @@ export const PermissionCard = ({
     mode: "onChange",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const onSubmit = async (data: any, userId: string) => {
     try {
       setIsSubmitting(true);

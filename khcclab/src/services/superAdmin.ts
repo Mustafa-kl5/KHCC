@@ -17,6 +17,15 @@ export const givePermission = (userId: string, permission: string) => {
     },
   });
 };
+export const approveStudy = (studyId: string) => {
+  return ApiService.fetchData({
+    url: `${baseURL}/superAdmin/approveStudy`,
+    method: "PUT",
+    data: {
+      studyId,
+    },
+  });
+};
 export const addStudy = (
   studyName: string,
   piName: string,
@@ -41,6 +50,11 @@ export const addStudy = (
 
 export const getStudies = (filter?: { study: string }) => {
   return ApiService.baseApi.get(`${baseURL}/superAdmin/getStudies`, {
+    params: { ...filter },
+  });
+};
+export const getPendingStudies = (filter?: { study: string }) => {
+  return ApiService.baseApi.get(`${baseURL}/superAdmin/getPendingStudies`, {
     params: { ...filter },
   });
 };

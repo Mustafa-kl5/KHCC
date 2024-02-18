@@ -11,25 +11,18 @@ import { iSample } from "types/sample";
 import { ApproveSample } from "./ApproveSample";
 import { RejectSample } from "./RejectSample";
 import { StoragePicker } from "./storage/StoragePicker";
-const style = {
-  position: "absolute" as "absolute",
-  top: "0",
-  left: "50%",
-  transform: "translate(-50%, 5%)",
-  width: 400,
-  bgcolor: "background.paper",
-  borderRadius: "24px",
-  boxShadow: 24,
-  p: 4,
-};
+import { iFreezerlist } from "types/freezer";
+
 export const SampleCard = ({
   sample,
   isStorage,
   reloadData,
+  freezers,
 }: {
   sample: iSample;
   isStorage: boolean;
   reloadData: () => void;
+  freezers?: iFreezerlist;
 }) => {
   const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
   const [approveModalOpen, setApproveModalOpen] = useState<boolean>(false);
@@ -173,13 +166,17 @@ export const SampleCard = ({
         reloadData={reloadData}
         rejectModalOpen={approveModalOpen}
       />
-      <StoragePicker
-        sample={sample}
-        chooseCell={chooseCell}
-        closeModel={() => {
-          setChooseCell(!chooseCell);
-        }}
-      />
+      {freezers && (
+        <StoragePicker
+          freezers={freezers}
+          sample={sample}
+          chooseCell={chooseCell}
+          closeModel={() => {
+            setChooseCell(!chooseCell);
+          }}
+          reloadData={reloadData}
+        />
+      )}
     </>
   );
 };

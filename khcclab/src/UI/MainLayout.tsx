@@ -16,7 +16,6 @@ import { getRoutes, nursingRoutes } from "routes/routes";
 import { isLoggedIn } from "services/authService";
 import { iRoute } from "types/route";
 import { USER_ROLE } from "utils/constant";
-import ToastMassage from "Components/Shared/ToastMassage";
 
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -115,7 +114,6 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
         </Box>
         <div className="w-full h-full py-8 px-4">{children}</div>
       </div>
-      <ToastMassage />
     </div>
   );
 };
