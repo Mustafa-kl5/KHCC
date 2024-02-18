@@ -22,11 +22,19 @@ export const seen = (patientId: string) => {
     },
   });
 };
-export const getSamples = () => {
-  return ApiService.baseApi.get(`${baseURL}/technician/getSamples`);
+export const getSamples = (filter?: {
+  isApproved: string;
+  isRejected: string;
+  searchData: string;
+}) => {
+  return ApiService.baseApi.get(`${baseURL}/technician/getSamples`, {
+    params: { ...filter },
+  });
 };
-export const getApprovalSamples = () => {
-  return ApiService.baseApi.get(`${baseURL}/technician/getApprovalSamples`);
+export const getApprovalSamples = (filter?: { searchData: string }) => {
+  return ApiService.baseApi.get(`${baseURL}/technician/getApprovalSamples`, {
+    params: { ...filter },
+  });
 };
 export const rejectSample = (sampleId: string, rejectionReason: string) => {
   return ApiService.fetchData({
@@ -113,6 +121,8 @@ export const getEmptyCells = (query: {
   });
 };
 
-export const sampleToExport = () => {
-  return ApiService.baseApi.get(`${baseURL}/technician/sampleToExport`);
+export const sampleToExport = (filter?: { searchData: string }) => {
+  return ApiService.baseApi.get(`${baseURL}/technician/sampleToExport`, {
+    params: filter,
+  });
 };
