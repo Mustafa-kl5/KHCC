@@ -6,6 +6,9 @@ export const getPendingUsers = (filter?: { employeeId: string }) => {
     params: { ...filter },
   });
 };
+export const getFreezerStatistics = () => {
+  return ApiService.baseApi.get(`${baseURL}/superAdmin/getFreezerStatistics`);
+};
 
 export const givePermission = (userId: string, permission: string) => {
   return ApiService.fetchData({

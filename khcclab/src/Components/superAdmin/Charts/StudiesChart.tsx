@@ -2,7 +2,7 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { useData } from "hooks/useData";
 import { getFreezerStatistics } from "services/superAdmin";
 
-export const FreezersChart = ({ chartSetting }: { chartSetting: any }) => {
+export const StudiesChart = ({ chartSetting }: { chartSetting: any }) => {
   const { data } = useData(getFreezerStatistics);
 
   const sampleTypes =

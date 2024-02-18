@@ -16,8 +16,6 @@ import { addFreezer } from "services/superAdmin";
 import { SHOW_TOAST_MESSAGE } from "utils/constant";
 import { freezerSchema } from "validation-schema/freezerSchema";
 
-const dummyMenu = [{ id: 1, name: "test" }];
-
 export const AddFreezerForm = () => {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -135,25 +133,14 @@ export const AddFreezerForm = () => {
           <Controller
             name="freezerType"
             control={control}
-            render={({ field: { onChange, value } }) => (
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  Freezer Type
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={value}
-                  label="Freezer Type"
-                  onChange={onChange}
-                >
-                  {dummyMenu.map((type) => (
-                    <MenuItem key={type.id} value={type.name}>
-                      {type.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+            render={({ field }) => (
+              <TextField
+                error={errors.freezerType && true}
+                {...field}
+                label="Freezer Type"
+                className="input"
+                helperText={errors.freezerType && errors.freezerType.message}
+              />
             )}
           />
 
