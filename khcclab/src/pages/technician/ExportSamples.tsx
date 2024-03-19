@@ -8,11 +8,21 @@ import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
 import { useDebounce } from "hooks/useDebounce";
-import { useState } from "react";
-import { sampleToExport } from "services/technician";
+import { Fragment, useState } from "react";
+import {
+  approveSample,
+  removeSample,
+  sampleToExport,
+} from "services/technician";
 import { iFreezerExportList, iSampleToExport } from "types/sample";
+import { Button } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { SHOW_TOAST_MESSAGE } from "utils/constant";
 
 const ExportSamples = () => {
+  const dispatch = useDispatch();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [samplesToExport, setSampleToExport] = useState<iSampleToExport[]>([]);
   const [query, setQuery] = useState<any>({
     searchData: undefined,
   });
@@ -24,7 +34,7 @@ const ExportSamples = () => {
       searchData: e.target.value === "" ? undefined : e.target.value,
     });
   }
-  const [samplesToExport, setSampleToExport] = useState<iSampleToExport[]>([]);
+
   const {
     data,
     isLoading,
@@ -46,7 +56,36 @@ const ExportSamples = () => {
       });
     }
   };
+  const onSubmit = async () => {
+    try {
+      setIsSubmitting(true);
+      const res = (await removeSample(
+        samplesToExport.map((item) => item._id)
+      )) as {
+        message: string;
+      };
 
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: res.message,
+          isOpen: true,
+          severity: "success",
+        },
+      });
+    } catch (err: any) {
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message: err?.response.data?.message,
+          isOpen: true,
+          severity: "error",
+        },
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <MainLayout>
       <div className="w-full h-full flex flex-col gap-3">
@@ -76,7 +115,7 @@ const ExportSamples = () => {
         ) : (
           <ScrollableContainer>
             {data.freezers?.map((item) => (
-              <>
+              <Fragment key={item._id}>
                 {item.samples.map((sample) => (
                   <SampleExportCard
                     key={sample._id}
@@ -86,13 +125,33 @@ const ExportSamples = () => {
                     samples={samplesToExport}
                   />
                 ))}
-              </>
+              </Fragment>
             ))}
           </ScrollableContainer>
         )}
-        {samplesToExport.length !== 0 && (
-          <ExportSamplesHandler samplesToExport={samplesToExport} />
-        )}
+        <div className="flex gap-3 w-full">
+          {samplesToExport.length !== 0 && (
+            <ExportSamplesHandler
+              samplesToExport={samplesToExport}
+              isLoading={isSubmitting}
+              clear={() => {
+                onSubmit();
+                fetchData();
+                setSampleToExport([]);
+              }}
+            />
+          )}
+          <Button
+            className="w-full"
+            onClick={() => {
+              setSampleToExport([]);
+            }}
+            variant="contained"
+            color="error"
+          >
+            cLEAR
+          </Button>
+        </div>
       </div>
     </MainLayout>
   );

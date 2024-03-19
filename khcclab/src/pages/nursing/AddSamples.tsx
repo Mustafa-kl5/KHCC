@@ -107,17 +107,12 @@ export const AddSamples = () => {
     }
   };
   const handleDeleteForm = (index: number) => {
-    console.log(index);
-    console.log(formsData);
     const updatedFormsData = formsData.filter((_, i) => i !== index);
-    console.log(updatedFormsData);
     setFormsData(updatedFormsData);
     const currentDefaultValues = getValues();
-    console.log(currentDefaultValues);
     const updatedFormsDefault = currentDefaultValues.samples?.filter(
       (_, i) => i !== index
     );
-    console.log(updatedFormsDefault);
     setValue("samples", updatedFormsDefault);
   };
 

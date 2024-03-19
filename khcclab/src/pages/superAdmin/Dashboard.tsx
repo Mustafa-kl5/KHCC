@@ -2,6 +2,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { axisClasses } from "@mui/x-charts";
 import { FreezersChart } from "Components/superAdmin/Charts/FreezersChart";
+import { StudiesChart } from "Components/superAdmin/Charts/StudiesChart";
 import { MainLayout } from "UI/MainLayout";
 import { useEffect, useRef, useState } from "react";
 export const Dashboard = () => {
@@ -39,10 +40,10 @@ export const Dashboard = () => {
 
   return (
     <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3">
+      <div className="w-full h-full flex flex-col gap-3 ">
         <div className="flex justify-between">
           <span className="text-2xl font-bold">Dashboard :</span>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <span className="font-bold text-xl pe-2"> Statistics By:</span>
             <ButtonGroup
               disableElevation
@@ -73,7 +74,7 @@ export const Dashboard = () => {
             <FreezersChart chartSetting={chartSetting} />
           )}
           {chartType === "studies" && (
-            <FreezersChart chartSetting={chartSetting} />
+            <StudiesChart chartSetting={chartSetting} />
           )}
         </div>
       </div>

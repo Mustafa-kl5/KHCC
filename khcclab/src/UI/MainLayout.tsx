@@ -70,7 +70,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
           <MenuIcon />
         </IconButton>
       </Header>
-      <div className="bg-hussein-200 w-full flex justify-between rounded-xl h-[calc(100%-3.971rem)]">
+      <div className="bg-hussein-200 w-full flex justify-between rounded-xl h-[calc(100%-6.5rem)]">
         <Box className=" rounded-l-xl bg-hussein-300" sx={{ display: "flex" }}>
           <Box
             component="nav"
@@ -113,6 +113,15 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
           </Box>
         </Box>
         <div className="w-full h-full py-8 px-4">{children}</div>
+      </div>
+      <div>
+        © Mustafa Mahmood 2024. All rights reserved.{" "}
+        <a
+          href="mailto:mustafaalowisi@gmail.com"
+          className="underline text-blue-700"
+        >
+          Email
+        </a>
       </div>
     </div>
   );

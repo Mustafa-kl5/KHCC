@@ -5,7 +5,7 @@ export const AddStudy = () => {
   return (
     <MainLayout>
       <div className="w-full h-full flex flex-col gap-3">
-        <span className="text-2xl font-bold">Add Study</span>
+        <div className="text-2xl font-bold">Add Study</div>
         <AddStudyForm />
       </div>
     </MainLayout>

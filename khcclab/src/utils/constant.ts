@@ -11,11 +11,12 @@ export const Permissions = [
 ];
 
 export const allowedTypes = [
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
-  "image/jpeg", // .jpg
-  "image/png", // .png
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "image/jpeg",
+  "image/png",
   "image/gif",
+  "application/pdf",
 ];
 
 export const sampleTypes = [
@@ -140,11 +141,11 @@ export const storageTypes = [
 export const mainBoxsType = [
   {
     id: 1,
-    boxType: "Small Iron Container",
+    boxType: "Small Iron Rack",
   },
   {
     id: 2,
-    boxType: "Large Iron Container",
+    boxType: "Large Iron Rack",
   },
   {
     id: 3,

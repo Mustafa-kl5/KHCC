@@ -3,7 +3,12 @@ import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 
 import Checkbox from "@mui/material/Checkbox";
 import { format } from "date-fns";
-import { iFreezerExport, iSampleExport, iSampleToExport } from "types/sample";
+import {
+  iFreezerExport,
+  iSample,
+  iSampleExport,
+  iSampleToExport,
+} from "types/sample";
 export const SampleExportCard = ({
   sample,
   freezer,
@@ -32,6 +37,7 @@ export const SampleExportCard = ({
             onClick={(e) => {
               e.stopPropagation();
             }}
+            checked={samples.some((item) => item._id === sample._id)}
             onChange={() => {
               sendSample({
                 _id: sample._id,

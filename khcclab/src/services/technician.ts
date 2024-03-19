@@ -27,13 +27,15 @@ export const getSamples = (filter?: {
   isRejected: string;
   searchData: string;
 }) => {
+  const studyId = getStudyId()._id;
   return ApiService.baseApi.get(`${baseURL}/technician/getSamples`, {
-    params: { ...filter },
+    params: { ...filter, studyId },
   });
 };
 export const getApprovalSamples = (filter?: { searchData: string }) => {
+  const studyId = getStudyId()._id;
   return ApiService.baseApi.get(`${baseURL}/technician/getApprovalSamples`, {
-    params: { ...filter },
+    params: { ...filter, studyId },
   });
 };
 export const rejectSample = (sampleId: string, rejectionReason: string) => {
@@ -122,7 +124,17 @@ export const getEmptyCells = (query: {
 };
 
 export const sampleToExport = (filter?: { searchData: string }) => {
+  const studyId = getStudyId()._id;
   return ApiService.baseApi.get(`${baseURL}/technician/sampleToExport`, {
-    params: filter,
+    params: { ...filter, studyId },
+  });
+};
+export const removeSample = (samplesIds: string[]) => {
+  return ApiService.fetchData({
+    url: `${baseURL}/technician/removeSamplesFormFreezer`,
+    method: "DELETE",
+    data: {
+      samplesIds,
+    },
   });
 };
