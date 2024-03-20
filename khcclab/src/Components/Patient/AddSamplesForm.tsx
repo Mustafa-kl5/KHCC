@@ -207,7 +207,7 @@ export const AddSamplesForm = ({
             add
           </Button>
         )}
-        {index !== 0 && (
+        {index + 1 === formLength && (
           <Button
             size="large"
             variant="contained"

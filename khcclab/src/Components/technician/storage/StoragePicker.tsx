@@ -462,7 +462,14 @@ export const StoragePicker = ({
             <Button
               className="w-full"
               variant="outlined"
-              disabled={!isValid}
+              disabled={
+                subBoxType === "" ||
+                mainBoxType === "" ||
+                freezerId === "" ||
+                mainBoxId === "" ||
+                subBoxId === "" ||
+                numberOfSamples === ""
+              }
               onClick={handleSubmit(onSubmit)}
             >
               Save

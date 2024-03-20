@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { AddSamplesForm } from "Components/Patient/AddSamplesForm";
 import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -92,7 +92,7 @@ export const AddSamples = () => {
           storageType: "",
         },
       ]);
-      reset({ samples: [...formsData] });
+      reset();
     } catch (err: any) {
       dispatch({
         type: SHOW_TOAST_MESSAGE,
@@ -106,6 +106,7 @@ export const AddSamples = () => {
       setIsSubmitting(false);
     }
   };
+
   const handleDeleteForm = (index: number) => {
     const updatedFormsData = formsData.filter((_, i) => i !== index);
     setFormsData(updatedFormsData);
