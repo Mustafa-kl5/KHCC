@@ -5,6 +5,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { format } from "date-fns";
 import {
   iFreezerExport,
+  iFreezerExportBackUp,
   iSample,
   iSampleExport,
   iSampleToExport,
@@ -14,11 +15,11 @@ export const SampleExportCard = ({
   freezer,
   sendSample,
   samples,
-}: //   reloadData,
-{
+  isSearch = true,
+}: {
   sample: iSampleExport;
-  freezer: iFreezerExport;
-  //   reloadData: () => void;
+  freezer: iFreezerExport | iFreezerExportBackUp;
+  isSearch?: boolean;
   sendSample: (sample: iSampleToExport) => void;
   samples: iSampleToExport[];
 }) => {
@@ -32,25 +33,27 @@ export const SampleExportCard = ({
       >
         <div className="w-full flex justify-between pe-2 items-center">
           <span className="text-lg">{sample.patientName}</span>
-          <Checkbox
-            {...label}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            checked={samples.some((item) => item._id === sample._id)}
-            onChange={() => {
-              sendSample({
-                _id: sample._id,
-                sampleSerial: sample.sampleSerial,
-                khccBioSampleCode: sample.khccBioSampleCode,
-                storageType: sample.sampleType,
-                containerType: sample.containerType,
-                sampleType: sample.sampleType,
-                patientGender: sample.gender,
-                patientBirthDate: sample.birthDate,
-              });
-            }}
-          />
+          {isSearch && (
+            <Checkbox
+              {...label}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              checked={samples.some((item) => item._id === sample._id)}
+              onChange={() => {
+                sendSample({
+                  _id: sample._id,
+                  sampleSerial: sample.sampleSerial,
+                  khccBioSampleCode: sample.khccBioSampleCode,
+                  storageType: sample.sampleType,
+                  containerType: sample.containerType,
+                  sampleType: sample.sampleType,
+                  patientGender: sample.gender,
+                  patientBirthDate: sample.birthDate,
+                });
+              }}
+            />
+          )}
         </div>
       </AccordionSummary>
       <AccordionDetails>

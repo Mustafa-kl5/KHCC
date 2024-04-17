@@ -129,6 +129,13 @@ export const sampleToExport = (filter?: { searchData: string }) => {
     params: { ...filter, studyId },
   });
 };
+export const sampleToExportBackup = (filter?: { searchData: string }) => {
+  const studyId = getStudyId()._id;
+  return ApiService.baseApi.get(`${baseURL}/technician/sampleToExportBackup`, {
+    params: { ...filter, studyId },
+  });
+};
+
 export const removeSample = (samplesIds: string[]) => {
   return ApiService.fetchData({
     url: `${baseURL}/technician/removeSamplesFormFreezer`,

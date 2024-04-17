@@ -61,8 +61,24 @@ export interface iFreezerExport {
   updatedAt: string;
   samples: iSampleExport[];
 }
+export interface iFreezerExportBackUp {
+  _id: string;
+  freezerName: string;
+  freezerModel: string;
+  freezerLocation: string;
+  freezerType: string;
+  NumberOfShelves: number;
+  BoxesPerShelf: number;
+  capacity: number;
+  createdAt: string;
+  updatedAt: string;
+  samplesBackUp: iSampleExport[];
+}
 export interface iFreezerExportList {
   freezers: iFreezerExport[];
+}
+export interface iFreezerExportListBackUp {
+  freezers: iFreezerExportBackUp[];
 }
 
 export interface iSampleToExport {

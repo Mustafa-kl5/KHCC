@@ -9,6 +9,11 @@ export const Permissions = [
   { id: 2, label: "Nursing", value: "nursing" },
   { id: 3, label: "Technician", value: "technician" },
 ];
+export interface HotSearchPlaceholders {
+  Study: string;
+  Patient: string;
+  Sample: string;
+}
 
 export const allowedTypes = [
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -163,3 +168,9 @@ export const subBoxsType = [
     boxType: "Large Box",
   },
 ];
+
+export const hotSearchPlaceHolders: HotSearchPlaceholders = {
+  Study: "Search by Study Name, Study Number, Study Keyword",
+  Patient: "Search by Patient Name, MRN, SSN",
+  Sample: "Search by Sample Serial, KHCC Code",
+};

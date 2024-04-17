@@ -22,6 +22,7 @@ import ExportSamples from "pages/technician/ExportSamples";
 import { ApproveStudies } from "pages/superAdmin/ApproveStudies";
 import { Dashboard } from "pages/superAdmin/Dashboard";
 import { DashboardCustomize } from "@mui/icons-material";
+import ExportedSampleBackUp from "pages/technician/ExportedSampleBackUp";
 export const publicRoutes: iRoute[] = [
   {
     path: "/Login",
@@ -108,6 +109,12 @@ export const superAdminRoutes: iRoute[] = [
     pageName: "Dashboard",
     icon: <DashboardCustomize />,
   },
+  {
+    path: "/ExportedSampleBackUp",
+    element: <ExportedSampleBackUp />,
+    pageName: "Stored Samples Backup",
+    icon: <PersonAddAltIcon />,
+  },
 ];
 export const technicianRoutes: iRoute[] = [
   {
@@ -138,6 +145,12 @@ export const technicianRoutes: iRoute[] = [
     path: "/add-study",
     element: <AddStudy />,
     pageName: "Add Study",
+    icon: <PersonAddAltIcon />,
+  },
+  {
+    path: "/ExportedSampleBackUp",
+    element: <ExportedSampleBackUp />,
+    pageName: "Stored Samples Backup",
     icon: <PersonAddAltIcon />,
   },
 ];

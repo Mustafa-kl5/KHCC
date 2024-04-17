@@ -6,6 +6,14 @@ export const getPendingUsers = (filter?: { employeeId: string }) => {
     params: { ...filter },
   });
 };
+export const hotSearch = (filter: {
+  searchType: string;
+  searchWith: string;
+}) => {
+  return ApiService.baseApi.get(`${baseURL}/superAdmin/hotSearch`, {
+    params: { ...filter },
+  });
+};
 export const getFreezerStatistics = () => {
   return ApiService.baseApi.get(`${baseURL}/superAdmin/getFreezerStatistics`);
 };

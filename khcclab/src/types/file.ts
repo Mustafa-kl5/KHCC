@@ -16,3 +16,7 @@ export interface iFile {
     filePath: [string] | null;
   }[];
 }
+export interface Query {
+  searchType: string;
+  searchWith: string;
+}

@@ -36,8 +36,10 @@ const style = {
 export const PatientCard = ({
   patient,
   reloadData,
+  isSearch = true,
 }: {
   patient: iPatient;
+  isSearch?: boolean;
   reloadData: () => void;
 }) => {
   const navigate = useNavigate();
@@ -146,87 +148,89 @@ export const PatientCard = ({
             <strong>Seen by:</strong> {patient.seenBy}
           </span>
         </div>
-        <div className="flex justify-end gap-3">
-          <Button
-            onClick={() => {
-              navigate(`/add-samples/:${patient._id}`);
-            }}
-            variant="outlined"
-            size="large"
-            startIcon={<AddBox />}
-          >
-            add samples
-          </Button>
-          {!patient.isDeleted && (
-            <Fragment>
-              <Button
-                onClick={modalHandler}
-                variant="outlined"
-                size="large"
-                startIcon={<DeleteIcon />}
-              >
-                Delete
-              </Button>
-              <Modal
-                open={modalOpen}
-                onClose={modalHandler}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
-                  >
-                    Delete Patient
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ my: 2 }}>
-                    To delete the patient, type the reason to confirm.
-                  </Typography>
-                  <Controller
-                    name="deleteReason"
-                    control={control}
-                    rules={{ required: true, minLength: 5 }}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        id="filled-multiline-static"
-                        label="Delete Reason "
-                        multiline
-                        fullWidth
-                        rows={4}
-                        variant="filled"
-                      />
-                    )}
-                  />
-
-                  <div className="flex justify-end gap-2 mt-3">
-                    <Button
-                      onClick={modalHandler}
-                      variant="outlined"
-                      size="medium"
+        {isSearch && (
+          <div className="flex justify-end gap-3">
+            <Button
+              onClick={() => {
+                navigate(`/add-samples/:${patient._id}`);
+              }}
+              variant="outlined"
+              size="large"
+              startIcon={<AddBox />}
+            >
+              add samples
+            </Button>
+            {!patient.isDeleted && (
+              <Fragment>
+                <Button
+                  onClick={modalHandler}
+                  variant="outlined"
+                  size="large"
+                  startIcon={<DeleteIcon />}
+                >
+                  Delete
+                </Button>
+                <Modal
+                  open={modalOpen}
+                  onClose={modalHandler}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <Box sx={style}>
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
                     >
-                      Cancel
-                    </Button>
-                    <Button
-                      disabled={!isValid}
-                      onClick={handleSubmit(onSubmit)}
-                      color="error"
-                      variant="outlined"
-                      size="medium"
-                    >
-                      <span>Delete </span>
-                      {isSubmitting && (
-                        <CircularProgress className="!w-[1rem] !h-[1rem]" />
+                      Delete Patient
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ my: 2 }}>
+                      To delete the patient, type the reason to confirm.
+                    </Typography>
+                    <Controller
+                      name="deleteReason"
+                      control={control}
+                      rules={{ required: true, minLength: 5 }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          id="filled-multiline-static"
+                          label="Delete Reason "
+                          multiline
+                          fullWidth
+                          rows={4}
+                          variant="filled"
+                        />
                       )}
-                    </Button>
-                  </div>
-                </Box>
-              </Modal>
-            </Fragment>
-          )}
-        </div>
+                    />
+
+                    <div className="flex justify-end gap-2 mt-3">
+                      <Button
+                        onClick={modalHandler}
+                        variant="outlined"
+                        size="medium"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        disabled={!isValid}
+                        onClick={handleSubmit(onSubmit)}
+                        color="error"
+                        variant="outlined"
+                        size="medium"
+                      >
+                        <span>Delete </span>
+                        {isSubmitting && (
+                          <CircularProgress className="!w-[1rem] !h-[1rem]" />
+                        )}
+                      </Button>
+                    </div>
+                  </Box>
+                </Modal>
+              </Fragment>
+            )}
+          </div>
+        )}
       </AccordionDetails>
     </Accordion>
   );
