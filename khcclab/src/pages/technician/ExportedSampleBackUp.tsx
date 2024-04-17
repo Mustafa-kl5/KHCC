@@ -12,7 +12,7 @@ import { sampleToExportBackup } from "services/technician";
 import { iFreezerExportListBackUp, iSampleToExport } from "types/sample";
 
 const ExportedSampleBackUp = () => {
-  const [samplesToExport, setSampleToExport] = useState<iSampleToExport[]>([]);
+  const [samplesToExport] = useState<iSampleToExport[]>([]);
   const [query, setQuery] = useState<any>({
     searchData: undefined,
   });

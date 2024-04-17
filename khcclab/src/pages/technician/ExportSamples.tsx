@@ -9,11 +9,7 @@ import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
 import { useDebounce } from "hooks/useDebounce";
 import { Fragment, useState } from "react";
-import {
-  approveSample,
-  removeSample,
-  sampleToExport,
-} from "services/technician";
+import { removeSample, sampleToExport } from "services/technician";
 import { iFreezerExportList, iSampleToExport } from "types/sample";
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";

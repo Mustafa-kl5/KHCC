@@ -52,7 +52,7 @@ export default function HotSearch({
 }) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [samplesToExport, setSampleToExport] = useState<iSampleToExport[]>([]);
+  const [samplesToExport] = useState<iSampleToExport[]>([]);
   const [data, setData] = useState<iHotSearch>();
   const [query, setQuery] = useState<Query>({
     searchType: "Study",
