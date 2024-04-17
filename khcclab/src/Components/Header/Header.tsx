@@ -26,16 +26,18 @@ export const Header = ({ children }: { children?: React.ReactNode }) => {
 
         {isLoggedIn() ? (
           <div className="flex gap-3">
-            <Button
-              onClick={() => {
-                setOpen(true);
-              }}
-              variant="contained"
-              className="rounded-2xl"
-              color="info"
-            >
-              Search
-            </Button>
+            {localStorage.getItem("user-role") !== "nursing" && (
+              <Button
+                onClick={() => {
+                  setOpen(true);
+                }}
+                variant="contained"
+                className="rounded-2xl"
+                color="info"
+              >
+                Search
+              </Button>
+            )}
             <Button
               onClick={() => {
                 Logout(navigate);

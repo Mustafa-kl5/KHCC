@@ -6,7 +6,6 @@ import { format } from "date-fns";
 import {
   iFreezerExport,
   iFreezerExportBackUp,
-  iSample,
   iSampleExport,
   iSampleToExport,
 } from "types/sample";

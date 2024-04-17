@@ -9,12 +9,7 @@ import { useData } from "hooks/useData";
 import { useDebounce } from "hooks/useDebounce";
 import { Fragment, useState } from "react";
 import { sampleToExportBackup } from "services/technician";
-import {
-  iFreezerExport,
-  iFreezerExportList,
-  iFreezerExportListBackUp,
-  iSampleToExport,
-} from "types/sample";
+import { iFreezerExportListBackUp, iSampleToExport } from "types/sample";
 
 const ExportedSampleBackUp = () => {
   const [samplesToExport, setSampleToExport] = useState<iSampleToExport[]>([]);
