@@ -14,7 +14,7 @@ class APIService {
       baseURL: "http://localhost:4111/",
     });
 
-    const unauthorizedCode = [400];
+    const unauthorizedCode = [400, 401];
     this.baseApi.interceptors.request.use(
       async (config) => {
         const accessToken = await localStorage.getItem(ACCESS_TOKEN);

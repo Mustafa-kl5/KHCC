@@ -76,7 +76,9 @@ export const AddPatientForm = () => {
       dispatch({
         type: SHOW_TOAST_MESSAGE,
         message: {
-          message: err?.response.data?.message,
+          message:
+            err?.response?.data?.message ||
+            "Something is going Wrong , Try again later",
           isOpen: true,
           severity: "error",
         },
