@@ -101,35 +101,36 @@ export const RegestierForm = () => {
           />
         )}
       />
-      <Controller
-        name="position"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            error={errors.position && true}
-            {...field}
-            type="text"
-            label="Position"
-            className="input"
-            helperText={errors.position && errors.position.message}
-          />
-        )}
-      />
-      <Controller
-        name="department"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            error={errors.department && true}
-            {...field}
-            type="text"
-            label="Department"
-            className="input"
-            helperText={errors.department && errors.department.message}
-          />
-        )}
-      />
-
+      <div className="grid grid-col-1 gap-x-1 md:grid-cols-2">
+        <Controller
+          name="position"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.position && true}
+              {...field}
+              type="text"
+              label="Position"
+              className="input"
+              helperText={errors.position && errors.position.message}
+            />
+          )}
+        />
+        <Controller
+          name="department"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.department && true}
+              {...field}
+              type="text"
+              label="Department"
+              className="input"
+              helperText={errors.department && errors.department.message}
+            />
+          )}
+        />
+      </div>
       <div className="grid grid-col-1 gap-x-1 md:grid-cols-2">
         <Controller
           name="firstName"
@@ -178,39 +179,39 @@ export const RegestierForm = () => {
           />
         )}
       />
+      <div className="grid grid-col-1 gap-x-1 md:grid-cols-2">
+        <Controller
+          name="password"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.password && true}
+              {...field}
+              type="password"
+              label="Password"
+              className="input"
+              helperText={errors.password && errors.password.message}
+            />
+          )}
+        />
 
-      <Controller
-        name="password"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            error={errors.password && true}
-            {...field}
-            type="password"
-            label="Password"
-            className="input"
-            helperText={errors.password && errors.password.message}
-          />
-        )}
-      />
-
-      <Controller
-        name="confirmPassword"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            error={errors.confirmPassword && true}
-            {...field}
-            type="password"
-            label="Confirm Password"
-            className="input"
-            helperText={
-              errors.confirmPassword && errors.confirmPassword.message
-            }
-          />
-        )}
-      />
-
+        <Controller
+          name="confirmPassword"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.confirmPassword && true}
+              {...field}
+              type="password"
+              label="Confirm Password"
+              className="input"
+              helperText={
+                errors.confirmPassword && errors.confirmPassword.message
+              }
+            />
+          )}
+        />
+      </div>
       <p>
         Already have an account?
         <Link to="/login" className="text-button-100">
