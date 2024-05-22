@@ -145,3 +145,4 @@ export const removeSample = (samplesIds: string[]) => {
     },
   });
 };
+const any = () => {};
