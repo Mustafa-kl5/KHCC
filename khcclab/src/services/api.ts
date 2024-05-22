@@ -11,7 +11,7 @@ class APIService {
   baseApi!: AxiosInstance;
   init() {
     this.baseApi = axios.create({
-      baseURL: "http://localhost:4111/",
+      baseURL: process.env.REACT_APP_API_URL || "http://localhost:4111/",
     });
 
     const unauthorizedCode = [400, 401];

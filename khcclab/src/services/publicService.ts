@@ -1,6 +1,7 @@
 import axios from "axios";
-const baseURL = "http://localhost:4111/api/v1";
 
 export const getStudiesOptions = () => {
-  return axios.get(`${baseURL}/public/getStudiesOption`);
+  return axios.get(
+    `${process.env.REACT_APP_API_URL}api/v1/public/getStudiesOption`
+  );
 };
