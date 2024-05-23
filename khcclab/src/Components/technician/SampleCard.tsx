@@ -52,7 +52,7 @@ export const SampleCard = ({
             </span>
             <span className="text-base">
               <strong>Drawn At : </strong>
-              {format(new Date(sample.drawnAt), "yyyy/M/d hh:mm:ss a")}
+              {format(new Date(sample.drawnAt), "d/MMM/yyyy hh:mm:ss a")}
             </span>
             <span className="text-base">
               <strong>Number Of Samples : </strong>
@@ -76,7 +76,7 @@ export const SampleCard = ({
             </span>
             <span className="text-base">
               <strong>Birth Date : </strong>
-              {format(new Date(sample.patient.birthDate), "yyyy/M/d")}
+              {format(new Date(sample.patient.birthDate), "d/MMM/yyyy")}
             </span>
             <span className="text-base">
               <strong>Gender : </strong>
@@ -86,7 +86,7 @@ export const SampleCard = ({
               <strong>Sample Drawing : </strong>
               {format(
                 new Date(sample.patient.sampleDrawing),
-                "yyyy/M/d hh:mm:ss a"
+                "d/MMM/yyyy hh:mm:ss a"
               )}
             </span>
             {sample.isApproved && (

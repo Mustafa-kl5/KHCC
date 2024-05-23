@@ -89,18 +89,18 @@ export const PatientCards = ({
           </span>
           <span className="text-base">
             <strong>Birth Date:</strong>
-            {format(new Date(paitent.birthDate), "yyyy/M/d")}
+            {format(new Date(paitent.birthDate), "d/MMM/yyyy")}
           </span>
           <span className="text-base">
             <strong>Admition Recovery Date:</strong>
-            {format(new Date(paitent.admitionRecDate), "yyyy/M/d hh:mm:ss a")}
+            {format(new Date(paitent.admitionRecDate), "d/MMM/yyyy hh:mm:ss a")}
           </span>
           <span className="text-base">
             <strong>Gender:</strong> {paitent.gender}
           </span>
           <span className="text-base">
             <strong>Sample Drawing:</strong>
-            {format(new Date(paitent.sampleDrawing), "yyyy/M/d hh:mm:ss a")}
+            {format(new Date(paitent.sampleDrawing), "d/MMM/yyyy hh:mm:ss a")}
           </span>
           {paitent.isDeleted && (
             <span className="text-base">

@@ -109,19 +109,20 @@ export const StudyCard = ({
           </span>
           <span className="text-base">
             <strong>Initiated Data:</strong>
-            {format(new Date(study.studyInitDate), "yyyy/M/d")}
+            {format(new Date(study.studyInitDate), "d/MMM/yyyy")}
           </span>
           <span className="text-base">
             <strong>Study Keywords:</strong> {study.studyKeywords}
           </span>
           <span className="text-base">
             <strong>Added Date:</strong>
-            {format(new Date(study.createdAt), "yyyy/M/d")}
+            {format(new Date(study.createdAt), "d/MMM/yyyy")}
           </span>
           {study.closeData && (
             <span className="text-base">
               <strong>Closed Date:</strong>
-              {study.closeData && format(new Date(study.closeData), "yyyy/M/d")}
+              {study.closeData &&
+                format(new Date(study.closeData), "d/MMM/yyyy")}
             </span>
           )}
           <div className="flex gap-2 w-full">

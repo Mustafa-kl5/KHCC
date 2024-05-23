@@ -106,7 +106,7 @@ export const FreezerCard = ({
           <span className="text-base">
             <strong>
               Register At:{" "}
-              {format(new Date(freezer.createdAt), "yyyy/M/d hh:mm:ss a")}
+              {format(new Date(freezer.createdAt), "d/MMM/yyyy hh:mm:ss a")}
             </strong>
           </span>
         </div>
