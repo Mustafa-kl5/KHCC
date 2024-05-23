@@ -1,10 +1,10 @@
 import { AddPatientForm } from "Components/Patient/AddPatientForm";
-import { MainLayout } from "UI/MainLayout";
 
 export const AddPatient = () => {
   return (
-    <MainLayout>
+    <div className="w-full h-full">
+      <div className="text-2xl  font-bold bg-white">Add Patient</div>
       <AddPatientForm />
-    </MainLayout>
+    </div>
   );
 };

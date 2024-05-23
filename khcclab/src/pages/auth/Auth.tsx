@@ -1,11 +1,12 @@
-import { LoginForm } from "Components/auth/LoginForm";
 import { AuthLayout } from "UI/AuthLayout";
 import React from "react";
-
-export const Login = () => {
+import { Outlet } from "react-router-dom";
+const Auth = () => {
   return (
     <AuthLayout>
-      <LoginForm />
+      <Outlet />
     </AuthLayout>
   );
 };
+
+export default Auth;

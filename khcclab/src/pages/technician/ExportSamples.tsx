@@ -85,73 +85,71 @@ const ExportSamples = () => {
     }
   };
   return (
-    <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3">
-        <div className="flex justify-between items-center">
-          <span className="text-2xl font-bold">Export Samples :</span>
-        </div>
-        <TextField
-          className="flex-1"
-          placeholder=" Search by Patient Name, KHCC Code, SSN, MRN, Sample Serial"
-          size="small"
-          variant="outlined"
-          onChange={(e: any) => {
-            searchDebounce(e);
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {isLoading ? (
-          <Loading />
-        ) : (data.freezers?.length ?? 0) === 0 ? (
-          <NoDataFound />
-        ) : (
-          <ScrollableContainer>
-            {data.freezers?.map((item) => (
-              <Fragment key={item._id}>
-                {item.samples.map((sample) => (
-                  <SampleExportCard
-                    key={sample._id}
-                    sample={sample}
-                    freezer={item}
-                    sendSample={handleExportSample}
-                    samples={samplesToExport}
-                  />
-                ))}
-              </Fragment>
-            ))}
-          </ScrollableContainer>
-        )}
-        <div className="flex gap-3 w-full">
-          {samplesToExport.length !== 0 && (
-            <ExportSamplesHandler
-              samplesToExport={samplesToExport}
-              isLoading={isSubmitting}
-              clear={() => {
-                onSubmit();
-                fetchData();
-                setSampleToExport([]);
-              }}
-            />
-          )}
-          <Button
-            className="w-full"
-            onClick={() => {
+    <div className="w-full h-full flex flex-col gap-3">
+      <div className="flex justify-between items-center">
+        <span className="text-2xl font-bold">Export Samples :</span>
+      </div>
+      <TextField
+        className="flex-1"
+        placeholder=" Search by Patient Name, KHCC Code, SSN, MRN, Sample Serial"
+        size="small"
+        variant="outlined"
+        onChange={(e: any) => {
+          searchDebounce(e);
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      {isLoading ? (
+        <Loading />
+      ) : (data.freezers?.length ?? 0) === 0 ? (
+        <NoDataFound />
+      ) : (
+        <ScrollableContainer>
+          {data.freezers?.map((item) => (
+            <Fragment key={item._id}>
+              {item.samples.map((sample) => (
+                <SampleExportCard
+                  key={sample._id}
+                  sample={sample}
+                  freezer={item}
+                  sendSample={handleExportSample}
+                  samples={samplesToExport}
+                />
+              ))}
+            </Fragment>
+          ))}
+        </ScrollableContainer>
+      )}
+      <div className="flex gap-3 w-full">
+        {samplesToExport.length !== 0 && (
+          <ExportSamplesHandler
+            samplesToExport={samplesToExport}
+            isLoading={isSubmitting}
+            clear={() => {
+              onSubmit();
+              fetchData();
               setSampleToExport([]);
             }}
-            variant="contained"
-            color="error"
-          >
-            cLEAR
-          </Button>
-        </div>
+          />
+        )}
+        <Button
+          className="w-full"
+          onClick={() => {
+            setSampleToExport([]);
+          }}
+          variant="contained"
+          color="error"
+        >
+          cLEAR
+        </Button>
       </div>
-    </MainLayout>
+    </div>
   );
 };
 

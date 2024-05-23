@@ -31,37 +31,35 @@ export const Logs = () => {
   } = useData(getLogs, query);
 
   return (
-    <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3">
-        <span className="text-2xl font-bold">Users Permission :</span>
-        <TextField
-          className="flex-1"
-          placeholder=" Search by Name, Job Number"
-          size="small"
-          variant="outlined"
-          onChange={(e: any) => {
-            searchDebounce(e);
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {isLoading ? (
-          <Loading />
-        ) : (data?.logs?.length ?? 0) === 0 ? (
-          <NoDataFound />
-        ) : (
-          <ScrollableContainer>
-            {data.logs?.map((log: iLog) => {
-              return <LogsCard log={log} key={log.id} />;
-            })}
-          </ScrollableContainer>
-        )}
-      </div>
-    </MainLayout>
+    <div className="w-full h-full flex flex-col gap-3">
+      <span className="text-2xl font-bold">Users Permission :</span>
+      <TextField
+        className="flex-1"
+        placeholder=" Search by Name, Job Number"
+        size="small"
+        variant="outlined"
+        onChange={(e: any) => {
+          searchDebounce(e);
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      {isLoading ? (
+        <Loading />
+      ) : (data?.logs?.length ?? 0) === 0 ? (
+        <NoDataFound />
+      ) : (
+        <ScrollableContainer>
+          {data.logs?.map((log: iLog) => {
+            return <LogsCard log={log} key={log.id} />;
+          })}
+        </ScrollableContainer>
+      )}
+    </div>
   );
 };

@@ -31,44 +31,42 @@ export const Studies = () => {
   } = useData(getStudies, query);
 
   return (
-    <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3">
-        <span className="text-2xl font-bold">Studies :</span>
-        <TextField
-          className="flex-1"
-          placeholder=" Search by PI Name, Study Name, Study Number"
-          size="small"
-          variant="outlined"
-          onChange={(e: any) => {
-            searchDebounce(e);
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {isLoading ? (
-          <Loading />
-        ) : (data?.studies.length ?? 0) === 0 ? (
-          <NoDataFound />
-        ) : (
-          <ScrollableContainer>
-            {data.studies.map((study) => {
-              return (
-                <StudyCard
-                  isApproved={false}
-                  key={study._id}
-                  study={study}
-                  reloadData={() => {}}
-                />
-              );
-            })}
-          </ScrollableContainer>
-        )}
-      </div>
-    </MainLayout>
+    <div className="w-full h-full flex flex-col gap-3">
+      <span className="text-2xl font-bold">Studies :</span>
+      <TextField
+        className="flex-1"
+        placeholder=" Search by PI Name, Study Name, Study Number"
+        size="small"
+        variant="outlined"
+        onChange={(e: any) => {
+          searchDebounce(e);
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      {isLoading ? (
+        <Loading />
+      ) : (data?.studies.length ?? 0) === 0 ? (
+        <NoDataFound />
+      ) : (
+        <ScrollableContainer>
+          {data.studies.map((study) => {
+            return (
+              <StudyCard
+                isApproved={false}
+                key={study._id}
+                study={study}
+                reloadData={() => {}}
+              />
+            );
+          })}
+        </ScrollableContainer>
+      )}
+    </div>
   );
 };

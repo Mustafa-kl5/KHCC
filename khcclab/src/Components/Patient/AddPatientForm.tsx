@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
+import { ScrollableContainer } from "UI/ScrollableContainer";
 
 import { useState } from "react";
 
@@ -155,16 +156,9 @@ export const AddPatientForm = () => {
   }
 
   return (
-    <form className="flex flex-col">
-      <Box
-        sx={{
-          bgcolor: "background.paper",
-          position: "relative",
-          maxWidth: "100%",
-        }}
-      >
+    <div className="h-full w-full flex flex-col pb-4">
+      <ScrollableContainer>
         <Tabs
-          className="mb-3"
           value={index}
           onChange={handleChange}
           indicatorColor="primary"
@@ -178,53 +172,53 @@ export const AddPatientForm = () => {
 
         <TabPanel value={index} index={0}></TabPanel>
         <TabPanel value={index} index={1}></TabPanel>
-      </Box>
 
-      <Controller
-        name="patientName"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            error={errors.patientName && true}
-            {...field}
-            autoFocus
-            label="Patient Name"
-            className="w-full self-end"
-            helperText={
-              (errors.patientName && errors.patientName.message) || " "
-            }
-          />
-        )}
-      />
+        <Controller
+          name="patientName"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.patientName && true}
+              {...field}
+              autoFocus
+              label="Patient Name"
+              className="w-full self-end"
+              helperText={
+                (errors.patientName && errors.patientName.message) || " "
+              }
+            />
+          )}
+        />
 
-      <Controller
-        name="dayCode"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            error={errors.dayCode && true}
-            {...field}
-            label="Day Code"
-            className="w-full "
-            helperText={(errors.dayCode && errors.dayCode.message) || " "}
-          />
-        )}
-      />
-      <Controller
-        name="researchId"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            error={errors.researchId && true}
-            {...field}
-            label="Research Id"
-            className="w-full "
-            helperText={(errors.researchId && errors.researchId.message) || " "}
-          />
-        )}
-      />
+        <Controller
+          name="dayCode"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.dayCode && true}
+              {...field}
+              label="Day Code"
+              className="w-full "
+              helperText={(errors.dayCode && errors.dayCode.message) || " "}
+            />
+          )}
+        />
+        <Controller
+          name="researchId"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.researchId && true}
+              {...field}
+              label="Research Id"
+              className="w-full "
+              helperText={
+                (errors.researchId && errors.researchId.message) || " "
+              }
+            />
+          )}
+        />
 
-      <div className="flex flex-col gap-5">
         <Controller
           name="birthDate"
           control={control}
@@ -292,21 +286,19 @@ export const AddPatientForm = () => {
             </FormControl>
           )}
         />
-        <Button
-          className="w-full m-auto sm:w-auto"
-          size="large"
-          variant="contained"
-          onClick={handleSubmit(onSubmit)}
-          disabled={!isValid || isSubmitting}
-        >
-          <div className="flex gap-2 items-center">
-            <span>Add Patient</span>
-            {isSubmitting && (
-              <CircularProgress className="!w-[1rem] !h-[1rem]" />
-            )}
-          </div>
-        </Button>
-      </div>
-    </form>
+      </ScrollableContainer>
+      <Button
+        className="w-full m-auto sm:w-auto"
+        size="large"
+        variant="contained"
+        onClick={handleSubmit(onSubmit)}
+        disabled={!isValid || isSubmitting}
+      >
+        <div className="flex gap-2 items-center">
+          <span>Add Patient</span>
+          {isSubmitting && <CircularProgress className="!w-[1rem] !h-[1rem]" />}
+        </div>
+      </Button>
+    </div>
   );
 };

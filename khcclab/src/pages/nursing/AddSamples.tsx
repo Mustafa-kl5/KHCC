@@ -4,11 +4,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { AddSamplesForm } from "Components/Patient/AddSamplesForm";
 import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
+import { set } from "date-fns";
+import { useData } from "hooks/useData";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { addSamples } from "services/nursing";
+import { onSignOutSuccess } from "services/authService";
+import { addSamples, getPatient } from "services/nursing";
 import { SHOW_TOAST_MESSAGE } from "utils/constant";
 import { getStudyId } from "utils/getStudyId";
 import { sampleSchema } from "validation-schema/sampleSchema";
@@ -27,6 +30,31 @@ export const AddSamples = () => {
       storageType: "",
     },
   ]);
+  useEffect(() => {
+    getPatientData();
+  }, [patientId]);
+
+  const getPatientData = async () => {
+    try {
+      const patientIdUser = patientId?.replace(/^:(.*)$/, "$1")!;
+      await getPatient(patientIdUser);
+    } catch (err: any) {
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message:
+            err?.response?.data?.message +
+              "The session will destroy after 3s" ||
+            "Something is going Wrong , Try again later",
+          isOpen: true,
+          severity: "error",
+        },
+      });
+      setTimeout(() => {
+        onSignOutSuccess();
+      }, 3000);
+    }
+  };
 
   const {
     control,
@@ -120,39 +148,35 @@ export const AddSamples = () => {
   };
 
   return (
-    <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3">
-        <span className="text-2xl font-bold">Add Samples</span>
-        <ScrollableContainer>
-          {formsData.map((_, index: number) => {
-            return (
-              <AddSamplesForm
-                key={index}
-                control={control}
-                errors={errors}
-                index={index}
-                onClick={handleAddForm}
-                remove={handleDeleteForm}
-                formLength={formsData.length}
-              />
-            );
-          })}
-        </ScrollableContainer>
+    <div className="w-full h-full flex flex-col gap-3">
+      <span className="text-2xl font-bold">Add Samples</span>
+      <ScrollableContainer>
+        {formsData.map((_, index: number) => {
+          return (
+            <AddSamplesForm
+              key={index}
+              control={control}
+              errors={errors}
+              index={index}
+              onClick={handleAddForm}
+              remove={handleDeleteForm}
+              formLength={formsData.length}
+            />
+          );
+        })}
+      </ScrollableContainer>
 
-        <Button
-          size="large"
-          variant="contained"
-          onClick={handleSubmit(onSubmit)}
-          disabled={!isValid}
-        >
-          <div className="flex gap-2 items-center">
-            <span>Add Samples</span>
-            {isSubmitting && (
-              <CircularProgress className="!w-[1rem] !h-[1rem]" />
-            )}
-          </div>
-        </Button>
-      </div>
-    </MainLayout>
+      <Button
+        size="large"
+        variant="contained"
+        onClick={handleSubmit(onSubmit)}
+        disabled={!isValid}
+      >
+        <div className="flex gap-2 items-center">
+          <span>Add Samples</span>
+          {isSubmitting && <CircularProgress className="!w-[1rem] !h-[1rem]" />}
+        </div>
+      </Button>
+    </div>
   );
 };

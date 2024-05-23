@@ -44,6 +44,12 @@ export const getPatientsList = (filter?: {
   });
 };
 
+export const getPatient = (patientId: string) => {
+  return ApiService.baseApi.get(`${baseURL}/nursing/foundPatient`, {
+    params: { patientId },
+  });
+};
+
 export const giveDeletePaitentReason = (Id: string, reason: string) => {
   return ApiService.fetchData({
     url: `${baseURL}/nursing/giveDeletePaitentReason`,

@@ -87,99 +87,97 @@ export const AddFreezerForm = () => {
     mode: "onChange",
   });
   return (
-    <>
-      <ScrollableContainer>
-        <form className="flex flex-col gap-5 pt-3 px-3">
-          <Controller
-            name="freezerName"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                error={errors.freezerName && true}
-                {...field}
-                autoFocus
-                label="Freezer Name"
-                className="input"
-                helperText={errors.freezerName && errors.freezerName.message}
-              />
-            )}
-          />
-          <Controller
-            name="freezerModel"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                error={errors.freezerModel && true}
-                {...field}
-                label="Freezer Model"
-                className="input"
-                helperText={errors.freezerModel && errors.freezerModel.message}
-              />
-            )}
-          />
-          <Controller
-            name="freezerLocation"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                error={errors.freezerLocation && true}
-                {...field}
-                label="Freezer Location"
-                className="input"
-                helperText={
-                  errors.freezerLocation && errors.freezerLocation.message
-                }
-              />
-            )}
-          />
-          <Controller
-            name="freezerType"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                error={errors.freezerType && true}
-                {...field}
-                label="Freezer Type"
-                className="input"
-                helperText={errors.freezerType && errors.freezerType.message}
-              />
-            )}
-          />
+    <div className="flex-col flex justify-between h-full">
+      <div className="flex gap-2 h-full flex-col py-4 overflow-y-auto pe-3">
+        <Controller
+          name="freezerName"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.freezerName && true}
+              {...field}
+              autoFocus
+              label="Freezer Name"
+              className="input"
+              helperText={errors.freezerName && errors.freezerName.message}
+            />
+          )}
+        />
+        <Controller
+          name="freezerModel"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.freezerModel && true}
+              {...field}
+              label="Freezer Model"
+              className="input"
+              helperText={errors.freezerModel && errors.freezerModel.message}
+            />
+          )}
+        />
+        <Controller
+          name="freezerLocation"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.freezerLocation && true}
+              {...field}
+              label="Freezer Location"
+              className="input"
+              helperText={
+                errors.freezerLocation && errors.freezerLocation.message
+              }
+            />
+          )}
+        />
+        <Controller
+          name="freezerType"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              error={errors.freezerType && true}
+              {...field}
+              label="Freezer Type"
+              className="input"
+              helperText={errors.freezerType && errors.freezerType.message}
+            />
+          )}
+        />
 
-          <Controller
-            name="NumberOfShelves"
-            control={control}
-            render={({ field: { onChange } }) => (
-              <input
-                min={0}
-                value={undefined}
-                onChange={(e) => {
-                  onChange(parseInt(e.target.value));
-                }}
-                type="number"
-                className=" outline-none text-base ring-1 ring-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:ring-2 block w-full py-[15.5px] px-[14px]"
-                placeholder="Number of Shelves"
-              />
-            )}
-          />
-          <Controller
-            name="BoxesPerShelf"
-            control={control}
-            render={({ field: { onChange } }) => (
-              <input
-                min={0}
-                value={undefined}
-                onChange={(e) => {
-                  onChange(parseInt(e.target.value));
-                }}
-                type="number"
-                className=" outline-none text-base ring-1 ring-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:ring-2 block w-full py-[15.5px] px-[14px]"
-                placeholder="Boxes per Shelf"
-              />
-            )}
-          />
-        </form>
-      </ScrollableContainer>
+        <Controller
+          name="NumberOfShelves"
+          control={control}
+          render={({ field: { onChange } }) => (
+            <input
+              min={0}
+              value={undefined}
+              onChange={(e) => {
+                onChange(parseInt(e.target.value));
+              }}
+              type="number"
+              className=" outline-none text-base ring-1 ring-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:ring-2 block w-full py-[15.5px] px-[14px]"
+              placeholder="Number of Shelves"
+            />
+          )}
+        />
+        <Controller
+          name="BoxesPerShelf"
+          control={control}
+          render={({ field: { onChange } }) => (
+            <input
+              min={0}
+              value={undefined}
+              onChange={(e) => {
+                onChange(parseInt(e.target.value));
+              }}
+              type="number"
+              className=" outline-none text-base ring-1 ring-gray-300 text-gray-900 rounded focus:ring-blue-500 focus:ring-2 block w-full py-[15.5px] px-[14px]"
+              placeholder="Boxes per Shelf"
+            />
+          )}
+        />
+      </div>
       <Button
         className=""
         variant="contained"
@@ -192,6 +190,6 @@ export const AddFreezerForm = () => {
           {isSubmitting && <CircularProgress className="!w-[1rem] !h-[1rem]" />}
         </div>
       </Button>
-    </>
+    </div>
   );
 };

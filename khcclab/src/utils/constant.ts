@@ -1,3 +1,13 @@
+import {
+  AddCircleSharp,
+  Approval,
+  BookOutlined,
+  CallToAction,
+  Dashboard,
+  ImportContacts,
+  PermScanWifiSharp,
+  SevereCold,
+} from "@mui/icons-material";
 export const PASSWORD_PATTERN = /^().{8,}$/;
 export const ACCESS_TOKEN = "access-token";
 export const USER_ROLE = "user-role";

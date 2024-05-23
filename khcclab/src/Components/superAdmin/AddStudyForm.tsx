@@ -141,6 +141,7 @@ export const AddStudyForm = () => {
             control={control}
             render={({ field }) => (
               <TextField
+                autoFocus
                 error={errors.studyName && true}
                 {...field}
                 label="Study Name"

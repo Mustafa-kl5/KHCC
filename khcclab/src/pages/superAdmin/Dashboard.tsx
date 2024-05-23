@@ -39,45 +39,43 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3 ">
-        <div className="flex justify-between">
-          <span className="text-2xl font-bold">Dashboard :</span>
-          <div className="flex gap-2 items-center">
-            <span className="font-bold text-xl pe-2"> Statistics By:</span>
-            <ButtonGroup
-              disableElevation
-              variant="contained"
-              aria-label="Disabled button group"
+    <div className="w-full h-full flex flex-col gap-3 ">
+      <div className="flex justify-between">
+        <span className="text-2xl font-bold">Dashboard :</span>
+        <div className="flex gap-2 items-center">
+          <span className="font-bold text-xl pe-2"> Statistics By:</span>
+          <ButtonGroup
+            disableElevation
+            variant="contained"
+            aria-label="Disabled button group"
+          >
+            <Button
+              variant={chartType === "freezers" ? "contained" : "outlined"}
+              onClick={() => {
+                setChartType("freezers");
+              }}
             >
-              <Button
-                variant={chartType === "freezers" ? "contained" : "outlined"}
-                onClick={() => {
-                  setChartType("freezers");
-                }}
-              >
-                Freezers
-              </Button>
-              <Button
-                variant={chartType === "studies" ? "contained" : "outlined"}
-                onClick={() => {
-                  setChartType("studies");
-                }}
-              >
-                Studies
-              </Button>
-            </ButtonGroup>
-          </div>
-        </div>
-        <div className="w-full h-full" ref={chartRef}>
-          {chartType === "freezers" && (
-            <FreezersChart chartSetting={chartSetting} />
-          )}
-          {chartType === "studies" && (
-            <StudiesChart chartSetting={chartSetting} />
-          )}
+              Freezers
+            </Button>
+            <Button
+              variant={chartType === "studies" ? "contained" : "outlined"}
+              onClick={() => {
+                setChartType("studies");
+              }}
+            >
+              Studies
+            </Button>
+          </ButtonGroup>
         </div>
       </div>
-    </MainLayout>
+      <div className="w-full h-full" ref={chartRef}>
+        {chartType === "freezers" && (
+          <FreezersChart chartSetting={chartSetting} />
+        )}
+        {chartType === "studies" && (
+          <StudiesChart chartSetting={chartSetting} />
+        )}
+      </div>
+    </div>
   );
 };

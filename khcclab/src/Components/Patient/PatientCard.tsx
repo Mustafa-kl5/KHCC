@@ -154,7 +154,7 @@ export const PatientCard = ({
           <div className="flex justify-end gap-3">
             <Button
               onClick={() => {
-                navigate(`/add-samples/:${patient._id}`);
+                navigate(`/nursing-dashboard/add-sample/:${patient._id}`);
               }}
               variant="outlined"
               size="large"

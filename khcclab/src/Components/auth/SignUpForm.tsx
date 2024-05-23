@@ -9,7 +9,7 @@ import { iSignUpForm } from "types/signup";
 import { ACCESS_TOKEN, SHOW_TOAST_MESSAGE, USER_ROLE } from "utils/constant";
 import { registrationSchema } from "validation-schema/registrationSchema";
 
-export const RegestierForm = () => {
+export const SignUpForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -63,8 +63,6 @@ export const RegestierForm = () => {
         token: string;
         role: string;
       };
-      localStorage.setItem(ACCESS_TOKEN, res.token);
-      localStorage.setItem(USER_ROLE, res.role);
       navigate("/");
     } catch (err: any) {
       dispatch({
@@ -214,7 +212,7 @@ export const RegestierForm = () => {
       </div>
       <p>
         Already have an account?
-        <Link to="/login" className="text-button-100">
+        <Link to="/" className="text-button-100">
           Login
         </Link>
       </p>
