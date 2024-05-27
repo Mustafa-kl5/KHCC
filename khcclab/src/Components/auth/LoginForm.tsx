@@ -114,7 +114,30 @@ export const LoginForm = () => {
   }, []);
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate("/");
+      switch (localStorage.getItem(USER_ROLE)) {
+        case "superAdmin":
+          navigate("/admin-dashboard/charts");
+          break;
+        case "technician":
+          navigate("/technician-dashboard/patients");
+          break;
+        case "nursing":
+          navigate("/nursing-dashboard/add-patient");
+          break;
+        case "pending":
+          dispatch({
+            type: SHOW_TOAST_MESSAGE,
+            message: {
+              message:
+                "Your account is not approved yet, Please wait for approval",
+              isOpen: true,
+              severity: "warning",
+            },
+          });
+          break;
+        default:
+          navigate("/");
+      }
     }
   }, []);
   return (

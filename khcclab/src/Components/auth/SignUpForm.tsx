@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { isLoggedIn, registration } from "services/authService";
 import { iSignUpForm } from "types/signup";
-import { ACCESS_TOKEN, SHOW_TOAST_MESSAGE, USER_ROLE } from "utils/constant";
+import { SHOW_TOAST_MESSAGE, USER_ROLE } from "utils/constant";
 import { registrationSchema } from "validation-schema/registrationSchema";
 
 export const SignUpForm = () => {
@@ -16,7 +16,30 @@ export const SignUpForm = () => {
 
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate("/");
+      switch (localStorage.getItem(USER_ROLE)) {
+        case "superAdmin":
+          navigate("/admin-dashboard/charts");
+          break;
+        case "technician":
+          navigate("/technician-dashboard/patients");
+          break;
+        case "nursing":
+          navigate("/nursing-dashboard/add-patient");
+          break;
+        case "pending":
+          dispatch({
+            type: SHOW_TOAST_MESSAGE,
+            message: {
+              message:
+                "Your account is not approved yet, Please wait for approval",
+              isOpen: true,
+              severity: "warning",
+            },
+          });
+          break;
+        default:
+          navigate("/");
+      }
     }
   }, []);
 
