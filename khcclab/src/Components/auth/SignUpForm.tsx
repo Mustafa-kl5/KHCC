@@ -74,7 +74,7 @@ export const SignUpForm = () => {
     } = data;
     try {
       setIsSubmitting(true);
-      const res = (await registration(
+      await registration(
         employeeId,
         position,
         department,
@@ -82,10 +82,7 @@ export const SignUpForm = () => {
         lastName,
         email,
         password
-      )) as {
-        token: string;
-        role: string;
-      };
+      );
       navigate("/");
     } catch (err: any) {
       dispatch({

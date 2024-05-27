@@ -10,16 +10,16 @@ import {
   TextField,
 } from "@mui/material";
 import { Loading } from "Components/Shared/Loading";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { getEmptyCells, saveSample } from "services/technician";
 import { iFreezerlist } from "types/freezer";
 import { iSample } from "types/sample";
 import { SHOW_TOAST_MESSAGE, mainBoxsType, subBoxsType } from "utils/constant";
+import { getStudyId } from "utils/getStudyId";
 import { saveSampleSchema } from "validation-schema/saveSample";
 import { Cell } from "./Cell";
-import { getStudyId } from "utils/getStudyId";
 export const StoragePicker = ({
   chooseCell,
   closeModel,
@@ -88,7 +88,7 @@ export const StoragePicker = ({
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     setValue,
     getValues,
     watch,
@@ -472,7 +472,8 @@ export const StoragePicker = ({
                 freezerId === "" ||
                 mainBoxId === "" ||
                 subBoxId === "" ||
-                numberOfSamples === ""
+                numberOfSamples === "" ||
+                isSubmitting
               }
               onClick={handleSubmit(onSubmit)}
             >

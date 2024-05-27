@@ -1,12 +1,7 @@
-import { iLog } from "types/logs";
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Button,
-} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import { format } from "date-fns";
+import { iLog } from "types/logs";
 
 export const LogsCard = ({ log }: { log: iLog }) => {
   return (

@@ -8,7 +8,6 @@ import {
 import { Loading } from "Components/Shared/Loading";
 import { NoDataFound } from "Components/Shared/NoDataFound";
 import { SampleCard } from "Components/technician/SampleCard";
-import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
 import { getSamples } from "services/technician";
@@ -77,11 +76,17 @@ export const SamplesList = () => {
                   isApproved: "true",
                   isRejected: "false",
                 });
-              } else {
+              } else if (e.target.value === "isRejected") {
                 setQuery({
                   ...query,
                   isApproved: "false",
                   isRejected: "true",
+                });
+              } else {
+                setQuery({
+                  ...query,
+                  isApproved: "false",
+                  isRejected: "false",
                 });
               }
             }}
@@ -91,6 +96,7 @@ export const SamplesList = () => {
             <MenuItem value={""}>All</MenuItem>
             <MenuItem value={"isApproved"}>Approved</MenuItem>
             <MenuItem value={"isRejected"}>Rejected</MenuItem>
+            <MenuItem value={"pending"}>Pending</MenuItem>
           </Select>
         </FormControl>
       </div>
