@@ -22,6 +22,7 @@ import { PatientList } from "pages/nursing/PatientList";
 import { AddSamples } from "pages/nursing/AddSamples";
 import { AddPatient } from "pages/nursing/AddPatient";
 import ErrorBoundary from "pages/ErrorBoundary";
+import AuthGuard from "Components/auth/AuthGuard";
 
 export const router = createBrowserRouter([
   {
@@ -36,7 +37,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/admin-dashboard",
-    element: <AdminDashboard />,
+    element: (
+      <AuthGuard role="superAdmin">
+        <AdminDashboard />
+      </AuthGuard>
+    ),
     children: [
       { path: "add-study", element: <AddStudy /> },
       { path: "add-freezer", element: <AddFreezer /> },
@@ -50,7 +55,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/technician-dashboard",
-    element: <TechnicianDashboard />,
+    element: (
+      <AuthGuard role="technician">
+        <TechnicianDashboard />
+      </AuthGuard>
+    ),
     children: [
       { path: "patients", element: <Patients /> },
       { path: "sample-list", element: <SamplesList /> },
@@ -62,7 +71,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/nursing-dashboard",
-    element: <NursingDashboard />,
+    element: (
+      <AuthGuard role="nursing">
+        <NursingDashboard />
+      </AuthGuard>
+    ),
 
     children: [
       { path: "patients", element: <PatientList /> },

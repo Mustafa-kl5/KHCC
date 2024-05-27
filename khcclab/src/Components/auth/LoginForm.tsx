@@ -52,7 +52,7 @@ export const LoginForm = () => {
               message:
                 "Your account is not approved yet, Please wait for approval",
               isOpen: true,
-              severity: "success",
+              severity: "warning",
             },
           });
           break;

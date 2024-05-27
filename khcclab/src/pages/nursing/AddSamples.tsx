@@ -7,7 +7,7 @@ import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { onSignOutSuccess } from "services/authService";
 import { addSamples, getPatient } from "services/nursing";
 import { SHOW_TOAST_MESSAGE } from "utils/constant";
@@ -16,6 +16,7 @@ import { sampleSchema } from "validation-schema/sampleSchema";
 
 export const AddSamples = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { patientId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -39,9 +40,7 @@ export const AddSamples = () => {
           severity: "error",
         },
       });
-      setTimeout(() => {
-        onSignOutSuccess();
-      }, 3000);
+      navigate("*");
     }
   };
 

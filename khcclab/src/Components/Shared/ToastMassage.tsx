@@ -24,7 +24,7 @@ const ToastMassage = () => {
       anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
     >
       <Alert
-        severity={message.severity as "error" | "success"}
+        severity={message.severity as "error" | "success" | "warning" | "info"}
         onClose={() => {
           dispatch({
             type: SHOW_TOAST_MESSAGE,

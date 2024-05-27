@@ -14,8 +14,17 @@ import {
   Storage,
 } from "@mui/icons-material";
 import { Header } from "Components/Header/Header";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-const adminPaths = [
+import { USER_ROLE } from "utils/constant";
+
+interface iPath {
+  path: string;
+  name: string;
+  icon: React.ReactNode;
+}
+
+const adminPaths: iPath[] = [
   {
     path: "/admin-dashboard/charts",
     name: "Dashboard",
@@ -57,7 +66,7 @@ const adminPaths = [
     icon: <PermScanWifiSharp />,
   },
 ];
-const technicianPaths = [
+const technicianPaths: iPath[] = [
   {
     path: "/technician-dashboard/patients",
     name: "Patients",
@@ -89,7 +98,7 @@ const technicianPaths = [
     icon: <ImportContacts />,
   },
 ];
-const nursingPaths = [
+const nursingPaths: iPath[] = [
   {
     path: "/nursing-dashboard/patients",
     name: "Patients",
@@ -107,8 +116,25 @@ const nursingPaths = [
   },
 ];
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
+  const [paths, setPaths] = useState<iPath[]>(adminPaths);
   const location = useLocation();
   const navigate = useNavigate();
+  useEffect(() => {
+    switch (localStorage.getItem(USER_ROLE)) {
+      case "superAdmin":
+        setPaths(adminPaths);
+        break;
+      case "technician":
+        setPaths(technicianPaths);
+        break;
+      case "nursing":
+        setPaths(nursingPaths);
+        break;
+      default:
+        break;
+    }
+  }, []);
+
   return (
     <div className="h-full flex flex-col w-full gap-3 bg-hussein-100">
       <div className="sticky top-0">
@@ -119,7 +145,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </div>
         <div className="w-[16%] h-full bg-white flex flex-col">
-          {nursingPaths.map((path) => {
+          {paths.map((path) => {
             return (
               <div
                 key={path.path}
