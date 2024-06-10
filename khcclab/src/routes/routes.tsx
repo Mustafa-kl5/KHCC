@@ -23,6 +23,7 @@ import { AddSamples } from "pages/nursing/AddSamples";
 import { AddPatient } from "pages/nursing/AddPatient";
 import ErrorBoundary from "pages/ErrorBoundary";
 import AuthGuard from "Components/auth/AuthGuard";
+import { ForgetPasswordForm } from "Components/auth/ForgetPasswordForm";
 
 export const router = createBrowserRouter([
   {
@@ -51,6 +52,8 @@ export const router = createBrowserRouter([
       { path: "logs", element: <Logs /> },
       { path: "permission", element: <Permission /> },
       { path: "studies", element: <Studies /> },
+      { path: "forget-passsword", element: <ForgetPasswordForm /> },
+
     ],
   },
   {
@@ -67,6 +70,8 @@ export const router = createBrowserRouter([
       { path: "exported-samples-back-up", element: <ExportedSampleBackUp /> },
       { path: "storage", element: <Storage /> },
       { path: "add-study", element: <AddStudy /> },
+      { path: "forget-passsword", element: <ForgetPasswordForm /> },
+
     ],
   },
   {
@@ -82,6 +87,8 @@ export const router = createBrowserRouter([
       { path: "add-sample/:patientId", element: <AddSamples /> },
       { path: "add-patient", element: <AddPatient /> },
       { path: "add-study", element: <AddStudy /> },
+      { path: "forget-passsword", element: <ForgetPasswordForm /> },
+
     ],
   },
   { path: "*", element: <ErrorBoundary /> },

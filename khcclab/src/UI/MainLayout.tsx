@@ -65,6 +65,11 @@ const adminPaths: iPath[] = [
     name: "Permission",
     icon: <PermScanWifiSharp />,
   },
+  {
+    path: "/admin-dashboard/forget-password",
+    name: "Forget Password",
+    icon: <PermScanWifiSharp />,
+  },
 ];
 const technicianPaths: iPath[] = [
   {
@@ -97,6 +102,11 @@ const technicianPaths: iPath[] = [
     name: "Add Study",
     icon: <ImportContacts />,
   },
+  {
+    path: "/technician-dashboard/forget-password",
+    name: "Forget Password",
+    icon: <PermScanWifiSharp />,
+  },
 ];
 const nursingPaths: iPath[] = [
   {
@@ -113,6 +123,11 @@ const nursingPaths: iPath[] = [
     path: "/nursing-dashboard/add-study",
     name: "Add Study",
     icon: <ImportContacts />,
+  },
+  {
+    path: "/nursing-dashboard/forget-password",
+    name: "Forget Password",
+    icon: <PermScanWifiSharp />,
   },
 ];
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
