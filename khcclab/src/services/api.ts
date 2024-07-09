@@ -11,7 +11,7 @@ class APIService {
   baseApi!: AxiosInstance;
   init() {
     this.baseApi = axios.create({
-      baseURL: "http://localhost:4111/",
+      baseURL: "http://192.168.20.38:4111/",
     });
 
     const unauthorizedCode = [400, 401];
