@@ -128,18 +128,18 @@ export const PatientCard = ({
           </span>
           <span className="text-base">
             <strong>Birth Date:</strong>{" "}
-            {format(new Date(patient.birthDate), "yyyy/M/d")}
+            {format(new Date(patient.birthDate), "d/MMM/yyyy")}
           </span>
           <span className="text-base">
             <strong>Admition Recovery Date:</strong>
-            {format(new Date(patient.admitionRecDate), "yyyy/M/d hh:mm:ss a")}
+            {format(new Date(patient.admitionRecDate), "d/MMM/yyyy hh:mm:ss a")}
           </span>
           <span className="text-base">
             <strong>Gender:</strong> {patient.gender}
           </span>
           <span className="text-base">
             <strong>Sample Drawing:</strong>
-            {new Date(patient.sampleDrawing).toLocaleString()}
+            {format(new Date(patient.sampleDrawing), "d/MMM/yyyy hh:mm:ss a")}
           </span>
           {patient.isDeleted && (
             <span className="text-base">
@@ -154,7 +154,7 @@ export const PatientCard = ({
           <div className="flex justify-end gap-3">
             <Button
               onClick={() => {
-                navigate(`/add-samples/:${patient._id}`);
+                navigate(`/nursing-dashboard/add-sample/:${patient._id}`);
               }}
               variant="outlined"
               size="large"

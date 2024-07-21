@@ -94,15 +94,15 @@ export const SampleExportCard = ({
           </span>
           <span className="text-base">
             <strong>Birth Date : </strong>
-            {format(new Date(sample.birthDate), "yyyy/M/d")}
+            {format(new Date(sample.birthDate), "d/MMM/yyyy")}
           </span>
           <span className="text-base">
             <strong>Drawn At :</strong>
-            {format(new Date(sample.drawnAt), "yyyy/M/d hh:mm:ss a")}
+            {format(new Date(sample.drawnAt), "d/MMM/yyyy hh:mm:ss a")}
           </span>
           <span className="text-base">
             <strong>Sample Drawing:</strong>
-            {format(new Date(sample.sampleDrawing), "yyyy/M/d hh:mm:ss a")}
+            {format(new Date(sample.sampleDrawing), "d/MMM/yyyy hh:mm:ss a")}
           </span>
         </div>
       </AccordionDetails>

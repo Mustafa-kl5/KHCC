@@ -18,27 +18,25 @@ export const Freezers = () => {
     fetchData: any;
   } = useData(getFreezers);
   return (
-    <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3">
-        <span className="text-2xl font-bold">Freezers :</span>
-        {isLoading ? (
-          <Loading />
-        ) : (data?.freezers.length ?? 0) === 0 ? (
-          <NoDataFound />
-        ) : (
-          <ScrollableContainer>
-            {data.freezers.map((freezer: any) => {
-              return (
-                <FreezerCard
-                  key={freezer._id}
-                  freezer={freezer}
-                  reloadData={fetchData}
-                />
-              );
-            })}
-          </ScrollableContainer>
-        )}
-      </div>
-    </MainLayout>
+    <div className="w-full h-full flex flex-col gap-3">
+      <span className="text-2xl font-bold">Freezers :</span>
+      {isLoading ? (
+        <Loading />
+      ) : (data?.freezers.length ?? 0) === 0 ? (
+        <NoDataFound />
+      ) : (
+        <ScrollableContainer>
+          {data.freezers.map((freezer: any) => {
+            return (
+              <FreezerCard
+                key={freezer._id}
+                freezer={freezer}
+                reloadData={fetchData}
+              />
+            );
+          })}
+        </ScrollableContainer>
+      )}
+    </div>
   );
 };

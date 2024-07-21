@@ -34,7 +34,31 @@ export const LoginForm = () => {
       };
       localStorage.setItem(ACCESS_TOKEN, res.token);
       localStorage.setItem(USER_ROLE, res.role);
-      navigate("/");
+
+      switch (res.role) {
+        case "superAdmin":
+          navigate("/admin-dashboard/charts");
+          break;
+        case "technician":
+          navigate("/technician-dashboard/patients");
+          break;
+        case "nursing":
+          navigate("/nursing-dashboard/add-patient");
+          break;
+        case "pending":
+          dispatch({
+            type: SHOW_TOAST_MESSAGE,
+            message: {
+              message:
+                "Your account is not approved yet, Please wait for approval",
+              isOpen: true,
+              severity: "warning",
+            },
+          });
+          break;
+        default:
+          navigate("/");
+      }
     } catch (err: any) {
       dispatch({
         type: SHOW_TOAST_MESSAGE,
@@ -90,7 +114,30 @@ export const LoginForm = () => {
   }, []);
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate("/");
+      switch (localStorage.getItem(USER_ROLE)) {
+        case "superAdmin":
+          navigate("/admin-dashboard/charts");
+          break;
+        case "technician":
+          navigate("/technician-dashboard/patients");
+          break;
+        case "nursing":
+          navigate("/nursing-dashboard/add-patient");
+          break;
+        case "pending":
+          dispatch({
+            type: SHOW_TOAST_MESSAGE,
+            message: {
+              message:
+                "Your account is not approved yet, Please wait for approval",
+              isOpen: true,
+              severity: "warning",
+            },
+          });
+          break;
+        default:
+          navigate("/");
+      }
     }
   }, []);
   return (
@@ -166,7 +213,7 @@ export const LoginForm = () => {
       />
       <p>
         Don't have an account?
-        <Link to="/signup" className="text-button-100">
+        <Link to="/sign-up" className="text-button-100">
           Register
         </Link>
       </p>

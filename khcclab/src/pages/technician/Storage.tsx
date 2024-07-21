@@ -45,47 +45,45 @@ export const Storage = () => {
     fetchData: any;
   } = useData(getApprovalSamples, query);
   return (
-    <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3">
-        <span className="text-2xl font-bold">Storage :</span>
-        <TextField
-          className="flex-1"
-          placeholder=" Search by Patient Name, KHCC Code, SSN, MRN, Sample Serial"
-          size="small"
-          variant="outlined"
-          onChange={(e: any) => {
-            searchDebounce(e);
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <ScrollableContainer>
-          <div className="w-full h-full flex flex-col gap-3">
-            {isLoading || isFreezerLoading ? (
-              <Loading />
-            ) : (data.samples?.length ?? 0) === 0 ? (
-              <NoDataFound />
-            ) : (
-              data.samples.map((item) => {
-                return (
-                  <SampleCard
-                    freezers={freezerData}
-                    isStorage={true}
-                    reloadData={fetchData}
-                    key={item._id}
-                    sample={item}
-                  />
-                );
-              })
-            )}
-          </div>
-        </ScrollableContainer>
-      </div>
-    </MainLayout>
+    <div className="w-full h-full flex flex-col gap-3">
+      <span className="text-2xl font-bold">Storage :</span>
+      <TextField
+        className="flex-1"
+        placeholder=" Search by Patient Name, KHCC Code, SSN, MRN, Sample Serial"
+        size="small"
+        variant="outlined"
+        onChange={(e: any) => {
+          searchDebounce(e);
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <ScrollableContainer>
+        <div className="w-full h-full flex flex-col gap-3">
+          {isLoading || isFreezerLoading ? (
+            <Loading />
+          ) : (data.samples?.length ?? 0) === 0 ? (
+            <NoDataFound />
+          ) : (
+            data.samples.map((item) => {
+              return (
+                <SampleCard
+                  freezers={freezerData}
+                  isStorage={true}
+                  reloadData={fetchData}
+                  key={item._id}
+                  sample={item}
+                />
+              );
+            })
+          )}
+        </div>
+      </ScrollableContainer>
+    </div>
   );
 };

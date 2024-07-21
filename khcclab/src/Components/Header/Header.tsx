@@ -17,7 +17,7 @@ export const Header = ({ children }: { children?: React.ReactNode }) => {
           setOpen(false);
         }}
       />
-      <div className="bg-hussein-200 w-full p-3 px-5 flex justify-between rounded-xl items-center shadow-lg">
+      <div className="bg-hussein-200 w-full px-5 py-3 flex justify-between items-center shadow-lg">
         {children && children}
         <div className="flex gap-2">
           <img src={khccBioLogo} alt="KHCCbio-logo" className="h-9" />

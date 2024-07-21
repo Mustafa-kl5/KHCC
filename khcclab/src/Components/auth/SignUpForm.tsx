@@ -6,17 +6,40 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { isLoggedIn, registration } from "services/authService";
 import { iSignUpForm } from "types/signup";
-import { ACCESS_TOKEN, SHOW_TOAST_MESSAGE, USER_ROLE } from "utils/constant";
+import { SHOW_TOAST_MESSAGE, USER_ROLE } from "utils/constant";
 import { registrationSchema } from "validation-schema/registrationSchema";
 
-export const RegestierForm = () => {
+export const SignUpForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
     if (isLoggedIn()) {
-      navigate("/");
+      switch (localStorage.getItem(USER_ROLE)) {
+        case "superAdmin":
+          navigate("/admin-dashboard/charts");
+          break;
+        case "technician":
+          navigate("/technician-dashboard/patients");
+          break;
+        case "nursing":
+          navigate("/nursing-dashboard/add-patient");
+          break;
+        case "pending":
+          dispatch({
+            type: SHOW_TOAST_MESSAGE,
+            message: {
+              message:
+                "Your account is not approved yet, Please wait for approval",
+              isOpen: true,
+              severity: "warning",
+            },
+          });
+          break;
+        default:
+          navigate("/");
+      }
     }
   }, []);
 
@@ -51,7 +74,7 @@ export const RegestierForm = () => {
     } = data;
     try {
       setIsSubmitting(true);
-      const res = (await registration(
+      await registration(
         employeeId,
         position,
         department,
@@ -59,12 +82,7 @@ export const RegestierForm = () => {
         lastName,
         email,
         password
-      )) as {
-        token: string;
-        role: string;
-      };
-      localStorage.setItem(ACCESS_TOKEN, res.token);
-      localStorage.setItem(USER_ROLE, res.role);
+      );
       navigate("/");
     } catch (err: any) {
       dispatch({
@@ -214,7 +232,7 @@ export const RegestierForm = () => {
       </div>
       <p>
         Already have an account?
-        <Link to="/login" className="text-button-100">
+        <Link to="/" className="text-button-100">
           Login
         </Link>
       </p>

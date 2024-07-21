@@ -35,51 +35,49 @@ const ExportedSampleBackUp = () => {
   } = useData(sampleToExportBackup, query);
 
   return (
-    <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3">
-        <div className="flex justify-between items-center">
-          <span className="text-2xl font-bold">Export Samples :</span>
-        </div>
-        <TextField
-          className="flex-1"
-          placeholder=" Search by Patient Name, KHCC Code, SSN, MRN, Sample Serial"
-          size="small"
-          variant="outlined"
-          onChange={(e: any) => {
-            searchDebounce(e);
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {isLoading ? (
-          <Loading />
-        ) : (data.freezers?.length ?? 0) === 0 ? (
-          <NoDataFound />
-        ) : (
-          <ScrollableContainer>
-            {data.freezers?.map((item) => (
-              <Fragment key={item._id}>
-                {item.samplesBackUp.map((sample) => (
-                  <SampleExportCard
-                    key={sample._id}
-                    sample={sample}
-                    freezer={item}
-                    sendSample={() => {}}
-                    samples={samplesToExport}
-                    isSearch={false}
-                  />
-                ))}
-              </Fragment>
-            ))}
-          </ScrollableContainer>
-        )}
+    <div className="w-full h-full flex flex-col gap-3">
+      <div className="flex justify-between items-center">
+        <span className="text-2xl font-bold">Export Samples :</span>
       </div>
-    </MainLayout>
+      <TextField
+        className="flex-1"
+        placeholder=" Search by Patient Name, KHCC Code, SSN, MRN, Sample Serial"
+        size="small"
+        variant="outlined"
+        onChange={(e: any) => {
+          searchDebounce(e);
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      {isLoading ? (
+        <Loading />
+      ) : (data.freezers?.length ?? 0) === 0 ? (
+        <NoDataFound />
+      ) : (
+        <ScrollableContainer>
+          {data.freezers?.map((item) => (
+            <Fragment key={item._id}>
+              {item.samplesBackUp.map((sample) => (
+                <SampleExportCard
+                  key={sample._id}
+                  sample={sample}
+                  freezer={item}
+                  sendSample={() => {}}
+                  samples={samplesToExport}
+                  isSearch={false}
+                />
+              ))}
+            </Fragment>
+          ))}
+        </ScrollableContainer>
+      )}
+    </div>
   );
 };
 

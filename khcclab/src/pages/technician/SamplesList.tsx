@@ -8,7 +8,6 @@ import {
 import { Loading } from "Components/Shared/Loading";
 import { NoDataFound } from "Components/Shared/NoDataFound";
 import { SampleCard } from "Components/technician/SampleCard";
-import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
 import { getSamples } from "services/technician";
@@ -41,79 +40,84 @@ export const SamplesList = () => {
     fetchData: any;
   } = useData(getSamples, query);
   return (
-    <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3">
-        <span className="text-2xl font-bold">Samples :</span>
-        <div className="flex items-center">
-          <TextField
-            className="flex-1"
-            placeholder=" Search by Patient Name, MRN, SSN, Sample Serial, Study Number"
-            size="small"
-            variant="outlined"
+    <div className="w-full h-full flex flex-col gap-3">
+      <span className="text-2xl font-bold">Samples :</span>
+      <div className="flex items-center">
+        <TextField
+          className="flex-1"
+          placeholder=" Search by Patient Name, MRN, SSN, Sample Serial, Study Number"
+          size="small"
+          variant="outlined"
+          onChange={(e: any) => {
+            searchDebounce(e);
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+          <Select
+            value={query.isDeleted || query.seen}
+            defaultValue={""}
             onChange={(e: any) => {
-              searchDebounce(e);
+              if (e.target.value === "") {
+                return setQuery({
+                  ...query,
+                  isApproved: undefined,
+                  isRejected: undefined,
+                });
+              } else if (e.target.value === "isApproved") {
+                return setQuery({
+                  ...query,
+                  isApproved: "true",
+                  isRejected: "false",
+                });
+              } else if (e.target.value === "isRejected") {
+                setQuery({
+                  ...query,
+                  isApproved: "false",
+                  isRejected: "true",
+                });
+              } else {
+                setQuery({
+                  ...query,
+                  isApproved: "false",
+                  isRejected: "false",
+                });
+              }
             }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <Select
-              value={query.isDeleted || query.seen}
-              defaultValue={""}
-              onChange={(e: any) => {
-                if (e.target.value === "") {
-                  return setQuery({
-                    ...query,
-                    isApproved: undefined,
-                    isRejected: undefined,
-                  });
-                } else if (e.target.value === "isApproved") {
-                  return setQuery({
-                    ...query,
-                    isApproved: "true",
-                    isRejected: "false",
-                  });
-                } else {
-                  setQuery({
-                    ...query,
-                    isApproved: "false",
-                    isRejected: "true",
-                  });
-                }
-              }}
-              displayEmpty
-              inputProps={{ "aria-label": "Without label" }}
-            >
-              <MenuItem value={""}>All</MenuItem>
-              <MenuItem value={"isApproved"}>Approved</MenuItem>
-              <MenuItem value={"isRejected"}>Rejected</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        {isLoading ? (
-          <Loading />
-        ) : (data.samples?.length ?? 0) === 0 ? (
-          <NoDataFound />
-        ) : (
-          <ScrollableContainer>
-            {data.samples.map((item) => {
-              return (
-                <SampleCard
-                  isStorage={false}
-                  reloadData={fetchData}
-                  key={item._id}
-                  sample={item}
-                />
-              );
-            })}
-          </ScrollableContainer>
-        )}
+            displayEmpty
+            inputProps={{ "aria-label": "Without label" }}
+          >
+            <MenuItem value={""}>All</MenuItem>
+            <MenuItem value={"isApproved"}>Approved</MenuItem>
+            <MenuItem value={"isRejected"}>Rejected</MenuItem>
+            <MenuItem value={"pending"}>Pending</MenuItem>
+          </Select>
+        </FormControl>
       </div>
-    </MainLayout>
+      {isLoading ? (
+        <Loading />
+      ) : (data.samples?.length ?? 0) === 0 ? (
+        <NoDataFound />
+      ) : (
+        <ScrollableContainer>
+          {data.samples.map((item) => {
+            return (
+              <SampleCard
+                isStorage={false}
+                reloadData={fetchData}
+                key={item._id}
+                sample={item}
+              />
+            );
+          })}
+        </ScrollableContainer>
+      )}
+    </div>
   );
 };

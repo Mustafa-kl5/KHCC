@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Cell = ({
   value,
   onCellPick,
@@ -22,7 +20,7 @@ export const Cell = ({
           value === "11" ||
           value === "12" ||
           value === "13" ||
-          value == ""
+          value === ""
             ? "bg-slate-100"
             : " cursor-pointer"
         } ${chosenCells.includes(value) ? "bg-slate-600" : undefined} ${
@@ -38,7 +36,7 @@ export const Cell = ({
           value === "12" ||
           value === "13" ||
           chosenCells.includes(value) ||
-          value == "" ||
+          value === "" ||
           unavailableCells.includes(value)
         ) {
           return;

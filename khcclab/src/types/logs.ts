@@ -7,4 +7,7 @@ export interface iLog {
 
 export interface iLogsList {
   logs: iLog[];
+  totalLogs: number; // Total number of logs available
+  page: number;
+  pageSize: number;
 }

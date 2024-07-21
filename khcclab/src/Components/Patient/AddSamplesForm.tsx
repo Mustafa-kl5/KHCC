@@ -41,11 +41,11 @@ export const AddSamplesForm = ({
   formLength: number;
 }) => {
   return (
-    <div className=" flex flex-col gap-2 p-3 rounded-lg even:bg-slate-100">
+    <div className="flex flex-col gap-2 p-3 rounded-lg even:bg-slate-100">
       <span className="text-base">
         <strong># Sample {index + 1}</strong>
       </span>
-      <div className=" flex flex-col gap-3">
+      <div className="flex flex-col gap-3">
         <Controller
           name={`samples[${index}].containerType`}
           control={control}
@@ -60,20 +60,14 @@ export const AddSamplesForm = ({
                 value={field.value}
                 label="Container Type"
               >
-                {containerTypes.map((item) => {
-                  return (
-                    <MenuItem
-                      value={item.containerType}
-                      key={item.containerType}
-                    >
-                      {item.containerType}
-                    </MenuItem>
-                  );
-                })}
+                {containerTypes.map((item) => (
+                  <MenuItem value={item.containerType} key={item.containerType}>
+                    {item.containerType}
+                  </MenuItem>
+                ))}
               </Select>
               <FormHelperText>
-                {errors.samples?.[index]?.containerType !== undefined &&
-                  errors.samples?.[index]?.containerType?.message}
+                {errors.samples?.[index]?.containerType?.message}
               </FormHelperText>
             </FormControl>
           )}
@@ -93,17 +87,14 @@ export const AddSamplesForm = ({
                 label="Sample Type"
                 value={field.value}
               >
-                {sampleTypes.map((item) => {
-                  return (
-                    <MenuItem value={item.sampleType} key={item.id}>
-                      {item.sampleType}
-                    </MenuItem>
-                  );
-                })}
+                {sampleTypes.map((item) => (
+                  <MenuItem value={item.sampleType} key={item.id}>
+                    {item.sampleType}
+                  </MenuItem>
+                ))}
               </Select>
               <FormHelperText>
-                {errors.samples?.[index]?.sampleType !== undefined &&
-                  errors.samples?.[index]?.sampleType?.message}
+                {errors.samples?.[index]?.sampleType?.message}
               </FormHelperText>
             </FormControl>
           )}
@@ -118,22 +109,19 @@ export const AddSamplesForm = ({
             >
               <InputLabel id="storageType">Storage Type</InputLabel>
               <Select
-                labelId="sampleType"
+                labelId="storageType"
                 onChange={field.onChange}
                 label="Storage Type"
                 value={field.value}
               >
-                {storageTypes.map((item) => {
-                  return (
-                    <MenuItem key={item.id} value={item.storageType}>
-                      {item.storageType}
-                    </MenuItem>
-                  );
-                })}
+                {storageTypes.map((item) => (
+                  <MenuItem key={item.id} value={item.storageType}>
+                    {item.storageType}
+                  </MenuItem>
+                ))}
               </Select>
               <FormHelperText>
-                {errors.samples?.[index]?.storageType !== undefined &&
-                  errors.samples?.[index]?.storageType?.message}
+                {errors.samples?.[index]?.storageType?.message}
               </FormHelperText>
             </FormControl>
           )}
@@ -149,13 +137,11 @@ export const AddSamplesForm = ({
                 onChange={field.onChange}
               />
               <FormHelperText>
-                {errors.samples?.[index]?.drawnAt !== undefined &&
-                  errors.samples?.[index]?.drawnAt?.message}
+                {errors.samples?.[index]?.drawnAt?.message}
               </FormHelperText>
             </FormControl>
           )}
         />
-
         <Controller
           name={`samples[${index}].numberOfSamples`}
           control={control}
@@ -167,10 +153,7 @@ export const AddSamplesForm = ({
               className="input"
               value={field.value}
               onChange={field.onChange}
-              helperText={
-                errors.samples?.[index]?.numberOfSamples !== undefined &&
-                errors.samples?.[index]?.numberOfSamples?.message
-              }
+              helperText={errors.samples?.[index]?.numberOfSamples?.message}
             />
           )}
         />
@@ -188,10 +171,7 @@ export const AddSamplesForm = ({
               {...field}
               label="Sample Serial"
               className="input"
-              helperText={
-                errors.samples?.[index]?.sampleSerial !== undefined &&
-                errors.samples?.[index]?.sampleSerial?.message
-              }
+              helperText={errors.samples?.[index]?.sampleSerial?.message}
             />
           )}
         />
@@ -204,10 +184,10 @@ export const AddSamplesForm = ({
             onClick={onClick}
             startIcon={<Add />}
           >
-            add
+            Add
           </Button>
         )}
-        {index + 1 === formLength && (
+        {formLength !== 1 && (
           <Button
             size="large"
             variant="contained"

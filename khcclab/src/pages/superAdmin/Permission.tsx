@@ -33,43 +33,41 @@ export const Permission = () => {
   } = useData(getPendingUsers, query);
 
   return (
-    <MainLayout>
-      <div className="w-full h-full flex flex-col gap-3">
-        <span className="text-2xl font-bold">Users Permission :</span>
-        <TextField
-          className="flex-1"
-          placeholder=" Search by User Name, User ID"
-          size="small"
-          variant="outlined"
-          onChange={(e: any) => {
-            searchDebounce(e);
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        {isLoading ? (
-          <Loading />
-        ) : (data?.users?.length ?? 0) === 0 ? (
-          <NoDataFound />
-        ) : (
-          <ScrollableContainer>
-            {data.users?.map((user: any) => {
-              return (
-                <PermissionCard
-                  reloadData={fetchData}
-                  key={user._id}
-                  user={user}
-                />
-              );
-            })}
-          </ScrollableContainer>
-        )}
-      </div>
-    </MainLayout>
+    <div className="w-full h-full flex flex-col gap-3">
+      <span className="text-2xl font-bold">Users Permission :</span>
+      <TextField
+        className="flex-1"
+        placeholder=" Search by User Name, User ID"
+        size="small"
+        variant="outlined"
+        onChange={(e: any) => {
+          searchDebounce(e);
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      {isLoading ? (
+        <Loading />
+      ) : (data?.users?.length ?? 0) === 0 ? (
+        <NoDataFound />
+      ) : (
+        <ScrollableContainer>
+          {data.users?.map((user: any) => {
+            return (
+              <PermissionCard
+                reloadData={fetchData}
+                key={user._id}
+                user={user}
+              />
+            );
+          })}
+        </ScrollableContainer>
+      )}
+    </div>
   );
 };

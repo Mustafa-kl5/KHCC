@@ -13,17 +13,6 @@ export const useData = (Api: any, query?: any) => {
       const res = await Api(query);
       setData(res.data);
     } catch (err: any) {
-      if (err.toJSON().message === "Network Error") {
-        dispatch({
-          type: SHOW_TOAST_MESSAGE,
-          message: {
-            message: "Something is going Wrong , Try again later",
-            isOpen: true,
-            severity: "error",
-          },
-        });
-        return;
-      }
       dispatch({
         type: SHOW_TOAST_MESSAGE,
         message: {

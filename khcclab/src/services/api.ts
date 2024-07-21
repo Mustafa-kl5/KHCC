@@ -14,7 +14,6 @@ class APIService {
       baseURL: process.env.REACT_APP_API_URL || "http://localhost:4111/",
     });
 
-    const unauthorizedCode = [400, 401];
     this.baseApi.interceptors.request.use(
       async (config) => {
         const accessToken = await localStorage.getItem(ACCESS_TOKEN);
@@ -31,14 +30,13 @@ class APIService {
     );
 
     this.baseApi.interceptors.response.use(
-      (response) => response,
+      (response) => {
+        return response;
+      },
       (error) => {
-        const { response } = error;
-        if (response && unauthorizedCode.includes(response.status)) {
+        if (error.response && error.response.status === 401) {
           onSignOutSuccess();
-          return;
         }
-
         return Promise.reject(error);
       }
     );

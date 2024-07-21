@@ -40,8 +40,9 @@ export const isLoggedIn = () => !!localStorage.getItem(ACCESS_TOKEN);
 
 export const onSignOutSuccess = () => {
   localStorage.clear();
+  window.location.href = "/";
 };
 export const Logout = (navigate: NavigateFunction) => {
   localStorage.clear();
-  navigate("/Login");
+  navigate("/");
 };
