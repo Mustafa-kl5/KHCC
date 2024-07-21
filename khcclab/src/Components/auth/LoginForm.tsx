@@ -18,12 +18,15 @@ import { getStudiesOptions } from "services/publicService";
 import { iStudyOption } from "types/study";
 import { ACCESS_TOKEN, SHOW_TOAST_MESSAGE, USER_ROLE } from "utils/constant";
 import { loginSchema } from "validation-schema/loginSchema";
+import { ForgetPasswordForm } from "./ForgetPasswordForm";
 
 export const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [options, setOptions] = useState<iStudyOption[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
+
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const onSubmit = async (data: { email: string; password: string }) => {
     try {
@@ -211,12 +214,23 @@ export const LoginForm = () => {
           />
         )}
       />
-      <p>
-        Don't have an account?
-        <Link to="/sign-up" className="text-button-100">
-          Register
-        </Link>
-      </p>
+      <div className="flex justify-between">
+        <span>
+          Don't have an account?
+          <Link to="/sign-up" className="text-button-100">
+            Register
+          </Link>
+        </span>
+        <span
+          onClick={() => {
+            setOpen(true);
+          }}
+          className="text-button-100 cursor-pointer underline"
+        >
+          Forget Password
+        </span>
+      </div>
+
       <Button
         size="large"
         variant="contained"
@@ -228,6 +242,12 @@ export const LoginForm = () => {
           {isSubmitting && <CircularProgress className="!w-[1rem] !h-[1rem]" />}
         </div>
       </Button>
+      <ForgetPasswordForm
+        closeModel={() => {
+          setOpen(false);
+        }}
+        open={open}
+      />
     </form>
   );
 };
