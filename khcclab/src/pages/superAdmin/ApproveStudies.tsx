@@ -67,26 +67,6 @@ export const ApproveStudies = () => {
               />
             );
           })}
-          {data.studies.map((study) => {
-            return (
-              <StudyCard
-                isApproved={true}
-                key={study._id}
-                study={study}
-                reloadData={fetchData}
-              />
-            );
-          })}
-          {data.studies.map((study) => {
-            return (
-              <StudyCard
-                isApproved={true}
-                key={study._id}
-                study={study}
-                reloadData={fetchData}
-              />
-            );
-          })}
         </ScrollableContainer>
       )}
     </div>

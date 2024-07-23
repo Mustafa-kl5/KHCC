@@ -38,6 +38,27 @@ export const getApprovalSamples = (filter?: { searchData: string }) => {
     params: { ...filter, studyId },
   });
 };
+export const getReportForSampleOnFreezer = () => {
+  const studyId = getStudyId()._id;
+  return ApiService.baseApi.get(
+    `${baseURL}/technician/GenerateReportForSampleOnFreezer`,
+    {
+      responseType: "blob",
+      params: { studyId },
+    }
+  );
+};
+export const getReportForSampleExported = () => {
+  const studyId = getStudyId()._id;
+  return ApiService.baseApi.get(
+    `${baseURL}/technician/GenerateReportForExportedSample`,
+    {
+      responseType: "blob",
+      params: { studyId },
+    }
+  );
+};
+
 export const rejectSample = (sampleId: string, rejectionReason: string) => {
   return ApiService.fetchData({
     url: `${baseURL}/technician/rejectSample`,

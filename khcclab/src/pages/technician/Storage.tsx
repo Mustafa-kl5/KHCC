@@ -1,18 +1,17 @@
+import SearchIcon from "@mui/icons-material/Search";
 import { InputAdornment, TextField } from "@mui/material";
 import { Loading } from "Components/Shared/Loading";
 import { NoDataFound } from "Components/Shared/NoDataFound";
 import { SampleCard } from "Components/technician/SampleCard";
-import { StoragePicker } from "Components/technician/storage/StoragePicker";
-import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
-import { getFreezers } from "services/superAdmin";
 import { useDebounce } from "hooks/useDebounce";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getFreezers } from "services/superAdmin";
 import { getApprovalSamples } from "services/technician";
 import { iFreezerlist } from "types/freezer";
 import { iSampleList } from "types/sample";
-import { useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
 
 export const Storage = () => {
   const {
@@ -27,7 +26,8 @@ export const Storage = () => {
     searchData: undefined,
   });
   const searchDebounce = useDebounce(searchData, 1500);
-
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const dispatch = useDispatch();
   function searchData(e: any) {
     setQuery({
       ...query,
@@ -44,9 +44,13 @@ export const Storage = () => {
     isLoading: any;
     fetchData: any;
   } = useData(getApprovalSamples, query);
+
   return (
     <div className="w-full h-full flex flex-col gap-3">
-      <span className="text-2xl font-bold">Storage :</span>
+      <div className="flex justify-between">
+        <span className="text-2xl font-bold">Sample To Store :</span>
+      </div>
+
       <TextField
         className="flex-1"
         placeholder=" Search by Patient Name, KHCC Code, SSN, MRN, Sample Serial"

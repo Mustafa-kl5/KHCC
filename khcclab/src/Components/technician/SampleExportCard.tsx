@@ -9,6 +9,7 @@ import {
   iSampleExport,
   iSampleToExport,
 } from "types/sample";
+import { daysSinceCreation } from "utils/storagePrice";
 export const SampleExportCard = ({
   sample,
   freezer,
@@ -85,24 +86,32 @@ export const SampleExportCard = ({
             <strong>Sample Type :</strong> {sample.sampleType}
           </span>
           <span className="text-base">
-            <strong>Number Of pure Sample :</strong>
+            <strong>Number Of pure Sample: </strong>
             {sample.numberOfSamples}
           </span>
           <span className="text-base">
-            <strong>Patient Gender : </strong>
+            <strong>Patient Gender: </strong>
             {sample.gender}
           </span>
           <span className="text-base">
-            <strong>Birth Date : </strong>
+            <strong>Birth Date: </strong>
             {format(new Date(sample.birthDate), "d/MMM/yyyy")}
           </span>
           <span className="text-base">
-            <strong>Drawn At :</strong>
+            <strong>Drawn At: </strong>
             {format(new Date(sample.drawnAt), "d/MMM/yyyy hh:mm:ss a")}
           </span>
           <span className="text-base">
-            <strong>Sample Drawing:</strong>
+            <strong>Sample Drawing: </strong>
             {format(new Date(sample.sampleDrawing), "d/MMM/yyyy hh:mm:ss a")}
+          </span>
+          <span className="text-base">
+            <strong>Storage Time: </strong>
+            {format(new Date(sample.createdAt), "d/MMM/yyyy")}
+          </span>
+          <span className="text-base">
+            <strong>Storage Price: </strong>
+            {daysSinceCreation(sample.createdAt)}
           </span>
         </div>
       </AccordionDetails>
