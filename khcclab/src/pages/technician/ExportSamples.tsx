@@ -1,18 +1,27 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { InputAdornment, TextField } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
+import { format } from "date-fns";
+
 import { Loading } from "Components/Shared/Loading";
 import { NoDataFound } from "Components/Shared/NoDataFound";
 import ExportSamplesHandler from "Components/technician/ExportSamplesHandler";
 import { SampleExportCard } from "Components/technician/SampleExportCard";
-import { MainLayout } from "UI/MainLayout";
 import { ScrollableContainer } from "UI/ScrollableContainer";
 import { useData } from "hooks/useData";
 import { useDebounce } from "hooks/useDebounce";
 import { Fragment, useState } from "react";
-import { removeSample, sampleToExport } from "services/technician";
-import { iFreezerExportList, iSampleToExport } from "types/sample";
-import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
+import {
+  getReportForSampleOnFreezer,
+  removeSample,
+  sampleToExport,
+} from "services/technician";
+import { iFreezerExportList, iSampleToExport } from "types/sample";
 import { SHOW_TOAST_MESSAGE } from "utils/constant";
 
 const ExportSamples = () => {
@@ -84,10 +93,46 @@ const ExportSamples = () => {
       setIsSubmitting(false);
     }
   };
+
+  const downloadReport = async () => {
+    try {
+      setIsSubmitting(true);
+      const response = await getReportForSampleOnFreezer();
+      const url = window.URL.createObjectURL(response.data as Blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${format(new Date(), "d/MMM/yyyy")}samples-on-freezer.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (err: any) {
+      dispatch({
+        type: SHOW_TOAST_MESSAGE,
+        message: {
+          message:
+            err?.response?.data?.message ||
+            "Something is going Wrong , Try again later",
+          isOpen: true,
+          severity: "error",
+        },
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div className="w-full h-full flex flex-col gap-3">
       <div className="flex justify-between items-center">
-        <span className="text-2xl font-bold">Export Samples :</span>
+        <span className="text-2xl font-bold">Samples On Freezers :</span>
+        <Button
+          className=""
+          onClick={downloadReport}
+          variant="contained"
+          size="medium"
+        >
+          Get all samples as a report
+          {isSubmitting && <CircularProgress className="!w-[1rem] !h-[1rem]" />}
+        </Button>
       </div>
       <TextField
         className="flex-1"

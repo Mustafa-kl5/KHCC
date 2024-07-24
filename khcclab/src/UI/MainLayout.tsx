@@ -79,17 +79,17 @@ const technicianPaths: iPath[] = [
   },
   {
     path: "/technician-dashboard/storage",
-    name: "Storage",
+    name: "Sample To Store",
     icon: <Storage />,
   },
   {
     path: "/technician-dashboard/exported-samples",
-    name: "Exported Samples",
+    name: "Samples On Freezers",
     icon: <ImportExport />,
   },
   {
     path: "/technician-dashboard/exported-samples-back-up",
-    name: "Exported Samples Back Up",
+    name: "Exported Samples",
     icon: <Backup />,
   },
   {
